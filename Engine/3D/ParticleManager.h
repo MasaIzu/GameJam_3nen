@@ -174,7 +174,7 @@ public: // メンバ関数
 	/// </summary>
 	void Update();
 
-	void CSUpdate(ID3D12GraphicsCommandList* cmdList);
+	void CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector3 Pos);
 
 	/// <summary>
 	/// 描画
@@ -193,7 +193,8 @@ public: // メンバ関数
 	//コンピュートシェーダー掛けた後のコピー処理
 	void CopyData();
 
-	
+	//パーティクルの追加
+	static uint32_t AddParticleCount(uint32_t HowManyCount);
 
 
 private: // メンバ変数
@@ -229,4 +230,9 @@ private: // メンバ変数
 	uint64_t fenceValue = 0;
 	UINT64 m_frameCount = 0;
 	static UINT m_cbvSrvUavDescriptorSize;
+
+	static uint32_t ParticleCount;
+	static uint32_t ParticleCountIndex;
+	//パーティクル配列
+	static std::vector<uint32_t>ParticleIndex;
 };

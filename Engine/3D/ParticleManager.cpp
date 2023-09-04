@@ -39,6 +39,10 @@ UINT ParticleManager::m_incrementSize;
 
 UINT ParticleManager::m_cbvSrvUavDescriptorSize = 0;
 
+uint32_t ParticleManager::ParticleCount = 0;
+uint32_t ParticleManager::ParticleCountIndex = 0;
+std::vector<uint32_t>ParticleManager::ParticleIndex;
+
 float easeOutQuint(float x)
 {
 	return sin((x * PI) / 2);
@@ -434,6 +438,14 @@ void ParticleManager::InitializeVerticeBuff()
 
 }
 
+uint32_t ParticleManager::AddParticleCount(uint32_t HowManyCount)
+{
+	ParticleCount += HowManyCount;
+	ParticleIndex.push_back(HowManyCount);
+	ParticleCountIndex = static_cast<uint32_t>(ParticleIndex.size()) - 1;
+	return ParticleCountIndex;
+}
+
 void ParticleManager::SetTextureHandle(uint32_t textureHandle) {
 	textureHandle_ = textureHandle;
 }
@@ -500,14 +512,6 @@ void ParticleManager::Initialize()
 void ParticleManager::Update()
 {
 
-	// 死んでいるパーティクルを削除
-	Particles.erase(std::remove_if(Particles.begin(), Particles.end(),
-		[](const VertexPos& p) { return !p.alive; }), Particles.end());
-
-	//// スケールが0以下になったものを削除
-	//Particles.erase(std::remove_if(Particles.begin(), Particles.end(),
-	//	[](const VertexPos& p) { return !p.scale; }), Particles.end());
-
 }
 
 void ParticleManager::Draw(const ViewProjection& view)
@@ -551,7 +555,7 @@ void ParticleManager::Draw(const ViewProjection& view)
 
 }
 
-void ParticleManager::CSUpdate(ID3D12GraphicsCommandList* cmdList)
+void ParticleManager::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector3 Pos)
 {
 
 	ID3D12DescriptorHeap* ppHeaps[] = { m_cbvSrvUavHeap.Get() };
@@ -561,7 +565,7 @@ void ParticleManager::CSUpdate(ID3D12GraphicsCommandList* cmdList)
 	if (m_frameCount == 0) {
 		shaderParameters.maxParticleCount = MaxParticleCount;
 		shaderParameters.particleCount = 0;
-		shaderParameters.StartPos = Vector4(0, -40, 0, 0);
+		shaderParameters.StartPos = MyMath::Vec3ToVec4(Pos);
 
 		MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);
 

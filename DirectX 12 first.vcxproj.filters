@@ -424,6 +424,9 @@
     <ClInclude Include="CreateResource.h">
       <Filter>Engine\ヘッダー\MyFunction</Filter>
     </ClInclude>
+    <ClInclude Include="EffectMakeScene.h">
+      <Filter>ユーザーヘッダー ファイル\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -581,6 +584,9 @@
     </ClCompile>
     <ClCompile Include="CreateResource.cpp">
       <Filter>Engine\ソース ファイル\MyFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectMakeScene.cpp">
+      <Filter>ユーザーソース ファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

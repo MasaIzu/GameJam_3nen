@@ -310,6 +310,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreateResource.h" />
+    <ClInclude Include="EffectMakeScene.h" />
     <ClInclude Include="Engine\Collision\TouchableObject.h" />
     <ClInclude Include="Engine\Math\Easing.h" />
     <ClInclude Include="Engine\3D\Light.h" />
@@ -372,6 +373,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CreateResource.cpp" />
+    <ClCompile Include="EffectMakeScene.cpp" />
     <ClCompile Include="Engine\Collision\TouchableObject.cpp" />
     <ClCompile Include="Engine\Math\Easing.cpp" />
     <ClCompile Include="Engine\3D\Light.cpp" />

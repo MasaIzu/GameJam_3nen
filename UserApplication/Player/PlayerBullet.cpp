@@ -112,7 +112,7 @@ void PlayerBullet::Draw(ViewProjection& viewProjection_)
 
 void PlayerBullet::CSUpdate(ID3D12GraphicsCommandList* cmdList)
 {
-	ParticleMan->CSUpdate(cmdList);
+	ParticleMan->CSUpdate(cmdList, Vector3(0, 0, 0));
 }
 
 void PlayerBullet::ParticleDraw(ViewProjection& viewProjection_)

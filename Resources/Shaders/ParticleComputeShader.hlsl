@@ -123,7 +123,7 @@ void emitParticle(uint3 id : SV_DispatchThreadID)
     gParticles[index].position.xyz = float3(StartPos.xyz);
     gParticles[index].scale = 0.3f;
     gParticles[index].velocity.xyz = velocity;
-    gParticles[index].lifeTime = 300;
+    gParticles[index].lifeTime = 5;
     gParticles[index].color = float4(1, 1, 1, 1);
     //gParticles[index].colorIndex = floor(nextRand(seed) * 8) % 8;;
 }
