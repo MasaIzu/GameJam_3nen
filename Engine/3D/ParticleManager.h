@@ -73,6 +73,7 @@ public: // サブクラス
 		Matrix4 matBillboard;//ビルボード行列
 		UINT maxParticleCount;
 		UINT particleCount;
+
 	};
 	ShaderParameters shaderParameters;
 
