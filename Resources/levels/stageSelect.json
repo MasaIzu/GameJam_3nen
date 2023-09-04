@@ -1,0 +1,467 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "foundationCube",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": ""
+        },
+        {
+            "type": "MESH",
+            "name": "stageSrop",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": ""
+        },
+        {
+            "type": "MESH",
+            "name": "tutorialSrop",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": ""
+        },
+        {
+            "type": "MESH",
+            "name": "tutorialVec",
+            "transform": {
+                "translation": [
+                    46.341819763183594,
+                    127.40269470214844,
+                    14.83036994934082
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.4820488691329956,
+                    0.4820488691329956,
+                    0.4820488691329956
+                ]
+            },
+            "file_name": "TutorialSropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "tutorialVec.001",
+            "transform": {
+                "translation": [
+                    46.53687286376953,
+                    147.71018981933594,
+                    33.95268249511719
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.4820488691329956,
+                    0.4820488691329956,
+                    0.4820488691329956
+                ]
+            },
+            "file_name": "TutorialSropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "tutorialVec.002",
+            "transform": {
+                "translation": [
+                    46.53687286376953,
+                    200.04493713378906,
+                    88.04869079589844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.4820488691329956,
+                    0.4820488691329956,
+                    0.4820488691329956
+                ]
+            },
+            "file_name": "TutorialSropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "tutorialVec.003",
+            "transform": {
+                "translation": [
+                    46.53687286376953,
+                    259.927978515625,
+                    150.44781494140625
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.4820488691329956,
+                    0.4820488691329956,
+                    0.4820488691329956
+                ]
+            },
+            "file_name": "TutorialSropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "tutorialVec.004",
+            "transform": {
+                "translation": [
+                    46.53687286376953,
+                    320.3142395019531,
+                    213.60177612304688
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.4820488691329956,
+                    0.4820488691329956,
+                    0.4820488691329956
+                ]
+            },
+            "file_name": "TutorialSropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "tutorialVec.005",
+            "transform": {
+                "translation": [
+                    46.53687286376953,
+                    379.6940612792969,
+                    275.4976501464844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.4820488691329956,
+                    0.4820488691329956,
+                    0.4820488691329956
+                ]
+            },
+            "file_name": "TutorialSropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "tutorialVec.006",
+            "transform": {
+                "translation": [
+                    46.53687286376953,
+                    450.39630126953125,
+                    349.4707946777344
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.4820488691329956,
+                    0.4820488691329956,
+                    0.4820488691329956
+                ]
+            },
+            "file_name": "TutorialSropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "tutorialVec.007",
+            "transform": {
+                "translation": [
+                    46.53687286376953,
+                    500.7181701660156,
+                    401.3023376464844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.4820488691329956,
+                    0.4820488691329956,
+                    0.4820488691329956
+                ]
+            },
+            "file_name": "TutorialSropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "stage2Srop.001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": ""
+        },
+        {
+            "type": "MESH",
+            "name": "stageSrop2",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": ""
+        },
+        {
+            "type": "MESH",
+            "name": "stage2SropPos",
+            "transform": {
+                "translation": [
+                    0.5486196875572205,
+                    215.5609588623047,
+                    14.903529167175293
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.5567559003829956,
+                    0.5567559003829956,
+                    0.5567559003829956
+                ]
+            },
+            "file_name": "stage2SropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "stage2SropPos.001",
+            "transform": {
+                "translation": [
+                    0.5486196875572205,
+                    230.447509765625,
+                    28.245250701904297
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.5567559003829956,
+                    0.5567559003829956,
+                    0.5567559003829956
+                ]
+            },
+            "file_name": "stage2SropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "stage2SropPos.002",
+            "transform": {
+                "translation": [
+                    0.5486196875572205,
+                    266.90362548828125,
+                    66.80303955078125
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.5567559003829956,
+                    0.5567559003829956,
+                    0.5567559003829956
+                ]
+            },
+            "file_name": "stage2SropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "stage2SropPos.004",
+            "transform": {
+                "translation": [
+                    0.5486196875572205,
+                    340.4389953613281,
+                    142.6546630859375
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.5567559003829956,
+                    0.5567559003829956,
+                    0.5567559003829956
+                ]
+            },
+            "file_name": "stage2SropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "stage2SropPos.005",
+            "transform": {
+                "translation": [
+                    0.5486196875572205,
+                    392.622802734375,
+                    197.14981079101562
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.5567559003829956,
+                    0.5567559003829956,
+                    0.5567559003829956
+                ]
+            },
+            "file_name": "stage2SropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "stage2SropPos.006",
+            "transform": {
+                "translation": [
+                    0.5486196875572205,
+                    451.31353759765625,
+                    258.61419677734375
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.5567559003829956,
+                    0.5567559003829956,
+                    0.5567559003829956
+                ]
+            },
+            "file_name": "stage2SropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "stage2SropPos.007",
+            "transform": {
+                "translation": [
+                    0.5486196875572205,
+                    532.713623046875,
+                    343.36126708984375
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.5567559003829956,
+                    0.5567559003829956,
+                    0.5567559003829956
+                ]
+            },
+            "file_name": "stage2SropVec"
+        },
+        {
+            "type": "MESH",
+            "name": "stage2SropPos.008",
+            "transform": {
+                "translation": [
+                    0.5486196875572205,
+                    589.908935546875,
+                    402.4969482421875
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.5567559003829956,
+                    0.5567559003829956,
+                    0.5567559003829956
+                ]
+            },
+            "file_name": "stage2SropVec"
+        }
+    ]
+}
