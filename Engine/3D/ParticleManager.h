@@ -67,13 +67,18 @@ public: // サブクラス
 		Vector4 velocity;
 	};
 
+	struct ParticleCount {
+		UINT UseCount;
+		UINT StartIndex;
+	};
+
 	struct ShaderParameters {
 		Vector4 StartPos;
 		Matrix4 mat;	// 3D変換行列
 		Matrix4 matBillboard;//ビルボード行列
 		UINT maxParticleCount;
 		UINT particleCount;
-
+		ParticleCount Emit[50];
 	};
 	ShaderParameters shaderParameters;
 
@@ -157,6 +162,8 @@ private: // 静的メンバ変数
 	static const std::string PSO_CS_UPDATE;
 	static const std::string PSO_DRAW_PARTICLE;
 	static const std::string PSO_DRAW_PARTICLE_USE_TEX;
+
+	static ParticleCount Emit[50];
 
 private:// 静的メンバ関数
 

@@ -443,6 +443,8 @@ uint32_t ParticleManager::AddParticleCount(uint32_t HowManyCount)
 	ParticleCount += HowManyCount;
 	ParticleIndex.push_back(HowManyCount);
 	ParticleCountIndex = static_cast<uint32_t>(ParticleIndex.size()) - 1;
+	Emit[ParticleCountIndex].UseCount = HowManyCount;
+	Emit[ParticleCountIndex].StartIndex = ParticleCount;
 	return ParticleCountIndex;
 }
 
@@ -453,6 +455,10 @@ void ParticleManager::SetTextureHandle(uint32_t textureHandle) {
 void ParticleManager::Initialize()
 {
 	HRESULT result;
+
+	for (int i = 0; i < ParticleCountIndex; i++) {
+		shaderParameters.Emit[i] = Emit[i];
+	}
 
 	InitializeVerticeBuff();
 
@@ -527,7 +533,7 @@ void ParticleManager::Draw(const ViewProjection& view)
 	constMap->mat = constMatToSend;	// 行列の合成
 	constMap->matBillboard = view.matBillboard;
 	constMap->maxParticleCount = static_cast<UINT>(MaxParticleCount);
-	constMap->particleCount = 1;
+	constMap->particleCount = static_cast<UINT>(ParticleCountIndex);
 	constBuff->Unmap(0, nullptr);
 
 	shaderParameters.mat = constMatToSend;
@@ -564,7 +570,7 @@ void ParticleManager::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector3 Pos)
 	//初期化
 	if (m_frameCount == 0) {
 		shaderParameters.maxParticleCount = MaxParticleCount;
-		shaderParameters.particleCount = 0;
+		shaderParameters.particleCount = static_cast<UINT>(ParticleCountIndex);
 		shaderParameters.StartPos = MyMath::Vec3ToVec4(Pos);
 
 		MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);

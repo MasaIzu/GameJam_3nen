@@ -1,3 +1,9 @@
+struct ParticleCount
+{
+    uint UseCount : ParticleUseCount;
+    uint StartIndex : ParticleStartIndex;
+};
+
 cbuffer ShaderParameters : register(b0)
 {
     float4 StartPos;
@@ -5,6 +11,7 @@ cbuffer ShaderParameters : register(b0)
     matrix matBillboard; //ビルボード行列
     uint MaxParticleCount;
     uint particleCount;
+    ParticleCount Emit[50];
 };
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体
