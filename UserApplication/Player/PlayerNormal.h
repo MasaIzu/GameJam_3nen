@@ -1,0 +1,11 @@
+#pragma once
+#include"PlayerState.h"
+
+//‘Ò‹@
+class PlayerNormal : public PlayerState {
+public:
+	void Update(Player* player, WorldTransform* worldTransform) override;
+
+private:
+
+};

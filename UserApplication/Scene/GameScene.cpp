@@ -21,10 +21,19 @@ void GameScene::Initialize() {
 	winApp_ = WinApp::GetInstance();
 	input_ = Input::GetInstance();
 
+	viewProjection_ = std::make_unique<ViewProjection>();
+	viewProjection_->Initialize();
+	viewProjection_->eye = { 0,0,-50 };
+	viewProjection_->UpdateMatrix();
+
+	player_ = std::make_unique<Player>(); 
+	player_->Initialize(Vector3(0, -210.0f, -283.0f), viewProjection_.get());
+
+	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
+	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), { 0,0,0 });
 }
 
 void GameScene::Update() {
-	
 	if (shadeNumber == 0) {
 		ImGui::Begin("Not");
 		ImGui::SliderInt("shadeNumber", &shadeNumber, 0, 4);
@@ -67,6 +76,8 @@ void GameScene::Update() {
 		ImGui::End();
 	}
 
+	gameCamera->Update();
+	player_->Update();
 }
 
 void GameScene::PostEffectDraw()
@@ -129,6 +140,7 @@ void GameScene::Draw() {
 	//// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
 
+	player_->Draw(*viewProjection_.get());
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
 
