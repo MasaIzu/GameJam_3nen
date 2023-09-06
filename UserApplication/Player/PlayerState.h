@@ -6,12 +6,13 @@ class Player;
 
 class PlayerState {
 public:
+	virtual void Initialize();
 	virtual void Update(Player* player, WorldTransform* worldTransform) = 0;
 
-protected:
+public:
+	bool CanMove() { return canMove_; };
 
 protected:
-
-private:
-
+	Input* input_ = nullptr;
+	bool canMove_;
 };

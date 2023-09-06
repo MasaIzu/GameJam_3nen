@@ -4,6 +4,7 @@
 //‘Ò‹@
 class PlayerNormal : public PlayerState {
 public:
+	void Initialize()override;
 	void Update(Player* player, WorldTransform* worldTransform) override;
 
 private:

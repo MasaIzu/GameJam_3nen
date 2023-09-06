@@ -433,6 +433,9 @@
     <ClInclude Include="UserApplication\Player\PlayerEnergy.h">
       <Filter>ユーザーヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="UserApplication\Player\PlayerSwordAttack.h">
+      <Filter>ユーザーヘッダー ファイル\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -598,6 +601,9 @@
       <Filter>ユーザーソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="UserApplication\Player\PlayerEnergy.cpp">
+      <Filter>ユーザーソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Player\PlayerSwordAttack.cpp">
       <Filter>ユーザーソース ファイル\Player</Filter>
     </ClCompile>
   </ItemGroup>

@@ -40,7 +40,9 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 void Player::Update()
 {
 	energy.Update(energyRecoveryAmount);
-	Move();
+	if (state_->CanMove()) {
+		Move();
+	}
 	state_->Update(this, &playerWorldTrans);
 	WorldTransUpdate();
 }
@@ -56,6 +58,7 @@ void Player::TransitionTo(PlayerState* state) {
 	delete state_;
 	//V‹Kì¬
 	state_ = state;
+	state_->Initialize();
 }
 
 void Player::DrawSprite(ViewProjection& viewProjection_)

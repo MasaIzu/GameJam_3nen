@@ -348,6 +348,7 @@
     <ClInclude Include="UserApplication\Player\PlayerEnergy.h" />
     <ClInclude Include="UserApplication\Player\PlayerState.h" />
     <ClInclude Include="UserApplication\Player\PlayerNormal.h" />
+    <ClInclude Include="UserApplication\Player\PlayerSwordAttack.h" />
     <ClInclude Include="UserApplication\UserCamera\GameCamera.h" />
     <ClInclude Include="UserApplication\Player\PlayerBullet.h" />
     <ClInclude Include="Engine\2D\PostEffect.h" />
@@ -403,6 +404,7 @@
     <ClCompile Include="UserApplication\Player\PlayerEnergy.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerState.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerNormal.cpp" />
+    <ClCompile Include="UserApplication\Player\PlayerSwordAttack.cpp" />
     <ClCompile Include="UserApplication\UserCamera\GameCamera.cpp" />
     <ClCompile Include="Engine\3D\ParticleManager.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerBullet.cpp" />
