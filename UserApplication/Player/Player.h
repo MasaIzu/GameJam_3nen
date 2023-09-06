@@ -11,6 +11,7 @@
 #include "SplinePosition.h"
 
 #include "PlayerState.h"
+#include "PlayerEnergy.h"
 
 class Player {
 
@@ -48,6 +49,7 @@ private://クラス関連
 	std::unique_ptr<Model> model_;
 	WorldTransform playerWorldTrans;
 	PlayerState* state_;
+	PlayerEnergy energy;
 private://イーナムクラス
 
 
@@ -55,7 +57,14 @@ private://別クラスから値をもらう
 
 
 private://プレイヤークラス変数
-	//移動速度
+	//移動
 	float straightSpeed;
 	float diagonalSpeed;
+	bool isBoost;
+	int QuickBoostCost;
+	int boostCost;
+	int boostTimer;
+	int boostChangeTime;
+
+	int energyRecoveryAmount;
 };

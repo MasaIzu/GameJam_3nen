@@ -17,19 +17,29 @@ Player::~Player()
 {
 }
 
-void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection)
-{
+void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 	input = Input::GetInstance();
+	
 	playerWorldTrans.Initialize();
 	model_.reset(Model::CreateFromOBJ("sphere", true));
+	
 	TransitionTo(new PlayerNormal);
+
+	energy.Initialize(1000);
+	energyRecoveryAmount = 4;
 
 	straightSpeed = 0.6f;
 	diagonalSpeed = 0.7f;
+	isBoost = false;
+	QuickBoostCost = 200;
+	boostCost = 2;
+	boostTimer = 0;
+	boostChangeTime = 15;
 }
 
 void Player::Update()
 {
+	energy.Update(energyRecoveryAmount);
 	Move();
 	state_->Update(this, &playerWorldTrans);
 	WorldTransUpdate();
@@ -72,8 +82,30 @@ void Player::Move() {
 	Vector3 playerMoveMent = { 0.0f,0.0f,0.0f };
 	float boost = 1.0f;
 
-	if (input->PushKey(DIK_LSHIFT)) {
-		boost = 2.0f;
+	//ブースト開始
+	if (input->TriggerKey(DIK_LSHIFT)) {
+		if(energy.Use(QuickBoostCost)){
+			isBoost = true;
+			boostTimer = 0;
+		}
+	}
+
+	//ブースト時
+	if (isBoost) {
+		boostTimer++;
+		if (boostTimer < boostChangeTime) {
+			boost = 4.0f;
+		}else {
+			if (energy.Use(boostCost)) {
+				boost = 2.0f;
+			}else {
+				isBoost = false;
+			}
+			//ブースト終了
+			if (input->PushKey(DIK_LSHIFT) == false) {
+				isBoost = false;
+			}
+		}
 	}
 
 	//通常移動
