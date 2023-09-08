@@ -430,10 +430,10 @@
     <ClInclude Include="UserApplication\Player\PlayerNormal.h">
       <Filter>ユーザーヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="UserApplication\Player\PlayerEnergy.h">
-      <Filter>ユーザーヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="UserApplication\Player\PlayerSwordAttack.h">
+      <Filter>ユーザーヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Player\PlayerEnergy.h">
       <Filter>ユーザーヘッダー ファイル\Player</Filter>
     </ClInclude>
   </ItemGroup>

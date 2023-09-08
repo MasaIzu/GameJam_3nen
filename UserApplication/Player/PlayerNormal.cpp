@@ -9,7 +9,12 @@ void PlayerNormal::Initialize() {
 }
 
 void PlayerNormal::Update(Player* player, WorldTransform* worldTransform) {
+	//斬撃
 	if (input_->TriggerKey(DIK_1)) {
-		player->TransitionTo(new PlayerSwordAttack);
+		if (PlayerSwordAttack::CanSwordAttack()) {//武器のクールタイムチェック
+			if (player->UseEnergy(PlayerSwordAttack::GetEnergyCost())) {//エネルギーチェック
+				player->TransitionTo(new PlayerSwordAttack);
+			}
+		}
 	}
 }

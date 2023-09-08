@@ -26,6 +26,8 @@ public://基本関数
 
 	//状態移行
 	void TransitionTo(PlayerState* state);
+	//エネルギー
+	bool UseEnergy(int cost) { return energy.Use(cost); };
 
 	//パーティクルを出す用
 	void CSUpdate(ID3D12GraphicsCommandList* cmdList);
@@ -60,8 +62,10 @@ private://プレイヤークラス変数
 	//移動
 	float straightSpeed;
 	float diagonalSpeed;
+
 	bool isBoost;
 	int QuickBoostCost;
+
 	int boostCost;
 	int boostTimer;
 	int boostChangeTime;

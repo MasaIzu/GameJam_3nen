@@ -8,6 +8,7 @@
 #include <SphereCollider.h>
 
 #include"PlayerNormal.h"
+#include"PlayerSwordAttack.h"
 
 Player::Player()
 {
@@ -43,6 +44,7 @@ void Player::Update()
 	if (state_->CanMove()) {
 		Move();
 	}
+	PlayerSwordAttack::staticUpdate();
 	state_->Update(this, &playerWorldTrans);
 	WorldTransUpdate();
 }

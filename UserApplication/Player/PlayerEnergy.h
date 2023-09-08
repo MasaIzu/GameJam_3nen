@@ -13,6 +13,9 @@ private:
 	int energy_;
 	int maxEnergy_;
 
+	int coolTimeLimt;
+	int coolTimer;
+
 	bool isOverHeat;
 	int overHeatTimer;
 	int overHeatLimt;

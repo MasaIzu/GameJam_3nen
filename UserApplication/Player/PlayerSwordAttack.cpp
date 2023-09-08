@@ -2,6 +2,11 @@
 #include"PlayerNormal.h"
 #include"Player.h"
 
+int PlayerSwordAttack::overheatTimer = 0;
+int PlayerSwordAttack::overheatLimit = 90;
+bool PlayerSwordAttack::isOverheat = false;
+int PlayerSwordAttack::energyCost = 100;
+
 void PlayerSwordAttack::Initialize() {
 	PlayerState::Initialize();
 	canMove_ = false;
@@ -39,6 +44,8 @@ void PlayerSwordAttack::Update(Player* player, WorldTransform* worldTransform) {
 		break;
 	case Action::After://ŒãŒ„
 		if (timer > afterTime) {
+			isOverheat = true;
+			overheatTimer = 0;
 			player->TransitionTo(new PlayerNormal);
 		}
 		break;
@@ -56,5 +63,20 @@ void PlayerSwordAttack::Move(WorldTransform* worldTransform) {
 	case Action::After://ŒãŒ„
 
 		break;
+	}
+}
+
+bool PlayerSwordAttack::CanSwordAttack() {
+	if (isOverheat) {
+		return false;
+	}
+	return  true;
+}
+
+void PlayerSwordAttack::staticUpdate() {
+	if (overheatTimer < overheatLimit) {
+		overheatTimer++;
+	}else {
+		isOverheat = false;
 	}
 }
