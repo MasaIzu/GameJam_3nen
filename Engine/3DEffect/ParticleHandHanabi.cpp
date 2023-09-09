@@ -39,15 +39,6 @@ UINT ParticleHandHanabi::m_incrementSize;
 
 UINT ParticleHandHanabi::m_cbvSrvUavDescriptorSize = 0;
 
-float easeOutQuint(float x)
-{
-	return sin((x * PI) / 2);
-}
-float easeInQuint(float x)
-{
-	return x * x * x * x * x;
-}
-
 void ParticleHandHanabi::StaticInitialize(ID3D12Device* device)
 {
 	// nullptrチェック

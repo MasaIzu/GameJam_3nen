@@ -33,9 +33,14 @@ void MakeEffectScene::Initialize() {
 	gameCamera->SetFreeCamera(false);
 	gameCamera->SetCameraMode(false);
 
-	ParticleMan = std::make_unique<ParticleManager>();
+	ParticleMan = std::make_unique<ParticleHandHanabi>();
 	ParticleMan->Initialize(a);
 	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
+
+	model.reset(Model::CreateFromOBJ("Ground", true));
+
+	ground = std::make_unique<Ground>(model.get());
+	ground->Initialze();
 }
 
 void MakeEffectScene::Update() {
@@ -82,7 +87,21 @@ void MakeEffectScene::Update() {
 		ImGui::End();
 	}
 
-	gameCamera->SetPlayerPosition(Vector3(0,0,-50));
+	if (input_->PushKey(DIK_W)) {
+		CameraPos += {0, 0, 0.5f};
+	}
+	if (input_->PushKey(DIK_S)) {
+		CameraPos -= {0, 0, 0.5f};
+	}
+	if (input_->PushKey(DIK_A)) {
+		CameraPos += {0.5f, 0, 0};
+	}
+	if (input_->PushKey(DIK_D)) {
+		CameraPos -= {0.5f, 0, 0};
+	}
+
+
+	gameCamera->SetPlayerPosition(CameraPos);
 	gameCamera->Update();
 
 }
@@ -99,13 +118,14 @@ void MakeEffectScene::PostEffectDraw()
 
 	Model::PreDraw(commandList);
 
+	ground->Draw(*viewProjection_);
 
 	Model::PostDraw();
 
 	////パーティクル
-	ParticleManager::PreDraw(commandList);
+	ParticleCS::PreDraw(commandList);
 
-	ParticleManager::PostDraw();
+	ParticleCS::PostDraw();
 
 
 	Model::PreDraw(commandList);
@@ -140,11 +160,11 @@ void MakeEffectScene::Draw() {
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
-	ParticleManager::PreDraw(commandList);
+	ParticleCS::PreDraw(commandList);
 
 
 
-	ParticleManager::PostDraw();
+	ParticleCS::PostDraw();
 
 	//// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
@@ -153,10 +173,10 @@ void MakeEffectScene::Draw() {
 	Model::PostDraw();
 
 
-	ParticleManager::PreDraw(commandList);
+	ParticleHandHanabi::PreDraw(commandList);
 
 	ParticleMan->Draw(*viewProjection_.get());
-	ParticleManager::PostDraw();
+	ParticleHandHanabi::PostDraw();
 
 #pragma endregion
 

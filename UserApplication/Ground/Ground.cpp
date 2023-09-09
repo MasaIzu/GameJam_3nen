@@ -12,7 +12,7 @@ void Ground::Initialze()
 	groundTrans.Initialize();
 	groundTrans.TransferMatrix();
 
-	touchableObject.reset(TouchableObject::Create(groundModel, groundTrans, COLLISION_ATTR_LANDSHAPE));
+	//touchableObject.reset(TouchableObject::Create(groundModel, groundTrans, COLLISION_ATTR_LANDSHAPE));
 
 
 }

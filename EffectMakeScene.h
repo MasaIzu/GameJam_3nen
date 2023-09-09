@@ -8,7 +8,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "affin.h"
-#include"ParticleManager.h"
+#include "ParticleCS.h"
 
 #include "BaseScene.h"
 #include "SceneManager.h"
@@ -25,7 +25,7 @@
 
 #include "TouchableObject.h"
 #include <Skydome.h>
-#include "ParticleManager.h"
+#include <ParticleHandHanabi.h>
 
 /// <summary>
 /// ゲームシーン
@@ -65,8 +65,10 @@ private: // メンバ変数
 
 
 	std::unique_ptr<ViewProjection> viewProjection_;//ビュープロジェクション
-	std::unique_ptr<ParticleManager> ParticleMan;
+	std::unique_ptr<ParticleHandHanabi> ParticleMan;
 	std::unique_ptr<GameCamera> gameCamera;
+	std::unique_ptr<Ground> ground;
+	std::unique_ptr<Model> model;
 
 	int shadeNumber = 3;
 	int range = 0;//ぼかし強度
@@ -80,5 +82,7 @@ private: // メンバ変数
 
 
 	Vector2 center = { 0.5f,0.5f };
+
+	Vector3 CameraPos;
 
 };

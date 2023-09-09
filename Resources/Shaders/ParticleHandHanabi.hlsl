@@ -116,9 +116,9 @@ void emitParticle(uint3 id : SV_DispatchThreadID)
     
     float r = nextRand(seed) * 50;
     float theta = nextRand(seed) * 3.14192 * 2.0;
-    velocity.x = r * cos(theta);
-    velocity.z = r * sin(theta);
-    velocity.y = nextRand(seed) * 1;
+    velocity.x = Rand1(seed, 1, 0);
+    velocity.z = 0;
+    velocity.y = Rand1(seed, 3, 0);
 
     gParticles[index].isActive = 1;
     gParticles[index].position.xyz = float3(StartPos.xyz);

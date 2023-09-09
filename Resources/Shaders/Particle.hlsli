@@ -37,3 +37,33 @@ struct GSOutput
 	float2 uv:TEXCOORD;//uv値
 	float4 color:COLOR;
 };
+
+uint wang_hash(uint seed)
+{
+    seed = (seed ^ 61) ^ (seed >> 16);
+    seed *= 9;
+    seed = seed ^ (seed >> 4);
+    seed *= 0x27d4eb2d;
+    seed = seed ^ (seed >> 15);
+    return seed;
+}
+
+float Rand1(uint SEED, int MAX, int MIN)
+{
+    uint rand = wang_hash(SEED * 1847483629);
+    float result;
+    result = (rand % 1024) / 1024.0f;
+    result = (MAX + abs(MIN)) * result - abs(MIN);
+    return result;
+}
+
+float3 RandomVec3(uint SEED, int MAX, int MIN)
+{
+    float3 randomVec;
+    
+    randomVec.x = Rand1(SEED, MAX, MIN);
+    randomVec.y = Rand1(SEED, MAX, MIN);
+    randomVec.z = Rand1(SEED, MAX, MIN);
+    
+    return randomVec;
+}

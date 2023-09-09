@@ -1,6 +1,5 @@
 #include "Particle.hlsli"
 #include "Easing.hlsli"
-#include "FBX.hlsli"
 
 struct GpuParticleElement
 {

@@ -8,7 +8,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "affin.h"
-#include"ParticleManager.h"
+#include "ParticleCS.h"
 
 #include "BaseScene.h"
 #include "SceneManager.h"

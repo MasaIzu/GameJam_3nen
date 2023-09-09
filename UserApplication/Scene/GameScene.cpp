@@ -85,9 +85,9 @@ void GameScene::PostEffectDraw()
 	Model::PostDraw();
 
 	////パーティクル
-	ParticleManager::PreDraw(commandList);
+	ParticleCS::PreDraw(commandList);
 
-	ParticleManager::PostDraw();
+	ParticleCS::PostDraw();
 
 
 	Model::PreDraw(commandList);
@@ -120,11 +120,11 @@ void GameScene::Draw() {
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
-	ParticleManager::PreDraw(commandList);
+	ParticleCS::PreDraw(commandList);
 
 
 
-	ParticleManager::PostDraw();
+	ParticleCS::PostDraw();
 
 	//// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
@@ -133,10 +133,10 @@ void GameScene::Draw() {
 	Model::PostDraw();
 
 
-	ParticleManager::PreDraw(commandList);
+	ParticleCS::PreDraw(commandList);
 	
 
-	ParticleManager::PostDraw();
+	ParticleCS::PostDraw();
 
 #pragma endregion
 

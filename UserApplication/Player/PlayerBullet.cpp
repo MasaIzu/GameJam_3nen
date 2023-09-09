@@ -42,7 +42,7 @@ void PlayerBullet::Initialize()
 	}
 	collisionManager = CollisionManager::GetInstance();
 
-	ParticleMan = std::make_unique<ParticleManager>();
+	ParticleMan = std::make_unique<ParticleCS>();
 	ParticleMan->Initialize(10000);
 	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
 

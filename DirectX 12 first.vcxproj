@@ -125,7 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2D;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Collision;$(ProjectDir)Engine\Drawing;$(ProjectDir)Engine\Framework;$(ProjectDir)Engine\GameFunction;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Scene;$(ProjectDir)Engine\Sound;$(ProjectDir)Engine\ImGui;$(ProjectDir)UserApplication\Ground;$(ProjectDir)UserApplication\Base;$(ProjectDir)UserApplication\Enemy;$(ProjectDir)UserApplication\Scene;$(ProjectDir)UserApplication\Skydome;$(ProjectDir)UserApplication\Player;$(ProjectDir);$(ProjectDir)External\DirectXtex;$(ProjectDir)External\imgui;$(ProjectDir)Engine\LevelEditor;$(ProjectDir)UserApplication\UserCamera</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2D;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Collision;$(ProjectDir)Engine\Drawing;$(ProjectDir)Engine\Framework;$(ProjectDir)Engine\GameFunction;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Scene;$(ProjectDir)Engine\Sound;$(ProjectDir)Engine\ImGui;$(ProjectDir)UserApplication\Ground;$(ProjectDir)UserApplication\Base;$(ProjectDir)UserApplication\Enemy;$(ProjectDir)UserApplication\Scene;$(ProjectDir)UserApplication\Skydome;$(ProjectDir)UserApplication\Player;$(ProjectDir);$(ProjectDir)External\DirectXtex;$(ProjectDir)External\imgui;$(ProjectDir)Engine\LevelEditor;$(ProjectDir)UserApplication\UserCamera;$(ProjectDir)Engine\3DEffect</AdditionalIncludeDirectories>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -149,7 +149,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2D;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Collision;$(ProjectDir)Engine\Drawing;$(ProjectDir)Engine\Framework;$(ProjectDir)Engine\GameFunction;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Scene;$(ProjectDir)Engine\Sound;$(ProjectDir)Engine\ImGui;$(ProjectDir)UserApplication\Ground;$(ProjectDir)UserApplication\Base;$(ProjectDir)UserApplication\Enemy;$(ProjectDir)UserApplication\Scene;$(ProjectDir)UserApplication\Skydome;$(ProjectDir)UserApplication\Player;$(ProjectDir);$(ProjectDir)External\DirectXtex;$(ProjectDir)External\imgui;$(ProjectDir)Engine\LevelEditor;$(ProjectDir)UserApplication\UserCamera</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2D;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Collision;$(ProjectDir)Engine\Drawing;$(ProjectDir)Engine\Framework;$(ProjectDir)Engine\GameFunction;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Scene;$(ProjectDir)Engine\Sound;$(ProjectDir)Engine\ImGui;$(ProjectDir)UserApplication\Ground;$(ProjectDir)UserApplication\Base;$(ProjectDir)UserApplication\Enemy;$(ProjectDir)UserApplication\Scene;$(ProjectDir)UserApplication\Skydome;$(ProjectDir)UserApplication\Player;$(ProjectDir);$(ProjectDir)External\DirectXtex;$(ProjectDir)External\imgui;$(ProjectDir)Engine\LevelEditor;$(ProjectDir)UserApplication\UserCamera;$(ProjectDir)Engine\3DEffect</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -350,10 +350,11 @@
     <ClInclude Include="Engine\Drawing\Material.h" />
     <ClInclude Include="Engine\2D\Sprite.h" />
     <ClInclude Include="Engine\Drawing\TextureManager.h" />
-    <ClInclude Include="Engine\3D\ParticleManager.h" />
+    <ClInclude Include="Engine\3DEffect\ParticleCS.h" />
     <ClInclude Include="Engine\LevelEditor\LoadLevelEditor.h" />
     <ClInclude Include="Engine\2D\MixPostEffect.h" />
     <ClInclude Include="Engine\Math\SplinePosition.h" />
+    <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="UserApplication\UserCamera\GameCamera.h" />
     <ClInclude Include="UserApplication\Player\PlayerBullet.h" />
     <ClInclude Include="Engine\2D\PostEffect.h" />
@@ -408,8 +409,9 @@
     <ClCompile Include="Engine\LevelEditor\LoadLevelEditor.cpp" />
     <ClCompile Include="Engine\2D\MixPostEffect.cpp" />
     <ClCompile Include="Engine\Math\SplinePosition.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="UserApplication\UserCamera\GameCamera.cpp" />
-    <ClCompile Include="Engine\3D\ParticleManager.cpp" />
+    <ClCompile Include="Engine\3DEffect\ParticleCS.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerBullet.cpp" />
     <ClCompile Include="Engine\2D\PostEffect.cpp" />
     <ClCompile Include="Engine\2D\PostEffectManager.cpp" />

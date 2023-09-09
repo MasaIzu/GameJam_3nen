@@ -15,7 +15,7 @@
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
-class ParticleManager
+class ParticleCS
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
