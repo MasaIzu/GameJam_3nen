@@ -16,6 +16,9 @@ struct GpuParticleElement
 RWStructuredBuffer<GpuParticleElement> gParticles : register(u0);
 AppendStructuredBuffer<uint> gDeadIndexList : register(u1);
 
+uint indexCount = 0;
+uint Counter = 0;
+
 [numthreads(32, 1, 1)]
 void initParticle(uint3 id : SV_DispatchThreadID)
 {
@@ -55,7 +58,7 @@ void main(uint3 id : SV_DispatchThreadID)
     float3 position = gParticles[index].position.xyz;
 
     float3 gravity = float3(0, -98.0, 0);
-    position += velocity;
+    //position += velocity;
     //velocity += gravity * dt;
 
     //if (position.y < 0)
@@ -101,13 +104,16 @@ float nextRand(inout uint s)
 [numthreads(32, 1, 1)]
 void emitParticle(uint3 id : SV_DispatchThreadID)
 {
-    uint index = gFreeIndexList.Consume();
+    uint index = gDeadIndexList[0];
+    //uint index = gFreeIndexList.Consume();
+    
+    uint particleIndex = id.x;
+    
     if (gParticles[index].isActive > 0)
     {
         return;
     }
 
-    float a = index;
     
     uint seed = id.x + index * 1235;
 
@@ -119,20 +125,42 @@ void emitParticle(uint3 id : SV_DispatchThreadID)
     velocity.z = r * sin(theta);
     velocity.y = nextRand(seed) * 1;
 
-    float3 Pos;
+    float3 Pos = float3(0, 0, 0);
+    uint IndexNumber = 0;
     
-    if (index < 10000)
+    
+    //if (Counter > 0)
+    //{
+    //    Counter--;
+    //}
+    //else
+    //{
+    //    for (uint i = 0; i < EmitterCount; i++)
+    //    {
+    //        if (index < Emit[i].StartIndex + Emit[i].UseCount)
+    //        {
+    //            Counter = Emit[i].UseCount;
+    //            indexCount = i;
+    //        }
+    //    }
+    //}
+    
+    if (0 < index < 100)
     {
-        Pos = float3(StartPos.xyz);
+        Pos = float3(0, 80, 0);
+    }
+    else if (100 < index < 200)
+    {
+        Pos = float3(0, 20, 0);
     }
     else
     {
-        Pos = float3(0, 50, 0);
+        Pos = float3(0, 70, 0);
     }
     
     gParticles[index].isActive = 1;
     gParticles[index].position.xyz = Pos;
-    gParticles[index].scale = 0.3f;
+    gParticles[index].scale = 1.0f;
     gParticles[index].velocity.xyz = velocity;
     gParticles[index].lifeTime = 300;
     gParticles[index].color = float4(1, 1, 1, 1);

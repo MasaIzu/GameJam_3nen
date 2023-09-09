@@ -2,16 +2,18 @@ struct ParticleCount
 {
     uint UseCount : ParticleUseCount;
     uint StartIndex : ParticleStartIndex;
+    uint2 pad : Pad;
 };
 
 cbuffer ShaderParameters : register(b0)
 {
-    float4 StartPos;
-    matrix mat; // 3D変換行列
-    matrix matBillboard; //ビルボード行列
-    uint MaxParticleCount;
-    uint particleCount;
-    ParticleCount Emit[50];
+    float4 StartPos : packoffset(c0);
+    matrix mat : packoffset(c1); // 3D変換行列
+    matrix matBillboard : packoffset(c5); //ビルボード行列
+    uint MaxParticleCount : packoffset(c9);
+    uint EmitterCount : packoffset(c9.y);
+    uint2 pad : packoffset(c9.z);
+    ParticleCount Emit[50] : packoffset(c10);
 };
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

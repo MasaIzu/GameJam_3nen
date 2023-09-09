@@ -70,6 +70,8 @@ public: // サブクラス
 	struct ParticleCount {
 		UINT UseCount;
 		UINT StartIndex;
+		UINT pad1;
+		UINT pad2;
 	};
 
 	struct ShaderParameters {
@@ -77,7 +79,8 @@ public: // サブクラス
 		Matrix4 mat;	// 3D変換行列
 		Matrix4 matBillboard;//ビルボード行列
 		UINT maxParticleCount;
-		UINT particleCount;
+		UINT EmitterCount;
+		uint64_t pad;
 		ParticleCount Emit[50];
 	};
 	ShaderParameters shaderParameters;
@@ -239,7 +242,7 @@ private: // メンバ変数
 	UINT64 m_frameCount = 0;
 	static UINT m_cbvSrvUavDescriptorSize;
 
-	static uint32_t ParticleCount;
+	static uint32_t ParticleCounter;
 	static uint32_t ParticleCountIndex;
 	//パーティクル配列
 	static std::vector<uint32_t>ParticleIndex;

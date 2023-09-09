@@ -26,18 +26,20 @@ void MakeEffectScene::Initialize() {
 	viewProjection_->eye = { 0,0,-50 };
 	viewProjection_->UpdateMatrix();
 
-	ParticleMan = std::make_unique<ParticleManager>();
-	ParticleMan->Initialize();
-	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
-
-	int a = 10;
+	int a = 100;
 
 	uint32_t aaa = ParticleManager::AddParticleCount(a);
+	uint32_t aaaa = ParticleManager::AddParticleCount(a);
+	uint32_t aaaaa = ParticleManager::AddParticleCount(a);
 
 	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
 	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), Vector3(0,0,0));
 	gameCamera->SetFreeCamera(false);
 	gameCamera->SetCameraMode(false);
+
+	ParticleMan = std::make_unique<ParticleManager>();
+	ParticleMan->Initialize();
+	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
 }
 
 void MakeEffectScene::Update() {

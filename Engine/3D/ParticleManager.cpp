@@ -39,9 +39,11 @@ UINT ParticleManager::m_incrementSize;
 
 UINT ParticleManager::m_cbvSrvUavDescriptorSize = 0;
 
-uint32_t ParticleManager::ParticleCount = 0;
+uint32_t ParticleManager::ParticleCounter = 0;
 uint32_t ParticleManager::ParticleCountIndex = 0;
 std::vector<uint32_t>ParticleManager::ParticleIndex;
+
+ParticleManager::ParticleCount ParticleManager::Emit[50];
 
 float easeOutQuint(float x)
 {
@@ -365,7 +367,7 @@ void ParticleManager::InitializeVerticeBuff()
 
 	HRESULT result;
 
-	UINT sizeVB = static_cast<UINT>(sizeof(GpuParticleElement)) * MaxParticleCount;
+	UINT sizeVB = static_cast<UINT>(sizeof(GpuParticleElement)) * ParticleCounter;
 
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -397,7 +399,7 @@ void ParticleManager::InitializeVerticeBuff()
 	m_sceneParameterCB = MyFunction::CreateResource(cbDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, D3D12_HEAP_TYPE_UPLOAD);
 
 	UINT64 bufferSize;
-	bufferSize = sizeof(GpuParticleElement) * MaxParticleCount;
+	bufferSize = sizeof(GpuParticleElement) * ParticleCounter;
 	auto resDescParticleElement = CD3DX12_RESOURCE_DESC::Buffer(
 		bufferSize,
 		D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS
@@ -405,7 +407,7 @@ void ParticleManager::InitializeVerticeBuff()
 	m_gpuParticleElement = MyFunction::CreateResource(resDescParticleElement, D3D12_RESOURCE_STATE_COMMON, nullptr, D3D12_HEAP_TYPE_DEFAULT);
 	m_gpuParticleElement->SetName(L"ParticleElement");
 
-	bufferSize = sizeof(UINT) * MaxParticleCount;
+	bufferSize = sizeof(UINT) * ParticleCounter;
 	UINT uavCounterAlign = D3D12_UAV_COUNTER_PLACEMENT_ALIGNMENT - 1;
 	bufferSize = UINT64(bufferSize + uavCounterAlign) & ~static_cast<UINT64>(uavCounterAlign);
 	bufferSize += sizeof(Vector4);   // カウンタをこの場所先頭に配置.
@@ -420,7 +422,7 @@ void ParticleManager::InitializeVerticeBuff()
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
 	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
 	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
-	uavDesc.Buffer.NumElements = MaxParticleCount;
+	uavDesc.Buffer.NumElements = ParticleCounter;
 	// インデックス用バッファの後方でカウンタを設置する.
 	uavDesc.Buffer.CounterOffsetInBytes = offsetToCounter;
 	uavDesc.Buffer.StructureByteStride = sizeof(UINT);
@@ -440,12 +442,12 @@ void ParticleManager::InitializeVerticeBuff()
 
 uint32_t ParticleManager::AddParticleCount(uint32_t HowManyCount)
 {
-	ParticleCount += HowManyCount;
-	ParticleIndex.push_back(HowManyCount);
-	ParticleCountIndex = static_cast<uint32_t>(ParticleIndex.size()) - 1;
+	Emit[ParticleCountIndex].StartIndex = ParticleCounter;
 	Emit[ParticleCountIndex].UseCount = HowManyCount;
-	Emit[ParticleCountIndex].StartIndex = ParticleCount;
-	return ParticleCountIndex;
+	ParticleCounter += HowManyCount;
+	ParticleIndex.push_back(HowManyCount);
+	ParticleCountIndex = static_cast<uint32_t>(ParticleIndex.size());
+	return ParticleCountIndex - 1;
 }
 
 void ParticleManager::SetTextureHandle(uint32_t textureHandle) {
@@ -456,7 +458,7 @@ void ParticleManager::Initialize()
 {
 	HRESULT result;
 
-	for (int i = 0; i < ParticleCountIndex; i++) {
+	for (size_t i = 0; i < ParticleIndex.size(); i++) {
 		shaderParameters.Emit[i] = Emit[i];
 	}
 
@@ -485,7 +487,7 @@ void ParticleManager::Initialize()
 
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
 	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-	uavDesc.Buffer.NumElements = numParticles;
+	uavDesc.Buffer.NumElements = ParticleCounter;
 	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
 	uavDesc.Buffer.StructureByteStride = sizeof(GpuParticleElement);
 
@@ -501,7 +503,7 @@ void ParticleManager::Initialize()
 	CD3DX12_HEAP_PROPERTIES UploadHeapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	// リソース設定
 	CD3DX12_RESOURCE_DESC UploadResourceDesc =
-		CD3DX12_RESOURCE_DESC::Buffer(numParticles * sizeof(GpuParticleElement));
+		CD3DX12_RESOURCE_DESC::Buffer(ParticleCounter * sizeof(GpuParticleElement));
 
 	// アップロードバッファの作成
 	device->CreateCommittedResource(
@@ -532,7 +534,7 @@ void ParticleManager::Draw(const ViewProjection& view)
 	constMatToSend *= view.matProjection;
 	constMap->mat = constMatToSend;	// 行列の合成
 	constMap->matBillboard = view.matBillboard;
-	constMap->maxParticleCount = static_cast<UINT>(MaxParticleCount);
+	constMap->maxParticleCount = static_cast<UINT>(ParticleCounter);
 	constMap->particleCount = static_cast<UINT>(ParticleCountIndex);
 	constBuff->Unmap(0, nullptr);
 
@@ -557,7 +559,7 @@ void ParticleManager::Draw(const ViewProjection& view)
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(cmdList, 2, textureHandle_);
 	// 描画コマンド
 	//cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
-	cmdList->DrawInstanced(static_cast<UINT>(MaxParticleCount), 1, 0, 0);
+	cmdList->DrawInstanced(static_cast<UINT>(ParticleCounter), 1, 0, 0);
 
 }
 
@@ -569,8 +571,8 @@ void ParticleManager::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector3 Pos)
 
 	//初期化
 	if (m_frameCount == 0) {
-		shaderParameters.maxParticleCount = MaxParticleCount;
-		shaderParameters.particleCount = static_cast<UINT>(ParticleCountIndex);
+		shaderParameters.maxParticleCount = ParticleCounter;
+		shaderParameters.EmitterCount = static_cast<UINT>(ParticleIndex.size());
 		shaderParameters.StartPos = MyMath::Vec3ToVec4(Pos);
 
 		MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);
@@ -591,7 +593,7 @@ void ParticleManager::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector3 Pos)
 		cmdList->SetComputeRootDescriptorTable(2, m_handleGpu);
 		cmdList->SetPipelineState(m_pipelines[PSO_CS_INIT].Get());
 
-		UINT invokeCount = MaxParticleCount / 32 + 1;
+		UINT invokeCount = ParticleCounter / 32 + 1;
 		cmdList->Dispatch(invokeCount, 1, 1);
 	}
 
@@ -606,7 +608,7 @@ void ParticleManager::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector3 Pos)
 		cmdList->SetComputeRootDescriptorTable(2, m_handleGpu);
 		cmdList->SetPipelineState(m_pipelines[PSO_CS_EMIT].Get());
 
-		UINT invokeCount = MaxParticleCount / 32 + 1;
+		UINT invokeCount = ParticleCounter / 32 + 1;
 		{
 			cmdList->Dispatch(2, 1, 1);
 		}
@@ -619,7 +621,7 @@ void ParticleManager::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector3 Pos)
 
 		// Particle の更新処理.
 		cmdList->SetPipelineState(m_pipelines[PSO_CS_UPDATE].Get());
-		cmdList->Dispatch(invokeCount, 1, 1);
+		/*cmdList->Dispatch(invokeCount, 1, 1);*/
 		cmdList->ResourceBarrier(_countof(barriers), barriers);
 	}
 
