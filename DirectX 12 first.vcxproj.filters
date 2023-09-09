@@ -148,6 +148,12 @@
     <Filter Include="Engine\ヘッダー\MyFunction">
       <UniqueIdentifier>{7829a3f0-eab6-4703-87e6-83838ca3eff5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ソース ファイル\3DEffect">
+      <UniqueIdentifier>{0c715cb2-4b0f-4908-95b1-9311ac075ac6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ヘッダー\3DEffect">
+      <UniqueIdentifier>{ac3d55b8-a2e2-43d4-a9bd-7feb8d6916d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Obj.hlsli">
@@ -176,6 +182,9 @@
     </None>
     <None Include="Resources\Shaders\PostEffectGlow.hlsli">
       <Filter>Shaders\PostEffect</Filter>
+    </None>
+    <None Include="Resources\Shaders\Easing.hlsli">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +250,9 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\PostEffectGlowVS.hlsl">
       <Filter>Shaders\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleHandHanabi.hlsl">
+      <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -427,6 +439,9 @@
     <ClInclude Include="EffectMakeScene.h">
       <Filter>ユーザーヘッダー ファイル\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\3DEffect\ParticleHandHanabi.h">
+      <Filter>Engine\ヘッダー\3DEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -587,6 +602,9 @@
     </ClCompile>
     <ClCompile Include="EffectMakeScene.cpp">
       <Filter>ユーザーソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3DEffect\ParticleHandHanabi.cpp">
+      <Filter>Engine\ソース ファイル\3DEffect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

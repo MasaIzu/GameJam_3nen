@@ -12,8 +12,6 @@ cbuffer ShaderParameters : register(b0)
     matrix matBillboard : packoffset(c5); //ビルボード行列
     uint MaxParticleCount : packoffset(c9);
     uint EmitterCount : packoffset(c9.y);
-    uint2 pad : packoffset(c9.z);
-    ParticleCount Emit[50] : packoffset(c10);
 };
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

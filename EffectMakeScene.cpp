@@ -26,11 +26,7 @@ void MakeEffectScene::Initialize() {
 	viewProjection_->eye = { 0,0,-50 };
 	viewProjection_->UpdateMatrix();
 
-	int a = 100;
-
-	uint32_t aaa = ParticleManager::AddParticleCount(a);
-	uint32_t aaaa = ParticleManager::AddParticleCount(a);
-	uint32_t aaaaa = ParticleManager::AddParticleCount(a);
+	int a = 10000;
 
 	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
 	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), Vector3(0,0,0));
@@ -38,7 +34,7 @@ void MakeEffectScene::Initialize() {
 	gameCamera->SetCameraMode(false);
 
 	ParticleMan = std::make_unique<ParticleManager>();
-	ParticleMan->Initialize();
+	ParticleMan->Initialize(a);
 	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
 }
 
@@ -126,7 +122,7 @@ void MakeEffectScene::CSUpdate()
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
-	ParticleMan->CSUpdate(commandList,Vector3(0,0,0));
+	ParticleMan->CSUpdate(commandList,Vector4(0,0,0,0));
 
 }
 

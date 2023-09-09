@@ -299,7 +299,7 @@ void ParticleManager::InitializeGraphicsPipeline()
 	ComPtr<ID3DBlob> csBlobUpdate;
 	// コンピュートシェーダーのコンパイル
 	D3DCompileFromFile(
-		L"Resources/Shaders/ParticleComputeShader.hlsl",
+		L"Resources/Shaders/ParticleHandHanabi.hlsl",
 		nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"initParticle", "cs_5_0",
 		D3DCOMPILE_DEBUG | D3DCOMPILE_OPTIMIZATION_LEVEL3,
@@ -307,7 +307,7 @@ void ParticleManager::InitializeGraphicsPipeline()
 		&csBlobInit,
 		nullptr);
 	D3DCompileFromFile(
-		L"Resources/Shaders/ParticleComputeShader.hlsl",
+		L"Resources/Shaders/ParticleHandHanabi.hlsl",
 		nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"emitParticle", "cs_5_0",
 		D3DCOMPILE_DEBUG | D3DCOMPILE_OPTIMIZATION_LEVEL3,
@@ -315,7 +315,7 @@ void ParticleManager::InitializeGraphicsPipeline()
 		&csBlobEmit,
 		nullptr);
 	D3DCompileFromFile(
-		L"Resources/Shaders/ParticleComputeShader.hlsl",
+		L"Resources/Shaders/ParticleHandHanabi.hlsl",
 		nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "cs_5_0",
 		D3DCOMPILE_DEBUG | D3DCOMPILE_OPTIMIZATION_LEVEL3,

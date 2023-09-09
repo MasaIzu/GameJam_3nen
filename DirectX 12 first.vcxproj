@@ -164,6 +164,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="Resources\Shaders\Easing.hlsli" />
     <None Include="Resources\Shaders\FBX.hlsli" />
     <None Include="Resources\Shaders\Obj.hlsli" />
     <None Include="Resources\Shaders\Particle.hlsli" />
@@ -221,6 +222,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleHandHanabi.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ParticlePS.hlsl">
@@ -311,6 +318,7 @@
   <ItemGroup>
     <ClInclude Include="CreateResource.h" />
     <ClInclude Include="EffectMakeScene.h" />
+    <ClInclude Include="Engine\3DEffect\ParticleHandHanabi.h" />
     <ClInclude Include="Engine\Collision\TouchableObject.h" />
     <ClInclude Include="Engine\Math\Easing.h" />
     <ClInclude Include="Engine\3D\Light.h" />
@@ -374,6 +382,7 @@
   <ItemGroup>
     <ClCompile Include="CreateResource.cpp" />
     <ClCompile Include="EffectMakeScene.cpp" />
+    <ClCompile Include="Engine\3DEffect\ParticleHandHanabi.cpp" />
     <ClCompile Include="Engine\Collision\TouchableObject.cpp" />
     <ClCompile Include="Engine\Math\Easing.cpp" />
     <ClCompile Include="Engine\3D\Light.cpp" />
