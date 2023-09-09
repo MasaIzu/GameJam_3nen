@@ -93,10 +93,10 @@ void MakeEffectScene::Update() {
 	if (input_->PushKey(DIK_S)) {
 		CameraPos -= {0, 0, 0.5f};
 	}
-	if (input_->PushKey(DIK_A)) {
+	if (input_->PushKey(DIK_D)) {
 		CameraPos += {0.5f, 0, 0};
 	}
-	if (input_->PushKey(DIK_D)) {
+	if (input_->PushKey(DIK_A)) {
 		CameraPos -= {0.5f, 0, 0};
 	}
 
@@ -118,14 +118,13 @@ void MakeEffectScene::PostEffectDraw()
 
 	Model::PreDraw(commandList);
 
-	ground->Draw(*viewProjection_);
 
 	Model::PostDraw();
 
 	////パーティクル
-	ParticleCS::PreDraw(commandList);
-
-	ParticleCS::PostDraw();
+	ParticleHandHanabi::PreDraw(commandList);
+	ParticleMan->Draw(*viewProjection_.get());
+	ParticleHandHanabi::PostDraw();
 
 
 	Model::PreDraw(commandList);
@@ -168,14 +167,13 @@ void MakeEffectScene::Draw() {
 
 	//// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
-
+	ground->Draw(*viewProjection_);
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
 
 
 	ParticleHandHanabi::PreDraw(commandList);
 
-	ParticleMan->Draw(*viewProjection_.get());
 	ParticleHandHanabi::PostDraw();
 
 #pragma endregion

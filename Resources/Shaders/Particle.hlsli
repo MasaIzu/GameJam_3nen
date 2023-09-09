@@ -67,3 +67,15 @@ float3 RandomVec3(uint SEED, int MAX, int MIN)
     
     return randomVec;
 }
+
+float nextRand(inout uint s)
+{
+    s = (1664525u * s + 1013904223u);
+    return saturate(float(s & 0x00FFFFFF) / float(0x01000000)) - 0.5;
+}
+
+float nextRand1(inout uint s)
+{
+    s = (1664525u * s + 1013904223u);
+    return saturate(float(s & 0x00FFFFFF) / float(0x01000000));
+}

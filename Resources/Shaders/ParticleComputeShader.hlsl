@@ -93,12 +93,6 @@ void main(uint3 id : SV_DispatchThreadID)
 
 ConsumeStructuredBuffer<uint> gFreeIndexList : register(u1);
 
-float nextRand(inout uint s)
-{
-    s = (1664525u * s + 1013904223u);
-    return saturate(float(s & 0x00FFFFFF) / float(0x01000000));
-}
-
 [numthreads(32, 1, 1)]
 void emitParticle(uint3 id : SV_DispatchThreadID)
 {

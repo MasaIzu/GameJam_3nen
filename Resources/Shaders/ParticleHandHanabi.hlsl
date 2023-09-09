@@ -93,11 +93,6 @@ void main(uint3 id : SV_DispatchThreadID)
 
 ConsumeStructuredBuffer<uint> gFreeIndexList : register(u1);
 
-float nextRand(inout uint s)
-{
-    s = (1664525u * s + 1013904223u);
-    return saturate(float(s & 0x00FFFFFF) / float(0x01000000)) - 0.5;
-}
 
 [numthreads(32, 1, 1)]
 void emitParticle(uint3 id : SV_DispatchThreadID)
@@ -116,15 +111,15 @@ void emitParticle(uint3 id : SV_DispatchThreadID)
     
     float r = nextRand(seed) * 50;
     float theta = nextRand(seed) * 3.14192 * 2.0;
-    velocity.x = Rand1(seed, 1, 0);
-    velocity.z = 0;
-    velocity.y = Rand1(seed, 3, 0);
+    velocity.x = nextRand(seed) / 8;
+    velocity.z = nextRand(seed) / 8;
+    velocity.y = (nextRand1(seed) / 4) + 0.005;
 
     gParticles[index].isActive = 1;
     gParticles[index].position.xyz = float3(StartPos.xyz);
-    gParticles[index].scale = 1.0f;
+    gParticles[index].scale = 0.5f;
     gParticles[index].velocity.xyz = velocity;
     gParticles[index].lifeTime = 100;
-    gParticles[index].color = float4(1, 1, 1, 1);
+    gParticles[index].color = float4(1, 0.2, 0.2, 1);
     //gParticles[index].colorIndex = floor(nextRand(seed) * 8) % 8;;
 }
