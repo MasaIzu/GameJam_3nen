@@ -76,6 +76,8 @@ private: // メンバ変数
 	Vector2 center = {0.5f,0.5f};
 
 	std::unique_ptr<ViewProjection> viewProjection_;//ビュープロジェクション
+	std::unique_ptr<Model> model_;// 3Dモデル
 	std::unique_ptr<GameCamera> gameCamera;
 	std::unique_ptr<Player> player_;
+	std::unique_ptr<Ground> ground;
 };

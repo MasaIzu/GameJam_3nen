@@ -30,7 +30,13 @@ void GameScene::Initialize() {
 	player_->Initialize(Vector3(0, -210.0f, -283.0f), viewProjection_.get());
 
 	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
-	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), { 0,0,0 });
+	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), player_->GetPlayerPos());
+
+
+	model_.reset(Model::CreateFromOBJ("cube", true));
+
+	ground = std::make_unique<Ground>(model_.get());
+	ground->Initialze();
 }
 
 void GameScene::Update() {
@@ -75,9 +81,11 @@ void GameScene::Update() {
 		ImGui::SetCursorPos(ImVec2(0, 20));
 		ImGui::End();
 	}
-
-	gameCamera->Update();
+	player_->SetCameraRot(gameCamera->GetCameraAngle());
 	player_->Update();
+
+	gameCamera->SetPlayerPosition(player_->GetPlayerPos());
+	gameCamera->Update();
 }
 
 void GameScene::PostEffectDraw()
@@ -139,8 +147,9 @@ void GameScene::Draw() {
 
 	//// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
-
+	ground->Draw(*viewProjection_.get());
 	player_->Draw(*viewProjection_.get());
+
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
 

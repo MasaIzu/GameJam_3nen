@@ -14,16 +14,16 @@ void PlayerSwordAttack::Initialize() {
 
 	///—\”õ“®ì
 	anticTime = 15;
-	anticDistance = { 0,0,0.5f };
+	anticDistance = 1.5f;
 	anticSpeed = anticDistance / static_cast<float>(anticTime);
 
 	///UŒ‚
 	attackTime = 10;
-	attackDistance = { 0,0,1 };
+	attackDistance = 3;
 	attackSpeed = attackDistance / static_cast<float>(attackTime);
 
 	///ŒãŒ„
-	afterTime = 5;
+	afterTime = 15;
 }
 
 void PlayerSwordAttack::Update(Player* player, WorldTransform* worldTransform) {

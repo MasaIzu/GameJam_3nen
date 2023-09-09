@@ -37,14 +37,18 @@ public://基本関数
 private:
 	//プレーヤーの移動
 	void Move();
+	//プレイヤーの回転
+	void PlayerRot();
 	//プレーヤーの移動の値更新
 	void WorldTransUpdate();
 	// プレイヤーの当たり判定
 	void CheckPlayerCollider();
 
 public://Setter
-
+	void SetCameraRot(const Vector2& CameraRot) { cameraRot = CameraRot; }
+	
 public://Getter
+	Vector3 GetPlayerPos()const { return MyMath::GetWorldTransform(playerWorldTrans.matWorld_); }
 
 private://クラス関連
 	Input* input = nullptr;
@@ -56,7 +60,7 @@ private://イーナムクラス
 
 
 private://別クラスから値をもらう
-
+	Vector2 cameraRot;
 
 private://プレイヤークラス変数
 	//移動

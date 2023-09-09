@@ -33,15 +33,15 @@ private:
 	//ŠÔ
 	int anticTime;
 	//ˆÚ“®‹——£
-	Vector3 anticDistance;
-	Vector3 anticSpeed;
+	float anticDistance;
+	float anticSpeed;
 
 	///UŒ‚
 	//ŠÔ
 	int attackTime;
 	//ˆÚ“®‹——£
-	Vector3 attackDistance;
-	Vector3 attackSpeed;
+	float attackDistance;
+	float attackSpeed;
 
 	///ŒãŒ„
 	//ŠÔ

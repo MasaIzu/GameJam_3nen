@@ -41,12 +41,19 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 void Player::Update()
 {
 	energy.Update(energyRecoveryAmount);
+	PlayerRot();
 	if (state_->CanMove()) {
 		Move();
 	}
 	PlayerSwordAttack::staticUpdate();
 	state_->Update(this, &playerWorldTrans);
 	WorldTransUpdate();
+
+	ImGui::Begin("Player");
+	ImGui::Text("pos:%f", playerWorldTrans.translation_.x);
+	ImGui::Text("pos:%f", playerWorldTrans.translation_.y);
+	ImGui::Text("pos:%f", playerWorldTrans.translation_.z);
+	ImGui::End();
 }
 
 void Player::Draw(ViewProjection& viewProjection_)
@@ -146,6 +153,10 @@ void Player::Move() {
 	}
 
 	playerWorldTrans.translation_ += playerMoveMent;
+}
+
+void Player::PlayerRot(){
+	playerWorldTrans.SetRot(Vector3(0.0f, cameraRot.x, 0.0f));
 }
 
 void Player::WorldTransUpdate()
