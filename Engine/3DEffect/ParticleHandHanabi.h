@@ -15,7 +15,7 @@
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
-class ParticleManager
+class ParticleHandHanabi
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
