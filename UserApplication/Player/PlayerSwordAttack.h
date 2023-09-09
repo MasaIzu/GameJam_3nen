@@ -8,7 +8,7 @@ public:
 	void Update(Player* player, WorldTransform* worldTransform) override;
 
 	static bool CanSwordAttack();
-	static void staticUpdate();
+	static void StaticUpdate();
 	static int GetEnergyCost() { return energyCost; };
 
 private:

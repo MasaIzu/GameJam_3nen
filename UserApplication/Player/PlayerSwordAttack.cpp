@@ -73,7 +73,7 @@ bool PlayerSwordAttack::CanSwordAttack() {
 	return  true;
 }
 
-void PlayerSwordAttack::staticUpdate() {
+void PlayerSwordAttack::StaticUpdate() {
 	if (overheatTimer < overheatLimit) {
 		overheatTimer++;
 	}else {

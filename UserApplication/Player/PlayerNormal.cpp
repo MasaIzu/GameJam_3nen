@@ -2,6 +2,7 @@
 #include"Player.h"
 
 #include"PlayerSwordAttack.h"
+#include"PlayerShooting.h"
 
 void PlayerNormal::Initialize() {
 	PlayerState::Initialize();
@@ -16,5 +17,7 @@ void PlayerNormal::Update(Player* player, WorldTransform* worldTransform) {
 				player->TransitionTo(new PlayerSwordAttack);
 			}
 		}
+	}else if (input_->TriggerKey(DIK_2)) {
+		player->TransitionTo(new PlayerShooting);
 	}
 }

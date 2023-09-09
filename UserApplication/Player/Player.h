@@ -6,10 +6,10 @@
 #include "affin.h"
 #include <memory>
 #include "ViewProjection.h"
-#include "PlayerBullet.h"
 #include <Sprite.h>
 #include "SplinePosition.h"
 
+#include "PlayerBullet.h"
 #include "PlayerState.h"
 #include "PlayerEnergy.h"
 
@@ -34,6 +34,8 @@ public://基本関数
 	void ParticleDraw(ViewProjection& viewProjection_);
 	void CopyParticle();
 
+	//弾生成
+	void CreatBullet(Vector3 pos, Vector3 velocity);
 private:
 	//プレーヤーの移動
 	void Move();
@@ -56,8 +58,8 @@ private://クラス関連
 	WorldTransform playerWorldTrans;
 	PlayerState* state_;
 	PlayerEnergy energy;
+	std::list<std::unique_ptr<PlayerBullet>> bullets;
 private://イーナムクラス
-
 
 private://別クラスから値をもらう
 	Vector2 cameraRot;

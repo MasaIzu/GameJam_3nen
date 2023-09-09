@@ -9,6 +9,7 @@
 
 #include"PlayerNormal.h"
 #include"PlayerSwordAttack.h"
+#include"PlayerShooting.h"
 
 Player::Player()
 {
@@ -38,14 +39,24 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 	boostChangeTime = 15;
 }
 
-void Player::Update()
-{
+void Player::Update(){
 	energy.Update(energyRecoveryAmount);
 	PlayerRot();
 	if (state_->CanMove()) {
 		Move();
 	}
-	PlayerSwordAttack::staticUpdate();
+
+	//íe
+	if (input->TriggerKey(DIK_R)) {
+		PlayerShooting::Reload();
+	}
+	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {return bullet->IsDead(); });
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+		bullet->Update();
+	}
+
+	PlayerSwordAttack::StaticUpdate();
+	PlayerShooting::StaticUpdate();
 	state_->Update(this, &playerWorldTrans);
 	WorldTransUpdate();
 
@@ -56,9 +67,11 @@ void Player::Update()
 	ImGui::End();
 }
 
-void Player::Draw(ViewProjection& viewProjection_)
-{
+void Player::Draw(ViewProjection& viewProjection_){
 	model_->Draw(playerWorldTrans, viewProjection_);
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+		bullet->Draw(viewProjection_);
+	}
 }
 
 //èÛë‘ïœçX
@@ -162,6 +175,12 @@ void Player::PlayerRot(){
 void Player::WorldTransUpdate()
 {
 	playerWorldTrans.TransferMatrix();
+}
+
+void Player::CreatBullet(Vector3 pos, Vector3 velocity) {
+	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	newBullet->Initialize(pos, velocity);
+	bullets.push_back(std::move(newBullet));
 }
 
 void Player::CheckPlayerCollider()
