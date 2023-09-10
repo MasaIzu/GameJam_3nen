@@ -176,6 +176,18 @@
     <None Include="Resources\Shaders\Terrain.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\Shaders\Explosion.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\HibanaCS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\Shaders\ParticleComputeShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
@@ -318,6 +330,8 @@
   <ItemGroup>
     <ClInclude Include="CreateResource.h" />
     <ClInclude Include="EffectMakeScene.h" />
+    <ClInclude Include="Engine\3DEffect\Explosion.h" />
+    <ClInclude Include="Engine\3DEffect\Hibana.h" />
     <ClInclude Include="Engine\3DEffect\ParticleHandHanabi.h" />
     <ClInclude Include="Engine\Collision\TouchableObject.h" />
     <ClInclude Include="Engine\Math\Easing.h" />
@@ -383,6 +397,8 @@
   <ItemGroup>
     <ClCompile Include="CreateResource.cpp" />
     <ClCompile Include="EffectMakeScene.cpp" />
+    <ClCompile Include="Engine\3DEffect\Explosion.cpp" />
+    <ClCompile Include="Engine\3DEffect\Hibana.cpp" />
     <ClCompile Include="Engine\3DEffect\ParticleHandHanabi.cpp" />
     <ClCompile Include="Engine\Collision\TouchableObject.cpp" />
     <ClCompile Include="Engine\Math\Easing.cpp" />

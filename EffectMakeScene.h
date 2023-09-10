@@ -26,6 +26,8 @@
 #include "TouchableObject.h"
 #include <Skydome.h>
 #include <ParticleHandHanabi.h>
+#include <Explosion.h>
+#include <Hibana.h>
 
 /// <summary>
 /// ゲームシーン
@@ -65,7 +67,7 @@ private: // メンバ変数
 
 
 	std::unique_ptr<ViewProjection> viewProjection_;//ビュープロジェクション
-	std::unique_ptr<ParticleHandHanabi> ParticleMan;
+	std::unique_ptr<Hibana> ParticleMan;
 	std::unique_ptr<GameCamera> gameCamera;
 	std::unique_ptr<Ground> ground;
 	std::unique_ptr<Model> model;

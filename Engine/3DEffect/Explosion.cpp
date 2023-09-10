@@ -1,4 +1,4 @@
-﻿#include "ParticleHandHanabi.h"
+﻿#include "Explosion.h"
 #include "DirectXCore.h"
 #include "Model.h"
 #include <algorithm>
@@ -18,33 +18,33 @@ using namespace Microsoft::WRL;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-ID3D12Device* ParticleHandHanabi::device = nullptr;
-ID3D12GraphicsCommandList* ParticleHandHanabi::cmdList = nullptr;
-ComPtr<ID3D12RootSignature> ParticleHandHanabi::rootsignature;
-ComPtr<ID3D12RootSignature> ParticleHandHanabi::rootSignature;//コンピュートシェーダー用
-ComPtr<ID3D12PipelineState> ParticleHandHanabi::pipelinestate;
-ComPtr<ID3D12PipelineState> ParticleHandHanabi::pipelineState;//コンピュートシェーダー用
+ID3D12Device* Explosion::device = nullptr;
+ID3D12GraphicsCommandList* Explosion::cmdList = nullptr;
+ComPtr<ID3D12RootSignature> Explosion::rootsignature;
+ComPtr<ID3D12RootSignature> Explosion::rootSignature;//コンピュートシェーダー用
+ComPtr<ID3D12PipelineState> Explosion::pipelinestate;
+ComPtr<ID3D12PipelineState> Explosion::pipelineState;//コンピュートシェーダー用
 
-std::unordered_map<std::string, ComPtr<ID3D12PipelineState>> ParticleHandHanabi::m_pipelines;
-ComPtr<ID3D12DescriptorHeap> ParticleHandHanabi::m_cbvSrvUavHeap;
+std::unordered_map<std::string, ComPtr<ID3D12PipelineState>> Explosion::m_pipelines;
+ComPtr<ID3D12DescriptorHeap> Explosion::m_cbvSrvUavHeap;
 
-const std::string ParticleHandHanabi::PSO_DEFAULT = "PSO_DEFAULT";
-const std::string ParticleHandHanabi::PSO_CS_INIT = "PSO_CS_INIT";
-const std::string ParticleHandHanabi::PSO_CS_EMIT = "PSO_CS_EMIT";
-const std::string ParticleHandHanabi::PSO_CS_UPDATE = "PSO_CS_UPDATE";
-const std::string ParticleHandHanabi::PSO_DRAW_PARTICLE = "PSO_DRAW_PARTICLE";
-const std::string ParticleHandHanabi::PSO_DRAW_PARTICLE_USE_TEX = "PSO_DRAW_PARTICLE_USE_TEX";
+const std::string Explosion::PSO_DEFAULT = "PSO_DEFAULT";
+const std::string Explosion::PSO_CS_INIT = "PSO_CS_INIT";
+const std::string Explosion::PSO_CS_EMIT = "PSO_CS_EMIT";
+const std::string Explosion::PSO_CS_UPDATE = "PSO_CS_UPDATE";
+const std::string Explosion::PSO_DRAW_PARTICLE = "PSO_DRAW_PARTICLE";
+const std::string Explosion::PSO_DRAW_PARTICLE_USE_TEX = "PSO_DRAW_PARTICLE_USE_TEX";
 
-UINT ParticleHandHanabi::m_incrementSize;
+UINT Explosion::m_incrementSize;
 
-UINT ParticleHandHanabi::m_cbvSrvUavDescriptorSize = 0;
+UINT Explosion::m_cbvSrvUavDescriptorSize = 0;
 
-void ParticleHandHanabi::StaticInitialize(ID3D12Device* device)
+void Explosion::StaticInitialize(ID3D12Device* device)
 {
 	// nullptrチェック
 	assert(device);
 
-	ParticleHandHanabi::device = device;
+	Explosion::device = device;
 
 	m_cbvSrvUavDescriptorSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
@@ -53,18 +53,18 @@ void ParticleHandHanabi::StaticInitialize(ID3D12Device* device)
 
 }
 
-void ParticleHandHanabi::StaticFinalize()
+void Explosion::StaticFinalize()
 {
 
 }
 
-void ParticleHandHanabi::PreDraw(ID3D12GraphicsCommandList* cmdList)
+void Explosion::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
-	assert(ParticleHandHanabi::cmdList == nullptr);
+	assert(Explosion::cmdList == nullptr);
 
 	// コマンドリストをセット
-	ParticleHandHanabi::cmdList = cmdList;
+	Explosion::cmdList = cmdList;
 
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(m_pipelines[PSO_DEFAULT].Get());
@@ -74,13 +74,13 @@ void ParticleHandHanabi::PreDraw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
 }
 
-void ParticleHandHanabi::PostDraw()
+void Explosion::PostDraw()
 {
 	// コマンドリストを解除
-	ParticleHandHanabi::cmdList = nullptr;
+	Explosion::cmdList = nullptr;
 }
 
-void ParticleHandHanabi::InitializeGraphicsPipeline()
+void Explosion::InitializeGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -201,9 +201,9 @@ void ParticleHandHanabi::InitializeGraphicsPipeline()
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
 	//加算合成
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
 	////減算合成
 	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
 	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
@@ -213,9 +213,9 @@ void ParticleHandHanabi::InitializeGraphicsPipeline()
 	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
 	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
 	////半透明合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
-	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
 
 	// ブレンドステートの設定
 	gpipeline.BlendState.RenderTarget[0] = blenddesc;
@@ -290,7 +290,7 @@ void ParticleHandHanabi::InitializeGraphicsPipeline()
 	ComPtr<ID3DBlob> csBlobUpdate;
 	// コンピュートシェーダーのコンパイル
 	D3DCompileFromFile(
-		L"Resources/Shaders/ParticleHandHanabi.hlsl",
+		L"Resources/Shaders/Explosion.hlsl",
 		nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"initParticle", "cs_5_0",
 		D3DCOMPILE_DEBUG | D3DCOMPILE_OPTIMIZATION_LEVEL3,
@@ -298,7 +298,7 @@ void ParticleHandHanabi::InitializeGraphicsPipeline()
 		&csBlobInit,
 		nullptr);
 	D3DCompileFromFile(
-		L"Resources/Shaders/ParticleHandHanabi.hlsl",
+		L"Resources/Shaders/Explosion.hlsl",
 		nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"emitParticle", "cs_5_0",
 		D3DCOMPILE_DEBUG | D3DCOMPILE_OPTIMIZATION_LEVEL3,
@@ -306,7 +306,7 @@ void ParticleHandHanabi::InitializeGraphicsPipeline()
 		&csBlobEmit,
 		nullptr);
 	D3DCompileFromFile(
-		L"Resources/Shaders/ParticleHandHanabi.hlsl",
+		L"Resources/Shaders/Explosion.hlsl",
 		nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "cs_5_0",
 		D3DCOMPILE_DEBUG | D3DCOMPILE_OPTIMIZATION_LEVEL3,
@@ -347,7 +347,7 @@ void ParticleHandHanabi::InitializeGraphicsPipeline()
 	m_incrementSize = device->GetDescriptorHandleIncrementSize(cbvSrvUavHeapDesc.Type);
 }
 
-void ParticleHandHanabi::InitializeVerticeBuff()
+void Explosion::InitializeVerticeBuff()
 {
 
 	HRESULT result;
@@ -425,11 +425,11 @@ void ParticleHandHanabi::InitializeVerticeBuff()
 
 }
 
-void ParticleHandHanabi::SetTextureHandle(uint32_t textureHandle) {
+void Explosion::SetTextureHandle(uint32_t textureHandle) {
 	textureHandle_ = textureHandle;
 }
 
-void ParticleHandHanabi::Initialize(uint32_t ParticleCount)
+void Explosion::Initialize(uint32_t ParticleCount)
 {
 	HRESULT result;
 
@@ -490,7 +490,7 @@ void ParticleHandHanabi::Initialize(uint32_t ParticleCount)
 
 }
 
-void ParticleHandHanabi::Update()
+void Explosion::Update()
 {
 
 	// 死んでいるパーティクルを削除
@@ -503,7 +503,7 @@ void ParticleHandHanabi::Update()
 
 }
 
-void ParticleHandHanabi::Draw(const ViewProjection& view)
+void Explosion::Draw(const ViewProjection& view)
 {
 	HRESULT result;
 	// 定数バッファへデータ転送
@@ -525,7 +525,7 @@ void ParticleHandHanabi::Draw(const ViewProjection& view)
 
 	// nullptrチェック
 	assert(device);
-	assert(ParticleHandHanabi::cmdList);
+	assert(Explosion::cmdList);
 
 
 	// 頂点バッファの設定
@@ -544,7 +544,7 @@ void ParticleHandHanabi::Draw(const ViewProjection& view)
 
 }
 
-void ParticleHandHanabi::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
+void Explosion::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
 {
 
 	ID3D12DescriptorHeap* ppHeaps[] = { m_cbvSrvUavHeap.Get() };
@@ -612,7 +612,7 @@ void ParticleHandHanabi::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 Sta
 
 
 
-void ParticleHandHanabi::CopyData()
+void Explosion::CopyData()
 {
 
 	VertexPos* outPutDeta = nullptr;
