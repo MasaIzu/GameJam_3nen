@@ -35,6 +35,10 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 	onGround = false;
 
 	TransitionTo(new PlayerNormal);
+	hp.Initialize();
+	healAmount = 500;
+	healNum = 3;
+	isDead = false;
 
 	energy.Initialize(1000);
 	energyRecoveryAmount = 4;
@@ -82,10 +86,24 @@ void Player::Update(){
 	CheckPlayerCollider();
 	WorldTransUpdate();
 
+
+	//HP
+	if (input->TriggerKey(DIK_C)) {
+		if (healNum > 0) {
+			hp.Heal(healAmount);
+		}
+	}
+	if (hp.IsLive() == false) {
+		isDead = true;
+	}
+
+
+
 	ImGui::Begin("Player");
 	ImGui::Text("pos:%f", playerWorldTrans.translation_.x);
 	ImGui::Text("pos:%f", playerWorldTrans.translation_.y);
 	ImGui::Text("pos:%f", playerWorldTrans.translation_.z);
+	ImGui::Text("hp:%d", hp.GetHp());
 	ImGui::End();
 }
 

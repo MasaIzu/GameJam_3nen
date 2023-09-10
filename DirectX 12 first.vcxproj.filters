@@ -439,6 +439,9 @@
     <ClInclude Include="UserApplication\Player\PlayerShooting.h">
       <Filter>ユーザーヘッダー ファイル\Player</Filter>
     </ClInclude>
+    <ClInclude Include="UserApplication\Player\PlayerHp.h">
+      <Filter>ユーザーヘッダー ファイル\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -610,6 +613,9 @@
       <Filter>ユーザーソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="UserApplication\Player\PlayerShooting.cpp">
+      <Filter>ユーザーソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Player\PlayerHp.cpp">
       <Filter>ユーザーソース ファイル\Player</Filter>
     </ClCompile>
   </ItemGroup>

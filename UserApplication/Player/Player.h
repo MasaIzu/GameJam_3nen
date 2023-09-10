@@ -9,6 +9,7 @@
 #include <Sprite.h>
 #include "SplinePosition.h"
 
+#include "PlayerHp.h"
 #include "PlayerBullet.h"
 #include "PlayerState.h"
 #include "PlayerEnergy.h"
@@ -63,6 +64,7 @@ private://クラス関連
 	BaseCollider* PlayerCollider = nullptr;
 	PlayerState* state_;
 	PlayerEnergy energy;
+	PlayerHp hp;
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
 	// コライダー
 private://イーナムクラス
@@ -71,6 +73,7 @@ private://別クラスから値をもらう
 	Vector2 cameraRot;
 
 private://プレイヤークラス変数
+	bool isDead;
 	float Radius;
 	float coliisionHeight;
 	bool onGround;
@@ -97,4 +100,8 @@ private://プレイヤークラス変数
 
 	//エネルギー
 	int energyRecoveryAmount;
+
+	//hp
+	int healAmount;
+	int healNum;
 };
