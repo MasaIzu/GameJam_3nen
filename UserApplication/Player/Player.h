@@ -39,6 +39,10 @@ public://基本関数
 private:
 	//プレーヤーの移動
 	void Move();
+	//プレイヤーのジャンプ
+	void Jump();
+	//落下
+	void Fall();
 	//プレイヤーの回転
 	void PlayerRot();
 	//プレーヤーの移動の値更新
@@ -68,13 +72,23 @@ private://プレイヤークラス変数
 	//移動
 	float straightSpeed;
 	float diagonalSpeed;
-
 	bool isBoost;
 	int QuickBoostCost;
-
 	int boostCost;
 	int boostTimer;
 	int boostChangeTime;
 
+	//ジャンプ
+	bool isJump;
+	float jumpSpeed;
+	int jumpTimer;
+	int jumpLimit;
+	float ascendSpeed;
+	int ascendCost;
+
+	//落下
+	float fallSpeed;
+
+	//エネルギー
 	int energyRecoveryAmount;
 };

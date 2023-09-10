@@ -37,6 +37,16 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 	boostCost = 2;
 	boostTimer = 0;
 	boostChangeTime = 15;
+
+	isJump = false;
+	jumpSpeed = 0.6f;
+	jumpTimer = 0;
+	jumpLimit = 20;
+
+	ascendSpeed = 0.3f;
+	ascendCost = 5;
+
+	fallSpeed = -0.2f;
 }
 
 void Player::Update(){
@@ -44,6 +54,7 @@ void Player::Update(){
 	PlayerRot();
 	if (state_->CanMove()) {
 		Move();
+		Jump();
 	}
 
 	//弾
@@ -166,6 +177,38 @@ void Player::Move() {
 	}
 
 	playerWorldTrans.translation_ += playerMoveMent;
+}
+
+void Player::Jump() {
+	Vector3 playerMoveMent = { 0.0f,0.0f,0.0f };
+	//ジャンプ開始
+	if (input->TriggerKey(DIK_SPACE)) {
+		jumpTimer = 0;
+		isJump = true;
+	}
+
+	//ジャンプ処理
+	if (isJump) {
+		jumpTimer++;
+		if (jumpTimer < jumpLimit) {
+			playerMoveMent = playerWorldTrans.LookVelocity.lookUp * jumpSpeed;
+		}else {
+			isJump = false;
+		}
+	}else if (input->PushKey(DIK_SPACE)&& energy.Use(ascendCost)) {
+			playerMoveMent = playerWorldTrans.LookVelocity.lookUp * ascendSpeed;
+	}else{
+		Fall();
+	}
+
+	playerWorldTrans.translation_ += playerMoveMent;
+}
+
+void Player::Fall() {
+	if (playerWorldTrans.translation_.y >= 0) {
+		// 移動
+		playerWorldTrans.translation_.y += fallSpeed;
+	}
 }
 
 void Player::PlayerRot(){
