@@ -162,7 +162,7 @@ void GameScene::Draw() {
 #pragma endregion
 
 #pragma region 前景スプライト描画
-
+	player_->DrawSprite();
 
 
 #pragma endregion

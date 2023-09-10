@@ -103,9 +103,8 @@ void Player::TransitionTo(PlayerState* state) {
 	state_->Initialize();
 }
 
-void Player::DrawSprite(ViewProjection& viewProjection_)
-{
-
+void Player::DrawSprite(){
+	energy.DrawSprite();
 }
 
 void Player::CSUpdate(ID3D12GraphicsCommandList* cmdList)
@@ -204,7 +203,7 @@ void Player::Jump() {
 		}else {
 			isJump = false;
 		}
-	}else if (input->PushKey(DIK_SPACE)&& energy.Use(ascendCost)) {
+	}else if (input->PushKey(DIK_SPACE) && energy.Use(ascendCost)) {
 			playerMoveMent = playerWorldTrans.LookVelocity.lookUp * ascendSpeed;
 	}else{
 		Fall();

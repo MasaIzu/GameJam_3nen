@@ -22,7 +22,7 @@ public://äÓñ{ä÷êî
 	void Initialize(const Vector3& Pos, ViewProjection* viewProjection);
 	void Update();
 	void Draw(ViewProjection& viewProjection_);
-	void DrawSprite(ViewProjection& viewProjection_);
+	void DrawSprite();
 
 	//èÛë‘à⁄çs
 	void TransitionTo(PlayerState* state);
