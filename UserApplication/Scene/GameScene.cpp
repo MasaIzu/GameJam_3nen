@@ -16,7 +16,7 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Initialize() {
-
+	collisionManager = CollisionManager::GetInstance();
 	dxCommon_ = DirectXCore::GetInstance();
 	winApp_ = WinApp::GetInstance();
 	input_ = Input::GetInstance();
@@ -86,6 +86,9 @@ void GameScene::Update() {
 
 	gameCamera->SetPlayerPosition(player_->GetPlayerPos());
 	gameCamera->Update();
+
+	//全ての衝突をチェック
+	collisionManager->CheckAllCollisions();
 }
 
 void GameScene::PostEffectDraw()

@@ -26,6 +26,7 @@ public://基本関数
 private://クラス関連
 	std::unique_ptr<Model> model_;
 	WorldTransform worldTrans;
+	BaseCollider* collider = nullptr;
 
 private://クラス変数
 	bool isDead;
@@ -33,6 +34,8 @@ private://クラス変数
 	int liveLimit;
 	bool isExpanding = false;
 	bool isMovingExpandingBullet = false;
+
+	float radius;
 
 	Vector3 velocity_;//移動量
 	Vector3 BulletVector;//打ち出される方向

@@ -226,8 +226,10 @@ void Player::PlayerRot(){
 	playerWorldTrans.SetRot(Vector3(0.0f, cameraRot.x, 0.0f));
 }
 
-void Player::WorldTransUpdate()
-{
+void Player::WorldTransUpdate(){
+	if (playerWorldTrans.translation_.y < -15) {
+		playerWorldTrans.translation_ = { 0,0,0 };
+	}
 	playerWorldTrans.TransferMatrix();
 }
 
