@@ -33,7 +33,7 @@ void GameScene::Initialize() {
 	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), player_->GetPlayerPos());
 
 
-	model_.reset(Model::CreateFromOBJ("cube", true));
+	model_.reset(Model::CreateFromOBJ("Ground", true));
 
 	ground = std::make_unique<Ground>(model_.get());
 	ground->Initialze();

@@ -23,8 +23,16 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 	input = Input::GetInstance();
 	
 	playerWorldTrans.Initialize();
-	model_.reset(Model::CreateFromOBJ("sphere", true));
-	
+	model_.reset(Model::CreateFromOBJ("3Jam_jiki_model", true));
+
+	// コリジョンマネージャに追加
+	Radius = 1.0f;
+	PlayerCollider = new SphereCollider(Vector4(0, Radius, 0, 0), Radius);
+	CollisionManager::GetInstance()->AddCollider(PlayerCollider);
+	PlayerCollider->SetAttribute(COLLISION_ATTR_ALLIES);
+	PlayerCollider->Update(playerWorldTrans.matWorld_);
+	onGround = false;
+
 	TransitionTo(new PlayerNormal);
 
 	energy.Initialize(1000);
@@ -69,6 +77,7 @@ void Player::Update(){
 	PlayerSwordAttack::StaticUpdate();
 	PlayerShooting::StaticUpdate();
 	state_->Update(this, &playerWorldTrans);
+	CheckPlayerCollider();
 	WorldTransUpdate();
 
 	ImGui::Begin("Player");
@@ -182,9 +191,9 @@ void Player::Move() {
 void Player::Jump() {
 	Vector3 playerMoveMent = { 0.0f,0.0f,0.0f };
 	//ジャンプ開始
-	if (input->TriggerKey(DIK_SPACE)) {
+	if (input->TriggerKey(DIK_SPACE)&&onGround) {
 		jumpTimer = 0;
-		isJump = true;
+		isJump = true;	
 	}
 
 	//ジャンプ処理
@@ -205,10 +214,8 @@ void Player::Jump() {
 }
 
 void Player::Fall() {
-	if (playerWorldTrans.translation_.y >= 0) {
-		// 移動
-		playerWorldTrans.translation_.y += fallSpeed;
-	}
+	// 移動
+	playerWorldTrans.translation_.y += fallSpeed;
 }
 
 void Player::PlayerRot(){
@@ -226,7 +233,97 @@ void Player::CreatBullet(Vector3 pos, Vector3 velocity) {
 	bullets.push_back(std::move(newBullet));
 }
 
-void Player::CheckPlayerCollider()
-{
+void Player::CheckPlayerCollider(){
+	PlayerCollider->Update(playerWorldTrans.matWorld_);
+	//地面メッシュコライダー
+	{
+		// 球の上端から球の下端までのレイキャスト
+		Ray Groundray;
+		Groundray.start = MyMath::Vec3ToVec4(playerWorldTrans.translation_);
+		Groundray.start.y += Radius;
+		Groundray.dir = { 0,-1.0f,0,0 };
+		RaycastHit raycastHit;
 
+
+		// 接地状態
+		if (onGround) {
+			// スムーズに坂を下る為の吸着距離
+			const float adsDistance = 0.2f;
+			// 接地を維持
+			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, Radius * 1.0f + adsDistance)) {
+				onGround = true;
+				playerWorldTrans.translation_.y -= (raycastHit.distance - Radius * 1.0f);
+			}
+			// 地面がないので落下
+			else {
+				onGround = false;
+			}
+		}
+		// 落下状態
+		else {
+			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, Radius * 1.0f)) {
+				// 着地
+				onGround = true;
+				playerWorldTrans.translation_.y -= (raycastHit.distance - Radius * 1.0f);
+			}
+		}
+	}
+	{
+		//横メッシュコライダー
+		Ray wall;
+		wall.start = MyMath::Vec3ToVec4(playerWorldTrans.translation_);
+		wall.start.y += Radius;
+		wall.dir = { 0,0,1,0 };
+		RaycastHit wallRaycastHit;
+		// スムーズに坂を下る為の吸着距離
+
+		// 接地を維持
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, Radius)) {
+			playerWorldTrans.translation_.z += (wallRaycastHit.distance - Radius);
+		}
+
+	}
+	{
+		//横メッシュコライダー
+		Ray wall;
+		wall.start = MyMath::Vec3ToVec4(playerWorldTrans.translation_);
+		wall.start.y += Radius;
+		wall.dir = { 0,0,-1,0 };
+		RaycastHit wallRaycastHit;
+		// スムーズに坂を下る為の吸着距離
+
+		// 接地を維持
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, Radius)) {
+			playerWorldTrans.translation_.z -= (wallRaycastHit.distance - Radius);
+		}
+	}
+	{
+		//横メッシュコライダー
+		Ray wall;
+		wall.start = MyMath::Vec3ToVec4(playerWorldTrans.translation_);
+		wall.start.y += Radius;
+		wall.dir = { 1,0,0,0 };
+		RaycastHit wallRaycastHit;
+		// スムーズに坂を下る為の吸着距離
+
+		// 接地を維持
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, Radius)) {
+			playerWorldTrans.translation_.x += (wallRaycastHit.distance - Radius);
+		}
+
+	}
+	{
+		//横メッシュコライダー
+		Ray wall;
+		wall.start = MyMath::Vec3ToVec4(playerWorldTrans.translation_);
+		wall.start.y += Radius;
+		wall.dir = { -1,0,0,0 };
+		RaycastHit wallRaycastHit;
+		// スムーズに坂を下る為の吸着距離
+
+		// 接地を維持
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, Radius)) {
+			playerWorldTrans.translation_.x -= (wallRaycastHit.distance - Radius);
+		}
+	}
 }

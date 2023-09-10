@@ -60,15 +60,19 @@ private://クラス関連
 	Input* input = nullptr;
 	std::unique_ptr<Model> model_;
 	WorldTransform playerWorldTrans;
+	BaseCollider* PlayerCollider = nullptr;
 	PlayerState* state_;
 	PlayerEnergy energy;
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
+	// コライダー
 private://イーナムクラス
 
 private://別クラスから値をもらう
 	Vector2 cameraRot;
 
 private://プレイヤークラス変数
+	float Radius;
+	bool onGround;
 	//移動
 	float straightSpeed;
 	float diagonalSpeed;
