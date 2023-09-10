@@ -26,6 +26,7 @@ void PlayerBullet::Initialize(Vector3 pos, Vector3 velocity){
 	radius = 1.0f;
 	collider = new SphereCollider(Vector4(0, radius, 0, 0), radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
+	collider->Update(worldTrans.matWorld_);
 	collider->SetAttribute(COLLISION_ATTR_ATTACK);
 }
 
@@ -34,7 +35,7 @@ void PlayerBullet::Update(){
 	if (liveTimer > liveLimit) {
 		isDead = true;
 	}
-	if (collider->GetHit()) {
+	if (collider->GetSphereMeshHit()) {
 		isDead = true;
 	}
 	if (isDead) {

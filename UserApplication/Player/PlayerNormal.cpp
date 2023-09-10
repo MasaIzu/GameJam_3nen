@@ -11,13 +11,13 @@ void PlayerNormal::Initialize() {
 
 void PlayerNormal::Update(Player* player, WorldTransform* worldTransform) {
 	//斬撃
-	if (input_->TriggerKey(DIK_1)) {
+	if (input_->MouseInputTrigger(1)) {
 		if (PlayerSwordAttack::CanSwordAttack()) {//武器のクールタイムチェック
 			if (player->UseEnergy(PlayerSwordAttack::GetEnergyCost())) {//エネルギーチェック
 				player->TransitionTo(new PlayerSwordAttack);
 			}
 		}
-	}else if (input_->TriggerKey(DIK_2)) {
+	}else if (input_->MouseInputTrigger(0)) {
 		player->TransitionTo(new PlayerShooting);
 	}
 }

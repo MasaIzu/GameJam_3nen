@@ -1,4 +1,6 @@
 #pragma once
+#include "WorldTransform.h"
+#include <BaseCollider.h>
 #include"PlayerState.h"
 
 //Œ•Œ‚
@@ -21,6 +23,9 @@ public:
 	static int energyCost;
 
 private:
+	//BaseCollider* collider = nullptr;
+	//float Radius;
+
 	enum class Action {
 		Antic,
 		Attack,
@@ -42,6 +47,8 @@ private:
 	//ˆÚ“®‹——£
 	float attackDistance;
 	float attackSpeed;
+	//Vector3 swordPos;
+	//WorldTransform collisionTransform;
 
 	///ŒãŒ„
 	//ŽžŠÔ

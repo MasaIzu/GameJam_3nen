@@ -24,7 +24,7 @@ public://基本関数
 	bool IsDead() { return isDead; };
 	
 private://クラス関連
-	std::unique_ptr<Model> model_;
+	std::unique_ptr<Model> model_;//静的かなんかに変更する
 	WorldTransform worldTrans;
 	BaseCollider* collider = nullptr;
 

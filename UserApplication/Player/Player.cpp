@@ -357,10 +357,4 @@ void Player::CheckPlayerCollider(){
 			playerWorldTrans.translation_.x += (moveMent.x - wallRaycastHit.distance) + Radius;
 		}
 	}
-
-
-
-
-
-
 }

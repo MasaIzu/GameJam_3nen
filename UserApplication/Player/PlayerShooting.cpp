@@ -20,7 +20,7 @@ void PlayerShooting::Initialize() {
 
 void PlayerShooting::Update(Player* player, WorldTransform* worldTransform) {
 	//’Êíó‘Ô‚É–ß‚é
-	if (input_->ReleasedKey(DIK_2)) {
+	if (input_->MouseOffTrigger(0)) {
 		player->TransitionTo(new PlayerNormal);
 	}
 	
@@ -30,7 +30,9 @@ void PlayerShooting::Update(Player* player, WorldTransform* worldTransform) {
 		if (timer > limit) {
 			magazine--;
 			Vector3 velocity = worldTransform->LookVelocity.look * bulletSpeed;
-			player->CreatBullet(player->GetPlayerPos(), velocity);
+			Vector3 gunPos = { 2,5,0 };
+			Vector3 createPos = gunPos * worldTransform->matWorld_;
+			player->CreatBullet(createPos, velocity);
 			timer = 0;
 		}
 	}
