@@ -72,8 +72,10 @@ private://別クラスから値をもらう
 
 private://プレイヤークラス変数
 	float Radius;
+	float coliisionHeight;
 	bool onGround;
 	//移動
+	Vector3 playerOldPos;
 	float straightSpeed;
 	float diagonalSpeed;
 	bool isBoost;
