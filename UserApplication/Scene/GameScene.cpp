@@ -10,38 +10,25 @@
 #include"PostEffect.h"
 #include"WinApp.h"
 
+#include "fbxsdk.h"
+
 GameScene::GameScene() {}
 GameScene::~GameScene() {
 
 }
 
 void GameScene::Initialize() {
-	collisionManager = CollisionManager::GetInstance();
+
 	dxCommon_ = DirectXCore::GetInstance();
 	winApp_ = WinApp::GetInstance();
 	input_ = Input::GetInstance();
 
-	viewProjection_ = std::make_unique<ViewProjection>();
-	viewProjection_->Initialize();
-	viewProjection_->eye = { 0,0,-50 };
-	viewProjection_->UpdateMatrix();
+	FbxManager* fbxManager = FbxManager::Create();
 
-	player_ = std::make_unique<Player>(); 
-	player_->Initialize(Vector3(0, 0, 0), viewProjection_.get());
-
-	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
-	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), player_->GetPlayerPos());
-
-	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize(Vector3(0, 10, 20), viewProjection_.get());
-
-	model_.reset(Model::CreateFromOBJ("Ground", true));
-
-	ground = std::make_unique<Ground>(model_.get());
-	ground->Initialze();
 }
 
 void GameScene::Update() {
+	
 	if (shadeNumber == 0) {
 		ImGui::Begin("Not");
 		ImGui::SliderInt("shadeNumber", &shadeNumber, 0, 4);
@@ -83,17 +70,13 @@ void GameScene::Update() {
 		ImGui::SetCursorPos(ImVec2(0, 20));
 		ImGui::End();
 	}
+  
 	player_->SetCameraRot(gameCamera->GetCameraAngle());
 	player_->Update();
 
 	enemy_->SetPlayerPos(player_->GetPlayerPos());
 	enemy_->Update();
 
-	gameCamera->SetPlayerPosition(player_->GetPlayerPos());
-	gameCamera->Update();
-
-	//全ての衝突をチェック
-	collisionManager->CheckAllCollisions();
 }
 
 void GameScene::PostEffectDraw()
@@ -112,9 +95,9 @@ void GameScene::PostEffectDraw()
 	Model::PostDraw();
 
 	////パーティクル
-	ParticleCS::PreDraw(commandList);
+	ParticleManager::PreDraw(commandList);
 
-	ParticleCS::PostDraw();
+	ParticleManager::PostDraw();
 
 
 	Model::PreDraw(commandList);
@@ -147,31 +130,28 @@ void GameScene::Draw() {
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
-	ParticleCS::PreDraw(commandList);
+	ParticleManager::PreDraw(commandList);
 
 
 
-	ParticleCS::PostDraw();
+	ParticleManager::PostDraw();
 
 	//// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
-	ground->Draw(*viewProjection_.get());
-	player_->Draw(*viewProjection_.get());
-	enemy_->Draw(*viewProjection_.get());
 
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
 
 
-	ParticleCS::PreDraw(commandList);
+	ParticleManager::PreDraw(commandList);
 	
 
-	ParticleCS::PostDraw();
+	ParticleManager::PostDraw();
 
 #pragma endregion
 
 #pragma region 前景スプライト描画
-	player_->DrawSprite();
+
 
 
 #pragma endregion

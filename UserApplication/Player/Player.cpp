@@ -24,6 +24,7 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 	
 	playerWorldTrans.Initialize();
 	model_.reset(Model::CreateFromOBJ("3Jam_jiki_model", true));
+	bulletModel_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
 
 	// コリジョンマネージャに追加
 	Radius = 1.0f;
@@ -255,7 +256,7 @@ void Player::WorldTransUpdate(){
 }
 
 void Player::CreatBullet(Vector3 pos, Vector3 velocity) {
-	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>(bulletModel_.get());
 	newBullet->Initialize(pos, velocity);
 	bullets.push_back(std::move(newBullet));
 }
