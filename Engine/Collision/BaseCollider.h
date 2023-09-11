@@ -31,6 +31,7 @@ public:
 	inline CollisionShapeType GetShapeType() { return shapeType; }
 	inline unsigned short GetAttribute() { return attribute; }
 	inline bool GetHit() { return isHitPlayerAttack; }
+	inline bool GetHitEnemyAttack() { return isHitEnemyAttack; };
 	inline bool GetHitEnemyEachOtherHit() { return isEnemyHittingEachOther; }
 	inline bool GetSphereMeshHit() { return isSphereMeshHit; }
 	inline bool GetFirstSplineHit() { return isHitFirstSplineRail; }
@@ -119,6 +120,7 @@ protected:
 
 	bool isHitPlayerAttack = false;//プレーヤーの弾が当たっている場合
 	bool isEnemyHittingEachOther = false;//敵同士が当たっている場合
+	bool isHitEnemyAttack = false;
 	bool isSphereMeshHit = false;
 	bool isHitFirstSplineRail = false;
 	bool isHitFinalSplineRail = false;

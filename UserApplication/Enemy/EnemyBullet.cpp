@@ -23,11 +23,11 @@ void EnemyBullet::Initialize(Vector3 pos, Vector3 velocity) {
 
 	velocity_ = velocity;
 
-	radius = 1.0f;
+	radius = 10.0f;
 	collider = new SphereCollider(Vector4(0, radius, 0, 0), radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
-	collider->Update(worldTrans.matWorld_);
 	collider->SetAttribute(COLLISION_ATTR_ENEMYBULLETATTACK);
+	collider->Update(worldTrans.matWorld_);
 }
 
 void EnemyBullet::Update() {
@@ -35,7 +35,7 @@ void EnemyBullet::Update() {
 	if (liveTimer > liveLimit) {
 		isDead = true;
 	}
-	if (collider->GetSphereMeshHit()) {
+	if (collider->GetHitEnemyAttack()) {
 		isDead = true;
 	}
 	if (isDead) {
@@ -45,6 +45,12 @@ void EnemyBullet::Update() {
 	worldTrans.translation_ += velocity_;
 	worldTrans.TransferMatrix();
 	collider->Update(worldTrans.matWorld_);
+
+	ImGui::Begin("bullet");
+	ImGui::Text("pos:%f", collider->GetWorldPos().m[3][0]);
+	ImGui::Text("pos:%f", collider->GetWorldPos().m[3][1]);
+	ImGui::Text("pos:%f", collider->GetWorldPos().m[3][2]);
+	ImGui::End();
 }
 
 void EnemyBullet::Draw(ViewProjection& viewProjection_) {

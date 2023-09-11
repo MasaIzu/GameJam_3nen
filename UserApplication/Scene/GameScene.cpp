@@ -86,6 +86,7 @@ void GameScene::Update() {
 	player_->SetCameraRot(gameCamera->GetCameraAngle());
 	player_->Update();
 
+	enemy_->SetPlayerPos(player_->GetPlayerPos());
 	enemy_->Update();
 
 	gameCamera->SetPlayerPosition(player_->GetPlayerPos());

@@ -61,6 +61,10 @@ void Enemy::Update() {
 	Jump();
 	Fall();
 
+	if (input->TriggerKey(DIK_P)) {
+		CreatBullet({ 0,0,0 }, { 1,0,0});
+	}
+
 	//’e
 	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {return bullet->IsDead(); });
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
