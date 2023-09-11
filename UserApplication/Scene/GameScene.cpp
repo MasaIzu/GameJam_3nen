@@ -42,10 +42,13 @@ void GameScene::Initialize() {
 	enemy_ = std::make_unique<Enemy>();
 	enemy_->Initialize(Vector3(0, 10, 20), viewProjection_.get());
  
-	model_.reset(Model::CreateFromOBJ("Ground", true));
-
-	ground = std::make_unique<Ground>(model_.get());
+	groundModel_.reset(Model::CreateFromOBJ("Ground", true));
+	ground = std::make_unique<Ground>(groundModel_.get());
 	ground->Initialze();
+
+	towerModel_.reset(Model::CreateFromOBJ("Tower", true));
+	tower = std::make_unique<Tower>(towerModel_.get());
+	tower->Initialize();
 }
 
 void GameScene::Update() {
@@ -92,6 +95,8 @@ void GameScene::Update() {
 		ImGui::End();
 	}
   
+	tower->Update();
+
 	player_->SetCameraRot(gameCamera->GetCameraAngle());
 	player_->Update();
 
@@ -162,6 +167,7 @@ void GameScene::Draw() {
 	//// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
 	ground->Draw(*viewProjection_.get());
+	tower->Draw(*viewProjection_.get());
 	player_->Draw(*viewProjection_.get());
 	enemy_->Draw(*viewProjection_.get());
 

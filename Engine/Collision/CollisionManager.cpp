@@ -105,11 +105,13 @@ void CollisionManager::CheckAllCollisions()
 				if (colA->attribute == COLLISION_ATTR_LANDSHAPE && colB->attribute == COLLISION_ATTR_ATTACK) {
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
 						colB->isSphereMeshHit = true;
+						colA->isHitPlayerAttack = true;
 					}
 				}
 				else if (colA->attribute == COLLISION_ATTR_LANDSHAPE && colB->attribute == COLLISION_ATTR_ENEMYBULLETATTACK) {
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
 						colB->isSphereMeshHit = true;
+						colA->isHitEnemyAttack = true;
 					}
 				}
 				else if (colA->attribute == COLLISION_ATTR_OBJECT && colB->attribute == COLLISION_ATTR_ATTACK) {
@@ -140,11 +142,13 @@ void CollisionManager::CheckAllCollisions()
 				if (colA->attribute == COLLISION_ATTR_ATTACK && colB->attribute == COLLISION_ATTR_LANDSHAPE) {
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
 						colA->isSphereMeshHit = true;
+						colB->isHitPlayerAttack = true;
 					}
 				}
 				else if (colA->attribute == COLLISION_ATTR_ENEMYBULLETATTACK && colB->attribute == COLLISION_ATTR_LANDSHAPE) {
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
 						colA->isSphereMeshHit = true;
+						colB->isHitEnemyAttack = true;
 					}
 				}
 				else if (colA->attribute == COLLISION_ATTR_ATTACK && colB->attribute == COLLISION_ATTR_OBJECT) {
