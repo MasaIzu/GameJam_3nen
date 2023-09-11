@@ -26,7 +26,7 @@ void MakeEffectScene::Initialize() {
 	viewProjection_->eye = { 0,0,-50 };
 	viewProjection_->UpdateMatrix();
 
-	int a = 5000;
+	int a = 1000000;
 
 	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
 	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), Vector3(0,0,0));

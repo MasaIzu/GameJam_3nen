@@ -106,12 +106,12 @@ ConsumeStructuredBuffer<uint> gFreeIndexList : register(u1);
 [numthreads(32, 1, 1)]
 void emitParticle(uint3 id : SV_DispatchThreadID)
 {
-    uint index = gFreeIndexList.Consume();
-    if (gParticles[index].isActive > 0)
+    
+    if (gParticles[id.x].isActive > 0)
     {
         return;
     }
-
+    uint index = gFreeIndexList.Consume();
     float a = index;
     
     uint seed = id.x + index * 1235;
@@ -124,11 +124,11 @@ void emitParticle(uint3 id : SV_DispatchThreadID)
     velocity.z = nextRand(seed) / 4;
     velocity.y = (nextRand(seed) / 4);
 
-    gParticles[index].isActive = 1;
-    gParticles[index].position.xyz = float3(StartPos.xyz);
-    gParticles[index].scale = 0.3;
-    gParticles[index].velocity.xyz = velocity;
-    gParticles[index].lifeTime = 50;
-    gParticles[index].color = float4(0.5, 0.01, 0.01, 0.2);
+    gParticles[id.x].isActive = 1;
+    gParticles[id.x].position.xyz = float3(StartPos.xyz);
+    gParticles[id.x].scale = 0.1;
+    gParticles[id.x].velocity.xyz = velocity;
+    gParticles[id.x].lifeTime = 300;
+    gParticles[id.x].color = float4(0.5, 0.01, 0.01, 0.2);
     //gParticles[index].colorIndex = floor(nextRand(seed) * 8) % 8;;
 }
