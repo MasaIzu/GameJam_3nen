@@ -4,7 +4,8 @@
 #include <SphereCollider.h>
 #include <CollisionAttribute.h>
 
-EnemyBullet::EnemyBullet() {
+EnemyBullet::EnemyBullet(Model* model) {
+	model_ = model;
 }
 
 EnemyBullet::~EnemyBullet() {
@@ -15,8 +16,7 @@ void EnemyBullet::Initialize(Vector3 pos, Vector3 velocity) {
 	isDead = false;
 	liveLimit = 30;
 	liveTimer = 0;
-	model_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
-
+	
 	worldTrans.Initialize();
 	worldTrans.translation_ = pos;
 	worldTrans.TransferMatrix();
@@ -36,10 +36,7 @@ void EnemyBullet::Update() {
 		isDead = true;
 	}
 	
-	//if (collider->GetSphereMeshHit()) {
-	//	isDead = true;
-	//}
-	if (collider->GetHitEnemyAttack()) {
+	if (collider->GetSphereMeshHit() || collider->GetHitEnemyAttack()) {
 		isDead = true;
 	}
 

@@ -50,6 +50,7 @@ public://Getter
 private://ƒNƒ‰ƒXŠÖ˜A
 	Input* input = nullptr;
 	std::unique_ptr<Model> model_;
+	std::unique_ptr<Model> bulletModel_;
 	WorldTransform enemyWorldTrans;
 	BaseCollider* enemyCollider = nullptr;
 	EnemyHp hp;

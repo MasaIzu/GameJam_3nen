@@ -21,6 +21,7 @@ void Enemy::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	enemyWorldTrans.Initialize();
 	enemyWorldTrans.translation_ = Pos;
 	model_.reset(Model::CreateFromOBJ("sphere", true));
+	bulletModel_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
 
 	// コリジョンマネージャに追加
 	Radius = 1.0f;
@@ -128,7 +129,7 @@ void Enemy::WorldTransUpdate() {
 }
 
 void Enemy::CreatBullet(Vector3 pos, Vector3 velocity) {
-	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>(bulletModel_.get());
 	newBullet->Initialize(pos, velocity);
 	bullets.push_back(std::move(newBullet));
 }
