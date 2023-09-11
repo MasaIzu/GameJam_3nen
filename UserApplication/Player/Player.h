@@ -13,6 +13,8 @@
 #include "PlayerBullet.h"
 #include "PlayerState.h"
 #include "PlayerEnergy.h"
+#include "FBXObject3d.h"
+#include "FBXModel.h"
 
 class Player {
 
@@ -22,7 +24,7 @@ public://基本関数
 
 	void Initialize(const Vector3& Pos, ViewProjection* viewProjection);
 	void Update();
-	void Draw(ViewProjection& viewProjection_);
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void DrawSprite();
 
 	//状態移行
@@ -61,6 +63,8 @@ private://クラス関連
 	Input* input = nullptr;
 	std::unique_ptr<Model> model_;
 	std::unique_ptr<Model> bulletModel_;
+	std::unique_ptr<FBXModel> fbxModel_;
+	std::unique_ptr<FBXObject3d> fbxObj3d_;
 	WorldTransform playerWorldTrans;
 	BaseCollider* PlayerCollider = nullptr;
 	PlayerState* state_;

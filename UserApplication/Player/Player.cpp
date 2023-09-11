@@ -25,6 +25,11 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 	playerWorldTrans.Initialize();
 	model_.reset(Model::CreateFromOBJ("3Jam_jiki_model", true));
 	bulletModel_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
+	//fbx
+	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("3JamJiki", true));
+	fbxObj3d_ = FBXObject3d::Create();
+	fbxObj3d_->SetModel(fbxModel_.get());
+	fbxObj3d_->PlayAnimation(4);
 
 	// コリジョンマネージャに追加
 	Radius = 1.0f;
@@ -81,11 +86,18 @@ void Player::Update(){
 		bullet->Update();
 	}
 
+	//test
+	fbxObj3d_->SetPosition(Vector3(0,0,0));
+	fbxObj3d_->SetRotate(Vector3(0, 0, 0));
+	fbxObj3d_->SetScale(Vector3(1, 1, 1));
+	//test
+
 	PlayerSwordAttack::StaticUpdate();
 	PlayerShooting::StaticUpdate();
 	state_->Update(this, &playerWorldTrans);
 	CheckPlayerCollider();
 	WorldTransUpdate();
+	fbxObj3d_->Update();
 
 
 	//HP
@@ -111,11 +123,12 @@ void Player::Update(){
 	ImGui::End();
 }
 
-void Player::Draw(ViewProjection& viewProjection_){
-	model_->Draw(playerWorldTrans, viewProjection_);
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-		bullet->Draw(viewProjection_);
-	}
+void Player::Draw(ID3D12GraphicsCommandList* cmdList){
+	/*model_->Draw(playerWorldTrans, viewProjection_);*/
+	fbxObj3d_->Draw(cmdList);
+	//for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+	//	bullet->Draw(viewProjection_);
+	//}
 }
 
 //状態変更

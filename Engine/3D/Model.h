@@ -101,6 +101,8 @@ public: // ƒƒ“ƒoŠÖ”
 
 	void SetTextureHandle(uint32_t textureHandle) { modelTextureHandle = textureHandle; }
 
+	ID3D12GraphicsCommandList* GetCommandList() { return sCommandList_; };
+
 	std::string GetName();
 
 private: // ƒƒ“ƒo•Ï”
