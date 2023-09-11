@@ -475,6 +475,15 @@
     <ClInclude Include="Engine\3DEffect\Hibana.h">
       <Filter>Engine\ヘッダー\3DEffect</Filter>
     </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\Enemy.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyBullet.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyHp.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -665,6 +674,15 @@
     </ClCompile>
     <ClCompile Include="Engine\3DEffect\Hibana.cpp">
       <Filter>Engine\ソース ファイル\3DEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\Enemy.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyBullet.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyHp.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

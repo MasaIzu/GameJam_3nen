@@ -27,11 +27,13 @@ void GameScene::Initialize() {
 	viewProjection_->UpdateMatrix();
 
 	player_ = std::make_unique<Player>(); 
-	player_->Initialize(Vector3(0, -210.0f, -283.0f), viewProjection_.get());
+	player_->Initialize(Vector3(0, 0, 0), viewProjection_.get());
 
 	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
 	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), player_->GetPlayerPos());
 
+	enemy_ = std::make_unique<Enemy>();
+	enemy_->Initialize(Vector3(0, 10, 20), viewProjection_.get());
 
 	model_.reset(Model::CreateFromOBJ("Ground", true));
 
@@ -83,6 +85,8 @@ void GameScene::Update() {
 	}
 	player_->SetCameraRot(gameCamera->GetCameraAngle());
 	player_->Update();
+
+	enemy_->Update();
 
 	gameCamera->SetPlayerPosition(player_->GetPlayerPos());
 	gameCamera->Update();
@@ -152,6 +156,7 @@ void GameScene::Draw() {
 	Model::PreDraw(commandList);
 	ground->Draw(*viewProjection_.get());
 	player_->Draw(*viewProjection_.get());
+	enemy_->Draw(*viewProjection_.get());
 
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
