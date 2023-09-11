@@ -7,8 +7,10 @@
 #include "FPS.h"
 #include "ImGuiManager.h"
 #include "SceneManager.h"
-//#include "FbxModel.h"
-//#include <FbxLoader.h>
+#include "fbxsdk.h"
+#include "FbxModel.h"
+#include <FbxLoader.h>
+#include"FBXObject3d.h"
 #include <memory>
 
 class Framework {

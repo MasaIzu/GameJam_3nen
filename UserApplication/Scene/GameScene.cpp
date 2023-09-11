@@ -11,6 +11,8 @@
 #include"WinApp.h"
 
 #include "fbxsdk.h"
+#include"FBXObject3d.h"
+#include"FbxModel.h"
 
 GameScene::GameScene() {}
 GameScene::~GameScene() {
@@ -28,6 +30,8 @@ void GameScene::Initialize() {
 	viewProjection_->Initialize();
 	viewProjection_->eye = { 0,0,-50 };
 	viewProjection_->UpdateMatrix();
+  
+	FBXObject3d::SetCamera(viewProjection_.get());
 
 	player_ = std::make_unique<Player>();
 	player_->Initialize(Vector3(0, 0, 0), viewProjection_.get());
@@ -37,7 +41,7 @@ void GameScene::Initialize() {
 
 	enemy_ = std::make_unique<Enemy>();
 	enemy_->Initialize(Vector3(0, 10, 20), viewProjection_.get());
-
+ 
 	model_.reset(Model::CreateFromOBJ("Ground", true));
 
 	ground = std::make_unique<Ground>(model_.get());
