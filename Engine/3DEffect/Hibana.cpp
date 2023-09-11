@@ -507,20 +507,8 @@ void Hibana::Update()
 
 void Hibana::Draw(const ViewProjection& view)
 {
-	HRESULT result;
-	// 定数バッファへデータ転送
-	ConstBufferData* constMap = nullptr;
-	result = constBuff->Map(0, nullptr, (void**)&constMap);
-	//constMap->color = color;
-	//constMap->mat = matWorld * matView * matProjection;	// 行列の合成
 	Matrix4 constMatToSend = view.matView;
 	constMatToSend *= view.matProjection;
-	constMap->mat = constMatToSend;	// 行列の合成
-	constMap->matBillboard = view.matBillboard;
-	constMap->maxParticleCount = static_cast<UINT>(particleCount);
-	constMap->particleCount = 1;
-	constBuff->Unmap(0, nullptr);
-
 	shaderParameters.mat = constMatToSend;
 	shaderParameters.matBillboard = view.matBillboard;
 	MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);
@@ -593,8 +581,8 @@ void Hibana::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
 
 		UINT invokeCount = particleCount / 32 + 1;
 		{
-			if (input_->PushKey(DIK_SPACE)) {
-				cmdList->Dispatch(2, 1, 1);
+			if (input_->TriggerKey(DIK_SPACE)) {
+				cmdList->Dispatch(invokeCount, 1, 1);
 			}
 		}
 
