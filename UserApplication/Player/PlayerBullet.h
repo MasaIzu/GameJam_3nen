@@ -13,96 +13,30 @@
 
 class PlayerBullet {
 
-public://Šî–{ŠÖ”
+public://åŸºæœ¬é–¢æ•°
 	PlayerBullet();
 	~PlayerBullet();
 
-	void Initialize();
+	void Initialize(Vector3 pos, Vector3 velocity);
 	void Update();
 	void Draw(ViewProjection& viewProjection_);
-	void CSUpdate(ID3D12GraphicsCommandList* cmdList);
-	void ParticleDraw(ViewProjection& viewProjection_);
-	void CopyParticle();
 
-public:
-	//‘Å‚¿o‚·‹…‚ğì‚é
-	uint32_t MakePlayerBullet(const Vector3& MakeBulletPos,const Vector3& BulletVec,const float& Distance);
-	//’e‚ÌƒRƒ“ƒgƒ[ƒ‹
-	void BulletControl(const uint32_t& BulletNum, const Vector3& BulletVec);
-	//’·‰Ÿ‚µ‚Å‹È‚°‚ê‚é‚æ‚¤‚É
-	void MakeExpandingStunBullet();
-	//’·‰Ÿ‚µ‚µ‚½ƒo[ƒWƒ‡ƒ“‚ÌƒoƒŒƒbƒgŠg‘å’†XV
-	void UpdateWhileExpanding(const Vector3& MakeBulletPos, const Vector3& BulletVec);
-
-private:
-	//ƒvƒŒ[ƒ„[‚ÌˆÚ“®
-	void BulletUpdate();
-	//’e‚Ìî•ñXV
-	void WorldTransUpdate();
-	//ƒ^ƒCƒ}[XV
-	void BulletAliveTimerUpdate();
-	//¶‚«‚Ä‚¢‚é‚©‚Ç‚¤‚©
-	void CheckBulletAlive();
-	//€‚ñ‚Å‚é‚Æ‚«‚Í‰œ[‚­‚ÉŠi”[
-	void SetNotAlivePosition();
-	//ƒp[ƒeƒBƒNƒ‹‚ğo‚·
-	void MakeParticle(Vector3& pos, Vector3& BulletVelocity,const float& BulletSpeed);
-	void MakeParticle(Vector3& pos, Vector3& BulletVelocity, const float& BulletSpeed, const float& DownScale);
-	//1ƒtƒŒ[ƒ€‘O‚Ìƒ|ƒWƒVƒ‡ƒ“
-	void OldPosUpdate();
-
-public://Getter
-	Vector3 GetPlayerBulletPos(const uint32_t& bulletCount)const { return MyMath::GetWorldTransform(playerBulletWorldTrans[bulletCount].matWorld_); }
-	bool GetExpandingBullet() { return isExpanding; }
-
-public://Setter
+	bool IsDead() { return isDead; };
 	
+private://ã‚¯ãƒ©ã‚¹é–¢é€£
+	std::unique_ptr<Model> model_;//é™çš„ã‹ãªã‚“ã‹ã«å¤‰æ›´ã™ã‚‹
+	WorldTransform worldTrans;
+	BaseCollider* collider = nullptr;
 
-private://constŠÖ˜A
-	static const uint32_t AllBulletCount = 30;
-
-private://ƒNƒ‰ƒXŠÖ˜A
-	std::unique_ptr<Model> model_;
-	WorldTransform playerBulletWorldTrans[AllBulletCount];
-
-	//“–‚½‚è”»’è
-	BaseCollider* BulletCollider[AllBulletCount];
-	CollisionManager* collisionManager = nullptr;
-	std::unique_ptr<ParticleCS> ParticleMan;
-private://•ÊƒNƒ‰ƒX‚©‚ç’l‚ğ‚à‚ç‚¤
-	
-
-private://ƒvƒŒƒCƒ„[ƒNƒ‰ƒX•Ï”
-	bool isBulletAlive[AllBulletCount];
+private://ã‚¯ãƒ©ã‚¹å¤‰æ•°
+	bool isDead;
+	int liveTimer;
+	int liveLimit;
 	bool isExpanding = false;
 	bool isMovingExpandingBullet = false;
-	bool isBulletDownSpeed[AllBulletCount];
 
-	int x = 0;
+	float radius;
 
-	uint32_t BulletLifeTime[AllBulletCount];
-	uint32_t BulletSpeedDownTime[AllBulletCount];
-	uint32_t BulletNum_ = 0;
-	uint32_t MaxBulletLifeTime = 30;
-	uint32_t BulletCoolTime = 0;
-	uint32_t MaxBulletCoolTime = 7;
-	uint32_t ParticleFile = 60;
-	uint32_t MackPaticleMax = 1;
-	uint32_t AttackMaxParticle = 10;
-	uint32_t MakeBulletMaxParticle = 8;
-	uint32_t DieMaxParticle = 30;
-	uint32_t DieMaxParticleLife = 40;
-
-	float playerBulletSpeed[AllBulletCount];
-	float BulletRadius[AllBulletCount];
-	float playerBulletMaxRadius = 5.0f;
-	float PlayerParticleSpeed = 0.004f;
-	float PlayerBulletMakeParticleSpeed = 0.2f;
-	float PlayerParticleDieSpeed = 0.2f;
-	float flame[AllBulletCount];
-	float G = 3.0f;//d—Í
-
-	Vector3 playerBulletMoveMent[AllBulletCount];//ˆÚ“®—Ê
-	Vector3 BulletVector[AllBulletCount];//‘Å‚¿o‚³‚ê‚é•ûŒü
-	Vector3 BulletOldPos[AllBulletCount];//1ƒtƒŒ[ƒ€‘O‚Ìƒ|ƒWƒVƒ‡ƒ“
+	Vector3 velocity_;//ç§»å‹•é‡
+	Vector3 BulletVector;//æ‰“ã¡å‡ºã•ã‚Œã‚‹æ–¹å‘
 };

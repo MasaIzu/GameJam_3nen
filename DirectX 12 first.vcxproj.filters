@@ -8,14 +8,58 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{ef8062b5-914d-4676-856e-79deda0761fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ユーザーソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ユーザーヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="ユーザーソース ファイル\Enemy">
+      <UniqueIdentifier>{e3b8b230-f642-4f8f-9d57-48e59550326b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーヘッダー ファイル\Enemy">
+      <UniqueIdentifier>{1dac81ab-cda1-46b0-aa7a-bf312e51348b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーソース ファイル\Player">
+      <UniqueIdentifier>{afe63864-f970-413a-a081-a5d0e58f2a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーヘッダー ファイル\Player">
+      <UniqueIdentifier>{dee23e26-c538-4158-9f4d-1d26f3df2143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーソース ファイル\Scene">
+      <UniqueIdentifier>{4b65071a-b2c6-453f-b0ce-4978216cf4bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーヘッダー ファイル\Scene">
+      <UniqueIdentifier>{d745f511-4b53-4767-b070-95e027c7f8b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーソース ファイル\Ground">
+      <UniqueIdentifier>{aa035f86-8a36-4e28-ad26-acd4611a26b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーソース ファイル\Skydome">
+      <UniqueIdentifier>{cf5de4e4-42a5-49ba-a9e9-0a907c28c62a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーヘッダー ファイル\Ground">
+      <UniqueIdentifier>{c9cd247b-acbf-40cd-a42d-fe921a7e683e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーヘッダー ファイル\Skydome">
+      <UniqueIdentifier>{9cbfaac7-0ca9-439d-8308-4e966b74e7e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーソース ファイル\UserCamera">
+      <UniqueIdentifier>{1b6cda0c-96fb-452f-a1d8-54c1c88f1826}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーヘッダー ファイル\UserCamera">
+      <UniqueIdentifier>{a570b1d3-3326-4228-beca-ef786e914a3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\PostEffect">
+      <UniqueIdentifier>{dfec28f9-61a5-4acb-ad9a-110be0046960}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{a87ba722-3ff9-406f-9643-6a2c1c51ba1a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\ヘッダー">
       <UniqueIdentifier>{f04ce88c-23ba-4e45-8623-bf33ab20cb62}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\ソース ファイル">
-      <UniqueIdentifier>{db406609-45c0-4303-b559-0d12b2ad5288}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\ヘッダー\3D">
       <UniqueIdentifier>{424d7fa0-6948-4fdd-8b62-a8c61ab0c0e5}</UniqueIdentifier>
@@ -41,6 +85,27 @@
     <Filter Include="Engine\ヘッダー\Sound">
       <UniqueIdentifier>{99909a45-d91c-4a1e-8187-ab7935ba3c1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ヘッダー\2D">
+      <UniqueIdentifier>{c38a081c-e8cd-4328-80bf-75f679fbdd67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ヘッダー\Framework">
+      <UniqueIdentifier>{43530153-5faa-47bc-ac5d-9d0c8f845283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ヘッダー\Scene">
+      <UniqueIdentifier>{c286bd8c-089b-4709-b6fe-490faf486eb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ヘッダー\ImGui">
+      <UniqueIdentifier>{ad710bd6-1fb7-4e06-a8d9-3bcc755c3a39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ヘッダー\LevelEditor">
+      <UniqueIdentifier>{4d3288b6-a749-455c-b54b-77fc022db4ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ヘッダー\MyFunction">
+      <UniqueIdentifier>{7829a3f0-eab6-4703-87e6-83838ca3eff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ソース ファイル">
+      <UniqueIdentifier>{db406609-45c0-4303-b559-0d12b2ad5288}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\ソース ファイル\Sound">
       <UniqueIdentifier>{6ac740a6-4dd2-45b0-9ee4-0cb23f770ee1}</UniqueIdentifier>
     </Filter>
@@ -65,88 +130,23 @@
     <Filter Include="Engine\ソース ファイル\Math">
       <UniqueIdentifier>{56bb2ea3-cc31-4965-b789-e5a2b0e3d6cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ユーザーソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ユーザーヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Engine\ソース ファイル\2D">
       <UniqueIdentifier>{7a6205cf-89b9-452d-9be4-4d645c5a6467}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\ヘッダー\2D">
-      <UniqueIdentifier>{c38a081c-e8cd-4328-80bf-75f679fbdd67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーソース ファイル\Enemy">
-      <UniqueIdentifier>{e3b8b230-f642-4f8f-9d57-48e59550326b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーヘッダー ファイル\Enemy">
-      <UniqueIdentifier>{1dac81ab-cda1-46b0-aa7a-bf312e51348b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーソース ファイル\Player">
-      <UniqueIdentifier>{afe63864-f970-413a-a081-a5d0e58f2a22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーヘッダー ファイル\Player">
-      <UniqueIdentifier>{dee23e26-c538-4158-9f4d-1d26f3df2143}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\ソース ファイル\Framework">
       <UniqueIdentifier>{6d38218d-f280-42d3-832d-3a2aea03586a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\ヘッダー\Framework">
-      <UniqueIdentifier>{43530153-5faa-47bc-ac5d-9d0c8f845283}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\ソース ファイル\Scene">
       <UniqueIdentifier>{4dc92ac1-e5ec-4d3c-aaea-b360334a7a6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\ヘッダー\Scene">
-      <UniqueIdentifier>{c286bd8c-089b-4709-b6fe-490faf486eb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーソース ファイル\Scene">
-      <UniqueIdentifier>{4b65071a-b2c6-453f-b0ce-4978216cf4bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーヘッダー ファイル\Scene">
-      <UniqueIdentifier>{d745f511-4b53-4767-b070-95e027c7f8b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\ヘッダー\ImGui">
-      <UniqueIdentifier>{ad710bd6-1fb7-4e06-a8d9-3bcc755c3a39}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\ソース ファイル\ImGui">
       <UniqueIdentifier>{4be03fe4-3e4b-4dc2-8f79-7132f0213307}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ユーザーソース ファイル\Ground">
-      <UniqueIdentifier>{aa035f86-8a36-4e28-ad26-acd4611a26b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーソース ファイル\Skydome">
-      <UniqueIdentifier>{cf5de4e4-42a5-49ba-a9e9-0a907c28c62a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーヘッダー ファイル\Ground">
-      <UniqueIdentifier>{c9cd247b-acbf-40cd-a42d-fe921a7e683e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーヘッダー ファイル\Skydome">
-      <UniqueIdentifier>{9cbfaac7-0ca9-439d-8308-4e966b74e7e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーソース ファイル\UserCamera">
-      <UniqueIdentifier>{1b6cda0c-96fb-452f-a1d8-54c1c88f1826}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ユーザーヘッダー ファイル\UserCamera">
-      <UniqueIdentifier>{a570b1d3-3326-4228-beca-ef786e914a3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\ソース ファイル\LevelEditor">
-      <UniqueIdentifier>{f0a10a2f-703c-4ea3-81c7-b0ae025950a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\ヘッダー\LevelEditor">
-      <UniqueIdentifier>{4d3288b6-a749-455c-b54b-77fc022db4ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shaders\PostEffect">
-      <UniqueIdentifier>{dfec28f9-61a5-4acb-ad9a-110be0046960}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\ソース ファイル\MyFunction">
       <UniqueIdentifier>{163f556c-ff2a-440f-9b0e-6bfee9b502bf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\ヘッダー\MyFunction">
-      <UniqueIdentifier>{7829a3f0-eab6-4703-87e6-83838ca3eff5}</UniqueIdentifier>
+    <Filter Include="Engine\ソース ファイル\LevelEditor">
+      <UniqueIdentifier>{f0a10a2f-703c-4ea3-81c7-b0ae025950a3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\ソース ファイル\3DEffect">
       <UniqueIdentifier>{0c715cb2-4b0f-4908-95b1-9311ac075ac6}</UniqueIdentifier>
@@ -439,6 +439,24 @@
     <ClInclude Include="CreateResource.h">
       <Filter>Engine\ヘッダー\MyFunction</Filter>
     </ClInclude>
+    <ClInclude Include="UserApplication\Player\PlayerState.h">
+      <Filter>ユーザーヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Player\PlayerNormal.h">
+      <Filter>ユーザーヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Player\PlayerSwordAttack.h">
+      <Filter>ユーザーヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Player\PlayerEnergy.h">
+      <Filter>ユーザーヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Player\PlayerShooting.h">
+      <Filter>ユーザーヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Player\PlayerHp.h">
+      <Filter>ユーザーヘッダー ファイル\Player</Filter>
+    </ClInclude>
     <ClInclude Include="EffectMakeScene.h">
       <Filter>ユーザーヘッダー ファイル\Scene</Filter>
     </ClInclude>
@@ -611,6 +629,24 @@
     </ClCompile>
     <ClCompile Include="CreateResource.cpp">
       <Filter>Engine\ソース ファイル\MyFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Player\PlayerState.cpp">
+      <Filter>ユーザーソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Player\PlayerNormal.cpp">
+      <Filter>ユーザーソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Player\PlayerEnergy.cpp">
+      <Filter>ユーザーソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Player\PlayerSwordAttack.cpp">
+      <Filter>ユーザーソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Player\PlayerShooting.cpp">
+      <Filter>ユーザーソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Player\PlayerHp.cpp">
+      <Filter>ユーザーソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="EffectMakeScene.cpp">
       <Filter>ユーザーソース ファイル\Scene</Filter>
