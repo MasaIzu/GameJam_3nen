@@ -11,6 +11,8 @@
 #include"WinApp.h"
 
 #include "fbxsdk.h"
+#include"FBXObject3d.h"
+#include"FbxModel.h"
 
 GameScene::GameScene() {}
 GameScene::~GameScene() {
@@ -23,7 +25,11 @@ void GameScene::Initialize() {
 	winApp_ = WinApp::GetInstance();
 	input_ = Input::GetInstance();
 
-	FbxManager* fbxManager = FbxManager::Create();
+	viewProjection_ = std::make_unique<ViewProjection>();
+	viewProjection_->Initialize();
+
+	FBXObject3d::SetCamera(viewProjection_.get());
+	
 
 }
 

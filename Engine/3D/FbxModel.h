@@ -13,7 +13,7 @@
 
 
 // ノード
-struct Node
+struct WTFormNode
 {
 	// 名前
 	std::string name;
@@ -28,7 +28,7 @@ struct Node
 	// グローバル変形行列
 	DirectX::XMMATRIX globalTransform;
 	// 親ノード
-	Node* parent = nullptr;
+	WTFormNode* parent = nullptr;
 	
 };
 
@@ -91,7 +91,7 @@ public:
 	// 描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	// モデルの変形行列取得
-	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+	const XMMATRIX& GetModelTransform();
 	//getter
 	FbxScene* GetFbxScene() { return fbxScene; }
 
@@ -104,9 +104,9 @@ private:
 	// モデル名
 	std::string name;
 	// ノード配列
-	std::vector<Node> nodes;
+	std::vector<WTFormNode> nodes;
 	// メッシュを持つノード
-	Node* meshNode = nullptr;
+	WTFormNode* meshNode = nullptr;
 	// 頂点データ配列
 	std::vector<VertexPosNormalUv> vertices;
 	// 頂点インデックス配列
