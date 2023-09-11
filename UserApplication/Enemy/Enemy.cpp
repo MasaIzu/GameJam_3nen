@@ -62,7 +62,7 @@ void Enemy::Update() {
 	Fall();
 
 	if (input->TriggerKey(DIK_P)) {
-		CreatBullet({ 0,0,0 }, { 1,0,0});
+		CreatBullet(enemyWorldTrans.translation_, { 0,0,-1 });
 	}
 
 	//’e

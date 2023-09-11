@@ -23,7 +23,7 @@ void EnemyBullet::Initialize(Vector3 pos, Vector3 velocity) {
 
 	velocity_ = velocity;
 
-	radius = 10.0f;
+	radius = 1.0f;
 	collider = new SphereCollider(Vector4(0, radius, 0, 0), radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
 	collider->SetAttribute(COLLISION_ATTR_ENEMYBULLETATTACK);
@@ -35,9 +35,14 @@ void EnemyBullet::Update() {
 	if (liveTimer > liveLimit) {
 		isDead = true;
 	}
+	
+	//if (collider->GetSphereMeshHit()) {
+	//	isDead = true;
+	//}
 	if (collider->GetHitEnemyAttack()) {
 		isDead = true;
 	}
+
 	if (isDead) {
 		CollisionManager::GetInstance()->RemoveCollider(collider);
 	}
