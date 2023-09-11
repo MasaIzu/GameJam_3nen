@@ -1,4 +1,4 @@
-ï»¿#include "GameScene.h"
+#include "EffectMakeScene.h"
 #include "TextureManager.h"
 #include <cassert>
 #include <random>
@@ -10,13 +10,13 @@
 #include"PostEffect.h"
 #include"WinApp.h"
 
-GameScene::GameScene() {}
-GameScene::~GameScene() {
+MakeEffectScene::MakeEffectScene() {}
+MakeEffectScene::~MakeEffectScene() {
 
 }
 
-void GameScene::Initialize() {
-	collisionManager = CollisionManager::GetInstance();
+void MakeEffectScene::Initialize() {
+
 	dxCommon_ = DirectXCore::GetInstance();
 	winApp_ = WinApp::GetInstance();
 	input_ = Input::GetInstance();
@@ -26,20 +26,25 @@ void GameScene::Initialize() {
 	viewProjection_->eye = { 0,0,-50 };
 	viewProjection_->UpdateMatrix();
 
-	player_ = std::make_unique<Player>(); 
-	player_->Initialize(Vector3(0, -210.0f, -283.0f), viewProjection_.get());
+	int a = 5000;
 
 	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
-	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), player_->GetPlayerPos());
+	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), Vector3(0,0,0));
+	gameCamera->SetFreeCamera(false);
+	gameCamera->SetCameraMode(false);
 
+	ParticleMan = std::make_unique<Hibana>();
+	ParticleMan->Initialize(a);
+	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
 
-	model_.reset(Model::CreateFromOBJ("Ground", true));
+	model.reset(Model::CreateFromOBJ("Ground", true));
 
-	ground = std::make_unique<Ground>(model_.get());
+	ground = std::make_unique<Ground>(model.get());
 	ground->Initialze();
 }
 
-void GameScene::Update() {
+void MakeEffectScene::Update() {
+
 	if (shadeNumber == 0) {
 		ImGui::Begin("Not");
 		ImGui::SliderInt("shadeNumber", &shadeNumber, 0, 4);
@@ -81,17 +86,27 @@ void GameScene::Update() {
 		ImGui::SetCursorPos(ImVec2(0, 20));
 		ImGui::End();
 	}
-	player_->SetCameraRot(gameCamera->GetCameraAngle());
-	player_->Update();
 
-	gameCamera->SetPlayerPosition(player_->GetPlayerPos());
+	if (input_->PushKey(DIK_W)) {
+		CameraPos += {0, 0, 0.5f};
+	}
+	if (input_->PushKey(DIK_S)) {
+		CameraPos -= {0, 0, 0.5f};
+	}
+	if (input_->PushKey(DIK_D)) {
+		CameraPos += {0.5f, 0, 0};
+	}
+	if (input_->PushKey(DIK_A)) {
+		CameraPos -= {0.5f, 0, 0};
+	}
+
+
+	gameCamera->SetPlayerPosition(CameraPos);
 	gameCamera->Update();
 
-	//å…¨ã¦ã®è¡çªã‚’ãƒã‚§ãƒƒã‚¯
-	collisionManager->CheckAllCollisions();
 }
 
-void GameScene::PostEffectDraw()
+void MakeEffectScene::PostEffectDraw()
 {
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
@@ -106,10 +121,10 @@ void GameScene::PostEffectDraw()
 
 	Model::PostDraw();
 
-	////ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
-	ParticleCS::PreDraw(commandList);
-
-	ParticleCS::PostDraw();
+	////ƒp[ƒeƒBƒNƒ‹
+	Explosion::PreDraw(commandList);
+	
+	Explosion::PostDraw();
 
 
 	Model::PreDraw(commandList);
@@ -121,61 +136,68 @@ void GameScene::PostEffectDraw()
 	PostEffect::PostDrawScene();
 }
 
-void GameScene::CSUpdate()
+void MakeEffectScene::CSUpdate()
 {
-	// ã‚³ãƒžãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®å–å¾—
+	// ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ÌŽæ“¾
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
+
+	ParticleMan->CSUpdate(commandList,Vector4(0,5,0,0));
 
 }
 
-void GameScene::Draw() {
+void MakeEffectScene::Draw() {
 
-	// ã‚³ãƒžãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®å–å¾—
+	// ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ÌŽæ“¾
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
-#pragma region èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
+#pragma region ”wŒiƒXƒvƒ‰ƒCƒg•`‰æ
 
-	// æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
+	// [“xƒoƒbƒtƒ@ƒNƒŠƒA
 	dxCommon_->ClearDepthBuffer();
 
 
 #pragma endregion
 
-#pragma region 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»
+#pragma region 3DƒIƒuƒWƒFƒNƒg•`‰æ
 	ParticleCS::PreDraw(commandList);
 
 
 
 	ParticleCS::PostDraw();
 
-	//// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å‰å‡¦ç†
+	//// 3DƒIƒuƒWƒFƒNƒg•`‰æ‘Oˆ—
 	Model::PreDraw(commandList);
-	ground->Draw(*viewProjection_.get());
-	player_->Draw(*viewProjection_.get());
-
-	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å¾Œå‡¦ç†
+	ground->Draw(*viewProjection_);
+	//3DƒIƒuƒWƒFƒNƒg•`‰æŒãˆ—
 	Model::PostDraw();
 
 
-	ParticleCS::PreDraw(commandList);
+	ParticleHandHanabi::PreDraw(commandList);
 	
+	ParticleHandHanabi::PostDraw();
 
-	ParticleCS::PostDraw();
+	Explosion::PreDraw(commandList);
+	//ParticleMan->Draw(*viewProjection_.get());
+	Explosion::PostDraw();
+
+	Hibana::PreDraw(commandList);
+	ParticleMan->Draw(*viewProjection_.get());
+	Hibana::PostDraw();
 
 #pragma endregion
 
-#pragma region å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
-	player_->DrawSprite();
+#pragma region ‘OŒiƒXƒvƒ‰ƒCƒg•`‰æ
+
 
 
 #pragma endregion
 }
 
-void GameScene::Finalize()
+void MakeEffectScene::Finalize()
 {
 }
 
-void GameScene::CopyData()
+void MakeEffectScene::CopyData()
 {
 
 }

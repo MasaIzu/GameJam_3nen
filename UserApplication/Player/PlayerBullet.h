@@ -8,12 +8,12 @@
 #include "ViewProjection.h"
 #include <BaseCollider.h>
 #include <CollisionManager.h>
-#include "ParticleManager.h"
+#include "ParticleCS.h"
 #include "Uint32Vector2.h"
 
 class PlayerBullet {
 
-public://Šî–{ŠÖ”
+public://åŸºæœ¬é–¢æ•°
 	PlayerBullet();
 	~PlayerBullet();
 
@@ -23,12 +23,12 @@ public://Šî–{ŠÖ”
 
 	bool IsDead() { return isDead; };
 	
-private://ƒNƒ‰ƒXŠÖ˜A
-	std::unique_ptr<Model> model_;//Ã“I‚©‚È‚ñ‚©‚É•ÏX‚·‚é
+private://ã‚¯ãƒ©ã‚¹é–¢é€£
+	std::unique_ptr<Model> model_;//é™çš„ã‹ãªã‚“ã‹ã«å¤‰æ›´ã™ã‚‹
 	WorldTransform worldTrans;
 	BaseCollider* collider = nullptr;
 
-private://ƒNƒ‰ƒX•Ï”
+private://ã‚¯ãƒ©ã‚¹å¤‰æ•°
 	bool isDead;
 	int liveTimer;
 	int liveLimit;
@@ -37,6 +37,6 @@ private://ƒNƒ‰ƒX•Ï”
 
 	float radius;
 
-	Vector3 velocity_;//ˆÚ“®—Ê
-	Vector3 BulletVector;//‘Å‚¿o‚³‚ê‚é•ûŒü
+	Vector3 velocity_;//ç§»å‹•é‡
+	Vector3 BulletVector;//æ‰“ã¡å‡ºã•ã‚Œã‚‹æ–¹å‘
 };

@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 
 #include "DirectXCore.h"
 #include "Input.h"
@@ -25,45 +25,55 @@
 
 #include "TouchableObject.h"
 #include <Skydome.h>
+#include <ParticleHandHanabi.h>
+#include <Explosion.h>
+#include <Hibana.h>
 
 /// <summary>
-/// ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³
+/// ƒQ[ƒ€ƒV[ƒ“
 /// </summary>
-class GameScene : public BaseScene {
+class MakeEffectScene : public BaseScene {
 
-public: // ãƒ¡ãƒ³ãƒé–¢æ•°
+public: // ƒƒ“ƒoŠÖ”
 
-	GameScene();
-	~GameScene();
+	MakeEffectScene();
+	~MakeEffectScene();
 
 	/// <summary>
-	/// åˆæœŸåŒ–
+	/// ‰Šú‰»
 	/// </summary>
 	void Initialize() override;
 	/// <summary>
-	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
+	/// –ˆƒtƒŒ[ƒ€ˆ—
 	/// </summary>
 	void Update() override;
 	/// <summary>
-	/// æç”»
+	/// •`‰æ
 	/// </summary>
 	void Draw() override;
-	// çµ‚äº†å‡¦ç†
+	// I—¹ˆ—
 	void Finalize() override;
-	//ã‚³ãƒ”ãƒ¼å‡¦ç†
+	//ƒRƒs[ˆ—
 	void CopyData() override;
-	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æ›ã‘ã‚‹ã‚„ã¤
+	//ƒ|ƒXƒgƒGƒtƒFƒNƒg‚ğŠ|‚¯‚é‚â‚Â
 	void PostEffectDraw() override;
-	//CSã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ
+	//CSƒAƒbƒvƒf[ƒg
 	void CSUpdate() override;
 
-private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
+private: // ƒƒ“ƒo•Ï”
 	WinApp* winApp_ = nullptr;
 	DirectXCore* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 
+
+	std::unique_ptr<ViewProjection> viewProjection_;//ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“
+	std::unique_ptr<Hibana> ParticleMan;
+	std::unique_ptr<GameCamera> gameCamera;
+	std::unique_ptr<Ground> ground;
+	std::unique_ptr<Model> model;
+
 	int shadeNumber = 3;
-	int range = 0;//ã¼ã‹ã—å¼·åº¦
+	int range = 0;//‚Ú‚©‚µ‹­“x
 	int samples = 5;
 
 	uint32_t MaxFream = 60;
@@ -73,12 +83,8 @@ private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
 	float angle2 = 135.0f;
 
 
-	Vector2 center = {0.5f,0.5f};
+	Vector2 center = { 0.5f,0.5f };
 
-	CollisionManager* collisionManager = nullptr;//å½“ãŸã‚Šåˆ¤å®š
-	std::unique_ptr<ViewProjection> viewProjection_;//ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
-	std::unique_ptr<Model> model_;// 3Dãƒ¢ãƒ‡ãƒ«
-	std::unique_ptr<GameCamera> gameCamera;
-	std::unique_ptr<Player> player_;
-	std::unique_ptr<Ground> ground;
+	Vector3 CameraPos;
+
 };
