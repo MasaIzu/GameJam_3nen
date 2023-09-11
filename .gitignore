@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/External/FBX_SDK/lib/libfbxsdk-md.lib
+/External/FBX_SDK/lib/libfbxsdk-mt.lib
+/External/FBX_SDK/lib/libxml2-md.lib
+/External/FBX_SDK/lib/libxml2-mt.lib
+/External/FBX_SDK/lib/zlib-md.lib
+/External/FBX_SDK/lib/zlib-mt.lib

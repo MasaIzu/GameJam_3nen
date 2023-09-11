@@ -484,6 +484,15 @@
     <ClInclude Include="UserApplication\Enemy\EnemyHp.h">
       <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\3D\FBXLoader.h">
+      <Filter>Engine\ヘッダー\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\FBXModel.h">
+      <Filter>Engine\ヘッダー\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\FBXObject3d.h">
+      <Filter>Engine\ヘッダー\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
