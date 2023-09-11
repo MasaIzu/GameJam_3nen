@@ -136,3 +136,8 @@ void FBXModel::Draw(ID3D12GraphicsCommandList* cmdList)
     // 描画コマンド
     cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
+
+const DirectX::XMMATRIX& FBXModel::GetModelTransform()
+{
+    return meshNode->globalTransform;
+}
