@@ -14,7 +14,7 @@
 class PlayerBullet {
 
 public://基本関数
-	PlayerBullet();
+	PlayerBullet(Model* model);
 	~PlayerBullet();
 
 	void Initialize(Vector3 pos, Vector3 velocity);
@@ -24,7 +24,7 @@ public://基本関数
 	bool IsDead() { return isDead; };
 	
 private://クラス関連
-	std::unique_ptr<Model> model_;//静的かなんかに変更する
+	Model* model_;
 	WorldTransform worldTrans;
 	BaseCollider* collider = nullptr;
 
