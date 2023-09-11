@@ -1,4 +1,4 @@
-#include "FBXObject3d.h"
+﻿#include "FBXObject3d.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 //#include"MathFunc.h"
