@@ -693,5 +693,14 @@
     <ClCompile Include="UserApplication\Enemy\EnemyHp.cpp">
       <Filter>ユーザーソース ファイル\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\3D\FBXLoader.cpp">
+      <Filter>Engine\ソース ファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\FBXModel.cpp">
+      <Filter>Engine\ソース ファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\FBXObject3d.cpp">
+      <Filter>Engine\ソース ファイル\3D</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
