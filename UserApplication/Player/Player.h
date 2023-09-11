@@ -24,7 +24,7 @@ public://Šî–{ŠÖ”
 
 	void Initialize(const Vector3& Pos, ViewProjection* viewProjection);
 	void Update();
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw(const ViewProjection& viewProjection);
 	void DrawSprite();
 
 	//ó‘ÔˆÚs

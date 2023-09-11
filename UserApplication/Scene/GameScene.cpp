@@ -168,7 +168,7 @@ void GameScene::Draw() {
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
 
-	player_->Draw(commandList);
+	player_->Draw(*viewProjection_.get());
 
 	ParticleManager::PreDraw(commandList);
 	

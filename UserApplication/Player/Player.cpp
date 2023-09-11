@@ -123,9 +123,9 @@ void Player::Update(){
 	ImGui::End();
 }
 
-void Player::Draw(ID3D12GraphicsCommandList* cmdList){
+void Player::Draw(const ViewProjection& viewProjection){
 	/*model_->Draw(playerWorldTrans, viewProjection_);*/
-	fbxObj3d_->Draw(cmdList);
+	fbxObj3d_->Draw(playerWorldTrans, viewProjection);
 	//for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 	//	bullet->Draw(viewProjection_);
 	//}

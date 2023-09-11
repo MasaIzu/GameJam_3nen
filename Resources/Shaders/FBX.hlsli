@@ -1,10 +1,15 @@
-cbuffer cbuff0 : register(b0)
+cbuffer WorldTransform : register(b0)
 {
-	matrix viewproj; // ビュープロジェクション行列
-	matrix world; // ワールド行列
-	float3 cameraPos; // カメラ座標（ワールド座標）
+    matrix world; // ワールド行列
+    float m_alpha; // アルファ
 };
 
+cbuffer ViewProjection : register(b1)
+{
+    matrix view; // ビュー変換行列
+    matrix projection; // プロジェクション変換行列
+    float3 cameraPos; // カメラ座標（ワールド座標）
+};
 //ボーンの最大数
 static const int MAX_BONES = 320;
 
