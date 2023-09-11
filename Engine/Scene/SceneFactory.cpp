@@ -1,7 +1,7 @@
 #include "SceneFactory.h"
 #include "TitleScene.h"
 #include "GameScene.h"
-
+#include "EffectMakeScene.h"
 
 BaseScene* SceneFactory::CreateScene(const std::string& sceneName)
 {
@@ -13,6 +13,9 @@ BaseScene* SceneFactory::CreateScene(const std::string& sceneName)
     }
     else if (sceneName == "GAMEPLAY") {
         newScene = new GameScene();
+    }
+    else if (sceneName == "EffectMakeScene") {
+        newScene = new MakeEffectScene();
     }
 
     return newScene;

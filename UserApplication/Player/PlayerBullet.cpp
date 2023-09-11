@@ -42,8 +42,8 @@ void PlayerBullet::Initialize()
 	}
 	collisionManager = CollisionManager::GetInstance();
 
-	ParticleMan = std::make_unique<ParticleManager>();
-	ParticleMan->Initialize();
+	ParticleMan = std::make_unique<ParticleCS>();
+	ParticleMan->Initialize(10000);
 	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
 
 }
@@ -112,7 +112,7 @@ void PlayerBullet::Draw(ViewProjection& viewProjection_)
 
 void PlayerBullet::CSUpdate(ID3D12GraphicsCommandList* cmdList)
 {
-	ParticleMan->CSUpdate(cmdList);
+	ParticleMan->CSUpdate(cmdList, Vector4(0, 0, 0, 0));
 }
 
 void PlayerBullet::ParticleDraw(ViewProjection& viewProjection_)
@@ -282,7 +282,6 @@ void PlayerBullet::MakeParticle(Vector3& pos, Vector3& BulletVelocity, const flo
 		Vector4 color = { colorRand.x,colorRand.y,colorRand.z, 3 };
 		Vector4 DownColor = color / static_cast<float>(MaxBulletLifeTime);
 		float scale = (1.0f / BulletSpeed) * i;
-		ParticleMan->Add(AddPos, Verocty, ParticleFile, color, DownColor, scale);
 	}
 }
 
@@ -297,7 +296,6 @@ void PlayerBullet::MakeParticle(Vector3& pos, Vector3& BulletVelocity, const flo
 	Vector4 color = { colorRand.x,colorRand.y,colorRand.z, 3 };
 	Vector4 DownColor = color / static_cast<float>(DieMaxParticleLife);
 	float scale = 1.0f;
-	ParticleMan->Add(AddPos, Verocty, DieMaxParticleLife, color, DownColor, scale, DownScale);
 
 }
 

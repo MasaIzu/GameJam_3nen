@@ -8,7 +8,7 @@
 #include "ViewProjection.h"
 #include <BaseCollider.h>
 #include <CollisionManager.h>
-#include "ParticleManager.h"
+#include "ParticleCS.h"
 #include "Uint32Vector2.h"
 
 class PlayerBullet {
@@ -68,7 +68,7 @@ private://クラス関連
 	//当たり判定
 	BaseCollider* BulletCollider[AllBulletCount];
 	CollisionManager* collisionManager = nullptr;
-	std::unique_ptr<ParticleManager> ParticleMan;
+	std::unique_ptr<ParticleCS> ParticleMan;
 private://別クラスから値をもらう
 	
 

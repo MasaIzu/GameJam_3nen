@@ -10,9 +10,10 @@ void Ground::Initialze()
 {
 
 	groundTrans.Initialize();
+	groundTrans.scale_ = { 30,30,30 };
 	groundTrans.TransferMatrix();
 
-	touchableObject.reset(TouchableObject::Create(groundModel, groundTrans, COLLISION_ATTR_LANDSHAPE));
+	//touchableObject.reset(TouchableObject::Create(groundModel, groundTrans, COLLISION_ATTR_LANDSHAPE));
 
 
 }
