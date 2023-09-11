@@ -36,13 +36,13 @@ private:
 	void Jump();
 	//落下
 	void Fall();
-	//プレーヤーの移動の値更新
+	//移動の値更新
 	void WorldTransUpdate();
-	// プレイヤーの当たり判定
+	//当たり判定
 	void CheckEnemyCollider();
 
 public://Setter
-	void SetCameraRot(const Vector2& CameraRot) { cameraRot = CameraRot; }
+	void SetPlayerPos(Vector3 playerPos) { this->playerPos = playerPos; };
 
 public://Getter
 	Vector3 GetEnemyPos()const { return MyMath::GetWorldTransform(enemyWorldTrans.matWorld_); }
@@ -50,21 +50,21 @@ public://Getter
 private://クラス関連
 	Input* input = nullptr;
 	std::unique_ptr<Model> model_;
+	std::unique_ptr<Model> bulletModel_;
 	WorldTransform enemyWorldTrans;
 	BaseCollider* enemyCollider = nullptr;
 	EnemyHp hp;
 	std::list<std::unique_ptr<EnemyBullet>> bullets;
-	// コライダー
 private://イーナムクラス
 
 private://別クラスから値をもらう
-	Vector2 cameraRot;
 
-private://プレイヤークラス変数
+private://クラス変数
 	bool isDead;
 	float Radius;
 	float coliisionHeight;
 	bool onGround;
+	Vector3 playerPos;
 	//移動
 	Vector3 enemyOldPos;
 	float straightSpeed;

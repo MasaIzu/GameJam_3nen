@@ -101,10 +101,13 @@ void Player::Update(){
 
 
 	ImGui::Begin("Player");
-	ImGui::Text("pos:%f", playerWorldTrans.translation_.x);
-	ImGui::Text("pos:%f", playerWorldTrans.translation_.y);
-	ImGui::Text("pos:%f", playerWorldTrans.translation_.z);
-	ImGui::Text("hp:%d", hp.GetHp());
+	//ImGui::Text("pos:%f", playerWorldTrans.translation_.x);
+	//ImGui::Text("pos:%f", playerWorldTrans.translation_.y);
+	//ImGui::Text("pos:%f", playerWorldTrans.translation_.z);
+	//ImGui::Text("hp:%d", hp.GetHp());
+	ImGui::Text("pos:%f", PlayerCollider->GetWorldPos().m[3][0]);
+	ImGui::Text("pos:%f", PlayerCollider->GetWorldPos().m[3][1]);
+	ImGui::Text("pos:%f", PlayerCollider->GetWorldPos().m[3][2]);
 	ImGui::End();
 }
 

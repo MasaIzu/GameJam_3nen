@@ -70,6 +70,12 @@ void GameScene::Update() {
 		ImGui::SetCursorPos(ImVec2(0, 20));
 		ImGui::End();
 	}
+  
+	player_->SetCameraRot(gameCamera->GetCameraAngle());
+	player_->Update();
+
+	enemy_->SetPlayerPos(player_->GetPlayerPos());
+	enemy_->Update();
 
 }
 
