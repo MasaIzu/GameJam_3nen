@@ -26,7 +26,7 @@ void MakeEffectScene::Initialize() {
 	viewProjection_->eye = { 0,0,-50 };
 	viewProjection_->UpdateMatrix();
 
-	int a = 1000000;
+	int a = 20000;
 
 	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
 	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), Vector3(0,0,0));
@@ -37,7 +37,9 @@ void MakeEffectScene::Initialize() {
 	ParticleMan->Initialize(a);
 	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
 
-	//model.reset(Model::CreateFromOBJ("Ground", true));
+	model.reset(Model::CreateFromOBJ("ken", true));
+
+	ParticleMan->SetMeshPos(model->GetMeshVertice());
 
 	//ground = std::make_unique<Ground>(model.get());
 	//ground->Initialze();
@@ -131,7 +133,9 @@ void MakeEffectScene::PostEffectDraw()
 
 	Model::PostDraw();
 
-
+	Hibana::PreDraw(commandList);
+	ParticleMan->Draw(*viewProjection_.get());
+	Hibana::PostDraw();
 
 	PostEffect::PostDrawScene();
 }
@@ -181,7 +185,7 @@ void MakeEffectScene::Draw() {
 	Explosion::PostDraw();
 
 	Hibana::PreDraw(commandList);
-	ParticleMan->Draw(*viewProjection_.get());
+	
 	Hibana::PostDraw();
 
 #pragma endregion

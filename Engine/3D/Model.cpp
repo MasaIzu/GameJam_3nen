@@ -394,10 +394,13 @@ void Model::LoadModel(const std::string& modelname, bool smoothing) {
 					index_stream >> indexNormal;
 					// 頂点データの追加
 					Mesh::VertexPosNormalUv vertex{};
+					VertexPos vertPos{};
 					vertex.pos = positions[indexPosition - 1];
+					vertPos.pos = positions[indexPosition - 1];
 					vertex.normal = normals[indexNormal - 1];
 					vertex.uv = texcoords[indexTexcoord - 1];
 					mesh->AddVertex(vertex);
+					onlyTriangleVertices.emplace_back(vertPos);
 					// エッジ平滑化用のデータを追加
 					if (smoothing) {
 						mesh->AddSmoothData(
@@ -411,10 +414,13 @@ void Model::LoadModel(const std::string& modelname, bool smoothing) {
 					if (c == '/') {
 						// 頂点データの追加
 						Mesh::VertexPosNormalUv vertex{};
+						VertexPos vertPos{};
 						vertex.pos = positions[indexPosition - 1];
+						vertPos.pos = positions[indexPosition - 1];
 						vertex.normal = { 0, 0, 1 };
 						vertex.uv = { 0, 0 };
 						mesh->AddVertex(vertex);
+						onlyTriangleVertices.emplace_back(vertPos);
 					}
 					else {
 						index_stream.seekg(-1, ios_base::cur); // 1文字戻る
@@ -423,10 +429,13 @@ void Model::LoadModel(const std::string& modelname, bool smoothing) {
 						index_stream >> indexNormal;
 						// 頂点データの追加
 						Mesh::VertexPosNormalUv vertex{};
+						VertexPos vertPos{};
 						vertex.pos = positions[indexPosition - 1];
+						vertPos.pos = positions[indexPosition - 1];
 						vertex.normal = normals[indexNormal - 1];
 						vertex.uv = { 0, 0 };
 						mesh->AddVertex(vertex);
+						onlyTriangleVertices.emplace_back(vertPos);
 						// エッジ平滑化用のデータを追加
 						if (smoothing) {
 							mesh->AddSmoothData(

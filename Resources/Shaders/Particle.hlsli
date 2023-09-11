@@ -5,13 +5,20 @@ struct ParticleCount
     uint2 pad : Pad;
 };
 
+struct MeshPos
+{
+    float4 pos : MeshPos;
+};
+
 cbuffer ShaderParameters : register(b0)
 {
     float4 StartPos : packoffset(c0);
     matrix mat : packoffset(c1); // 3D変換行列
     matrix matBillboard : packoffset(c5); //ビルボード行列
     uint MaxParticleCount : packoffset(c9);
-    uint EmitterCount : packoffset(c9.y);
+    uint verticeCount : packoffset(c9.y);
+    uint2 pad : packoffset(c9.z);
+    MeshPos meshPos[1000] : packoffset(c10);
 };
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

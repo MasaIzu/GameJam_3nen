@@ -543,7 +543,6 @@ void Hibana::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
 	//初期化
 	if (m_frameCount == 0) {
 		shaderParameters.maxParticleCount = particleCount;
-		shaderParameters.particleCount = 0;
 		shaderParameters.StartPos = StartPos;
 
 		MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);
@@ -612,5 +611,13 @@ void Hibana::CopyData()
 	memcpy(Particles.data(), outPutDeta, Particles.size() * sizeof(VertexPos));
 	vertBuff->Unmap(0, nullptr);
 
+}
+
+void Hibana::SetMeshPos(std::vector<Model::VertexPos> meshPos)
+{
+	for (size_t i = 0; i < meshPos.size(); i++) {
+		shaderParameters.meshPos[i].pos = MyMath::Vec3ToVec4(meshPos[i].pos);
+	}
+	shaderParameters.verticeCount = static_cast<UINT>(meshPos.size());
 }
 

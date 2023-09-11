@@ -15,6 +15,8 @@
 
 #include "Input.h"
 
+#include "Model.h"
+
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
@@ -70,12 +72,19 @@ public: // サブクラス
 		Vector4 velocity;
 	};
 
+	struct MeshPos
+	{
+		Vector4 pos;
+	};
+
 	struct ShaderParameters {
 		Vector4 StartPos;
 		Matrix4 mat;	// 3D変換行列
 		Matrix4 matBillboard;//ビルボード行列
 		UINT maxParticleCount;
-		UINT particleCount;
+		UINT verticeCount;
+		uint64_t pad;
+		MeshPos meshPos[1000];
 	};
 	ShaderParameters shaderParameters;
 
@@ -195,7 +204,7 @@ public: // メンバ関数
 	//コンピュートシェーダー掛けた後のコピー処理
 	void CopyData();
 
-
+	void SetMeshPos(std::vector<Model::VertexPos> meshPos);
 
 
 private: // メンバ変数

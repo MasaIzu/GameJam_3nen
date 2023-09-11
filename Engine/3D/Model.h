@@ -31,6 +31,11 @@ public:
 		Matrix4 mat;	// ３Ｄ変換行列
 	};
 
+	struct VertexPos {
+		Vector3 pos;    // xyz
+	};
+
+
 private:
 	static const std::string kBaseDirectory;
 	static const std::string kDefaultModelName;
@@ -101,6 +106,8 @@ public: // メンバ関数
 
 	void SetTextureHandle(uint32_t textureHandle) { modelTextureHandle = textureHandle; }
 
+	std::vector<VertexPos> GetMeshVertice() { return onlyTriangleVertices; }
+
 	std::string GetName();
 
 private: // メンバ変数
@@ -117,6 +124,9 @@ private: // メンバ変数
 
 	//頂点データ
 	std::vector<Mesh::VertexPosNormalUv>vertices;
+
+	std::vector<VertexPos>onlyTriangleVertices;
+
 	//頂点インデックス
 	std::vector<unsigned short> indices;
 
