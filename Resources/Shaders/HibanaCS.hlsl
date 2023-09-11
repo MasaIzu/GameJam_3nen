@@ -55,11 +55,11 @@ void main(uint3 id : SV_DispatchThreadID)
     float3 velocity = gParticles[index].velocity.xyz;
     float3 position = gParticles[index].position.xyz;
 
-    float4 color = gParticles[index].color;
-    color.w -= 0.005;
+    //float4 color = gParticles[index].color;
+    //color.w -= 0.005;
     
-    float scale = gParticles[index].scale;
-    scale -= 0.1;
+    //float scale = gParticles[index].scale;
+    //scale -= 0.1;
     
     float3 gravity = float3(0, -98.0, 0);
     position += velocity;
@@ -94,8 +94,8 @@ void main(uint3 id : SV_DispatchThreadID)
 
     gParticles[index].position.xyz = position;
     //gParticles[index].velocity.xyz = velocity;
-    gParticles[index].color = color;
-    gParticles[index].scale = scale;
+    //gParticles[index].color = color;
+    //gParticles[index].scale = scale;
 
 }
 
@@ -126,9 +126,9 @@ void emitParticle(uint3 id : SV_DispatchThreadID)
 
     gParticles[index].isActive = 1;
     gParticles[index].position.xyz = float3(StartPos.xyz);
-    gParticles[index].scale = 1.0;
+    gParticles[index].scale = 0.3;
     gParticles[index].velocity.xyz = velocity;
     gParticles[index].lifeTime = 50;
-    gParticles[index].color = float4(0.01, 0.01, 0.01, 0.2);
+    gParticles[index].color = float4(0.5, 0.01, 0.01, 0.2);
     //gParticles[index].colorIndex = floor(nextRand(seed) * 8) % 8;;
 }

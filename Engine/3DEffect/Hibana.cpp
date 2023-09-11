@@ -488,6 +488,8 @@ void Hibana::Initialize(uint32_t ParticleCount)
 		IID_PPV_ARGS(&uploadBuffer)
 	);
 
+	input_ = Input::GetInstance();
+
 }
 
 void Hibana::Update()
@@ -591,7 +593,9 @@ void Hibana::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
 
 		UINT invokeCount = particleCount / 32 + 1;
 		{
-			cmdList->Dispatch(2, 1, 1);
+			if (input_->PushKey(DIK_SPACE)) {
+				cmdList->Dispatch(2, 1, 1);
+			}
 		}
 
 		CD3DX12_RESOURCE_BARRIER barriers[] = {

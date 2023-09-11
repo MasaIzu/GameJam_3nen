@@ -12,6 +12,9 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Matrix4.h"
+
+#include "Input.h"
+
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
@@ -156,6 +159,8 @@ private: // 静的メンバ変数
 	static const std::string PSO_CS_UPDATE;
 	static const std::string PSO_DRAW_PARTICLE;
 	static const std::string PSO_DRAW_PARTICLE_USE_TEX;
+
+	Input* input_ = nullptr;
 
 private:// 静的メンバ関数
 
