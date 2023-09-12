@@ -29,7 +29,8 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("3JamJiki", true));
 	fbxObj3d_ = FBXObject3d::Create();
 	fbxObj3d_->SetModel(fbxModel_.get());
-	fbxObj3d_->PlayAnimation(4);
+	fbxObj3d_->PlayAnimation(3);
+	
 
 	// コリジョンマネージャに追加
 	Radius = 1.0f;

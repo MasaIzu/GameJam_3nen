@@ -52,6 +52,8 @@ private:
 	void WorldTransUpdate();
 	// プレイヤーの当たり判定
 	void CheckPlayerCollider();
+	// プレイヤーアニメーション
+	void PlayerAnimation();
 
 public://Setter
 	void SetCameraRot(const Vector2& CameraRot) { cameraRot = CameraRot; }
@@ -109,4 +111,11 @@ private://プレイヤークラス変数
 	//hp
 	int healAmount;
 	int healNum;
+
+	//アニメーション用変数
+	int nowAnmFCount_;	//フレームカウント
+	int nowAnmNum_;	//アニメーション何番か
+	int oldAnmNum_;	//↑前フレーム
+	bool isAnimRot_;	//繰り返し処理か
+
 };
