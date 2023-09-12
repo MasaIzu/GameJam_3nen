@@ -16,6 +16,7 @@ void EnemyApproach::Update(Enemy* enemy, WorldTransform* worldTransform) {
 
 void EnemyApproach::Move(WorldTransform* worldTransform) {
 	Vector3 moveVec = towerPos - worldTransform->translation_;
+	moveVec.y = 0;
 	moveVec.normalize();
 
 	worldTransform->translation_ += moveVec * moveSpeed;
