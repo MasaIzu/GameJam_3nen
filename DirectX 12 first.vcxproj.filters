@@ -154,6 +154,12 @@
     <Filter Include="Engine\ヘッダー\3DEffect">
       <UniqueIdentifier>{ac3d55b8-a2e2-43d4-a9bd-7feb8d6916d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ユーザーヘッダー ファイル\Tower">
+      <UniqueIdentifier>{21f6f70a-452c-4d81-a4a8-0611718559df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーソース ファイル\Tower">
+      <UniqueIdentifier>{f10fe2cf-c6e5-4c06-b5dc-b51840293728}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Obj.hlsli">
@@ -493,6 +499,9 @@
     <ClInclude Include="Engine\3D\FBXObject3d.h">
       <Filter>Engine\ヘッダー\3D</Filter>
     </ClInclude>
+    <ClInclude Include="Tower.h">
+      <Filter>ユーザーヘッダー ファイル\Tower</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -701,6 +710,9 @@
     </ClCompile>
     <ClCompile Include="Engine\3D\FBXObject3d.cpp">
       <Filter>Engine\ソース ファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Tower.cpp">
+      <Filter>ユーザーソース ファイル\Tower</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

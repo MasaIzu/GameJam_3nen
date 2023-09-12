@@ -22,6 +22,7 @@
 
 #include "Player.h"
 #include "Enemy.h"
+#include "Tower.h"
 #include "LoadLevelEditor.h"
 
 #include "TouchableObject.h"
@@ -78,9 +79,11 @@ private: // メンバ変数
 
 	CollisionManager* collisionManager = nullptr;//当たり判定
 	std::unique_ptr<ViewProjection> viewProjection_;//ビュープロジェクション
-	std::unique_ptr<Model> model_;// 3Dモデル
 	std::unique_ptr<GameCamera> gameCamera;
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<Enemy> enemy_;
+	std::unique_ptr<Model> groundModel_;
 	std::unique_ptr<Ground> ground;
+	std::unique_ptr<Model> towerModel_;
+	std::unique_ptr<Tower> tower;
 };

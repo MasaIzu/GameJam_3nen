@@ -37,7 +37,7 @@ void PlayerBullet::Update(){
 	}
 	if (collider->GetSphereMeshHit()) {
 		isDead = true;
-}
+	}
 
 
 	if (isDead) {

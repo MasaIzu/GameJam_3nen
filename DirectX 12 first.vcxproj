@@ -371,6 +371,7 @@
     <ClInclude Include="Engine\LevelEditor\LoadLevelEditor.h" />
     <ClInclude Include="Engine\2D\MixPostEffect.h" />
     <ClInclude Include="Engine\Math\SplinePosition.h" />
+    <ClInclude Include="Tower.h" />
     <ClInclude Include="UserApplication\Enemy\Enemy.h" />
     <ClInclude Include="UserApplication\Enemy\EnemyBullet.h" />
     <ClInclude Include="UserApplication\Enemy\EnemyHp.h" />
@@ -440,6 +441,7 @@
     <ClCompile Include="Engine\LevelEditor\LoadLevelEditor.cpp" />
     <ClCompile Include="Engine\2D\MixPostEffect.cpp" />
     <ClCompile Include="Engine\Math\SplinePosition.cpp" />
+    <ClCompile Include="Tower.cpp" />
     <ClCompile Include="UserApplication\Enemy\Enemy.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyBullet.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyHp.cpp" />
