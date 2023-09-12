@@ -735,5 +735,8 @@
     <ClCompile Include="UserApplication\Enemy\EnemyAttackTower.cpp">
       <Filter>ユーザーソース ファイル\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyState.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

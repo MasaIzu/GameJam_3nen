@@ -13,6 +13,7 @@
 #include "fbxsdk.h"
 #include"FBXObject3d.h"
 #include"FbxModel.h"
+#include"EnemyState.h"
 
 GameScene::GameScene() {}
 GameScene::~GameScene() {
@@ -39,16 +40,18 @@ void GameScene::Initialize() {
 	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
 	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), player_->GetPlayerPos());
 
+	towerModel_.reset(Model::CreateFromOBJ("Tower", true));
+	tower = std::make_unique<Tower>(towerModel_.get());
+	tower->Initialize();
+
+	EnemyState::SetTowerPos(tower->GetTowerPos());
+
 	enemyManager_ = std::make_unique<EnemyManager>();
 	enemyManager_->Initialize();
  
 	groundModel_.reset(Model::CreateFromOBJ("Ground", true));
 	ground = std::make_unique<Ground>(groundModel_.get());
 	ground->Initialze();
-
-	towerModel_.reset(Model::CreateFromOBJ("Tower", true));
-	tower = std::make_unique<Tower>(towerModel_.get());
-	tower->Initialize();
 }
 
 void GameScene::Update() {

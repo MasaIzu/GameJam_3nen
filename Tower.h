@@ -11,7 +11,7 @@ public:
 	void Draw(ViewProjection& viewProjection_);
 
 public:
-	Vector3 GetTowerPos()const { return MyMath::GetWorldTransform(worldTrans.matWorld_); }
+	Vector3 GetTowerPos()const { return worldTrans.translation_; }
 	bool IsDead() { return isDead; };
 
 private:

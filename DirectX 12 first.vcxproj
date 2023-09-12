@@ -452,6 +452,7 @@
     <ClCompile Include="UserApplication\Enemy\EnemyBullet.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyHp.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="UserApplication\Enemy\EnemyState.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerEnergy.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerHp.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerShooting.cpp" />

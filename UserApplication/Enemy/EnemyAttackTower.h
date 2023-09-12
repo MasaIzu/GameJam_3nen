@@ -12,5 +12,5 @@ private:
 private:
 	int timer;
 	int cooltime;
-
+	float bulletSpeed;
 };

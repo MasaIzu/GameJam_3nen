@@ -62,6 +62,7 @@ private://クラス関連
 private://イーナムクラス
 
 private://別クラスから値をもらう
+	Vector3 towerPos;
 
 private://クラス変数
 	bool isDead;

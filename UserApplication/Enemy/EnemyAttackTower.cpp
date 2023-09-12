@@ -4,7 +4,7 @@
 void EnemyAttackTower::Initialize() {
 	timer = 0;
 	cooltime = 30;
-
+	bulletSpeed = 1.0f;
 }
 
 void EnemyAttackTower::Update(Enemy* enemy, WorldTransform* worldTransform) {
@@ -15,7 +15,10 @@ void EnemyAttackTower::Update(Enemy* enemy, WorldTransform* worldTransform) {
 void EnemyAttackTower::Attack(Enemy* enemy, WorldTransform* worldTransform) {
 	timer++;
 	if (timer >= cooltime) {
-		enemy->CreatBullet(worldTransform->translation_, { 0,0,-1 });
+		Vector3 moveVec = towerPos - worldTransform->translation_;
+		moveVec.normalize();
+		Vector3 velocity = moveVec * bulletSpeed;
+		enemy->CreatBullet(worldTransform->translation_, velocity);
 		timer = 0;
 	}
 }

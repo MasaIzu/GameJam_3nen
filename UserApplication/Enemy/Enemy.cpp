@@ -73,7 +73,6 @@ void Enemy::Update() {
 		isDead = true;
 		CollisionManager::GetInstance()->RemoveCollider(enemyCollider);
 	}
-
 }
 
 void Enemy::Draw(ViewProjection& viewProjection_) {
