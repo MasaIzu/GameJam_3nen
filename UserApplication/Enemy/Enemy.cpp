@@ -15,7 +15,7 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
+void Enemy::Initialize(const Vector3& Pos) {
 	input = Input::GetInstance();
 
 	enemyWorldTrans.Initialize();
@@ -75,8 +75,10 @@ void Enemy::Update() {
 	CheckEnemyCollider();
 	WorldTransUpdate();
 
+	OnCollision();
 	if (hp.IsLive() == false) {
 		isDead = true;
+		CollisionManager::GetInstance()->RemoveCollider(enemyCollider);
 	}
 
 }
@@ -132,6 +134,13 @@ void Enemy::CreatBullet(Vector3 pos, Vector3 velocity) {
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>(bulletModel_.get());
 	newBullet->Initialize(pos, velocity);
 	bullets.push_back(std::move(newBullet));
+}
+
+void Enemy::OnCollision() {
+	if (enemyCollider->GetHitPlayerAttack()) {
+		hp.Damage(100);
+		enemyCollider->Reset();
+	}
 }
 
 void Enemy::CheckEnemyCollider() {

@@ -502,6 +502,9 @@
     <ClInclude Include="Tower.h">
       <Filter>ユーザーヘッダー ファイル\Tower</Filter>
     </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyManager.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -713,6 +716,9 @@
     </ClCompile>
     <ClCompile Include="Tower.cpp">
       <Filter>ユーザーソース ファイル\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyManager.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

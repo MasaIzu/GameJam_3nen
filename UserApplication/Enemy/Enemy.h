@@ -17,10 +17,13 @@ public://基本関数
 	Enemy();
 	~Enemy();
 
-	void Initialize(const Vector3& Pos, ViewProjection* viewProjection);
+	void Initialize(const Vector3& Pos);
 	void Update();
 	void Draw(ViewProjection& viewProjection_);
 	void DrawSprite();
+
+	void OnCollision();
+	bool IsDead() { return isDead; };
 
 	//パーティクルを出す用
 	void CSUpdate(ID3D12GraphicsCommandList* cmdList);

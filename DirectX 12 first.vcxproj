@@ -375,6 +375,7 @@
     <ClInclude Include="UserApplication\Enemy\Enemy.h" />
     <ClInclude Include="UserApplication\Enemy\EnemyBullet.h" />
     <ClInclude Include="UserApplication\Enemy\EnemyHp.h" />
+    <ClInclude Include="UserApplication\Enemy\EnemyManager.h" />
     <ClInclude Include="UserApplication\Player\PlayerEnergy.h" />
     <ClInclude Include="UserApplication\Player\PlayerHp.h" />
     <ClInclude Include="UserApplication\Player\PlayerShooting.h" />
@@ -445,6 +446,7 @@
     <ClCompile Include="UserApplication\Enemy\Enemy.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyBullet.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyHp.cpp" />
+    <ClCompile Include="UserApplication\Enemy\EnemyManager.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerEnergy.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerHp.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerShooting.cpp" />

@@ -35,7 +35,7 @@ void PlayerBullet::Update(){
 	if (liveTimer > liveLimit) {
 		isDead = true;
 	}
-	if (collider->GetSphereMeshHit()) {
+	if (collider->GetSphereMeshHit() || collider->GetHitEnemyBody()) {
 		isDead = true;
 	}
 
