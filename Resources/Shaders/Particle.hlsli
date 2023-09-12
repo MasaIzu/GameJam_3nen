@@ -7,7 +7,7 @@ struct ParticleCount
 
 struct MeshPos
 {
-    float4 pos : MeshPos;
+    float4 pos[3] : MeshPos;
 };
 
 cbuffer ShaderParameters : register(b0)

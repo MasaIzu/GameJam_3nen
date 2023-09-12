@@ -14,8 +14,7 @@
 #include "Matrix4.h"
 
 #include "Input.h"
-
-#include "Model.h"
+#include "MyStruct.h"
 
 /// <summary>
 /// 3Dオブジェクト
@@ -72,19 +71,15 @@ public: // サブクラス
 		Vector4 velocity;
 	};
 
-	struct MeshPos
-	{
-		Vector4 pos;
-	};
 
 	struct ShaderParameters {
 		Vector4 StartPos;
 		Matrix4 mat;	// 3D変換行列
 		Matrix4 matBillboard;//ビルボード行列
 		UINT maxParticleCount;
-		UINT verticeCount;
+		UINT MeshCount;
 		uint64_t pad;
-		MeshPos meshPos[1000];
+		MyStruct::Meshes meshPos[1000];
 	};
 	ShaderParameters shaderParameters;
 
@@ -204,7 +199,7 @@ public: // メンバ関数
 	//コンピュートシェーダー掛けた後のコピー処理
 	void CopyData();
 
-	void SetMeshPos(std::vector<Model::VertexPos> meshPos);
+	void SetMeshPos(std::vector<MyStruct::Meshes> meshPos);
 
 
 private: // メンバ変数

@@ -38,10 +38,11 @@ void MakeEffectScene::Initialize() {
 	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
 
 	model.reset(Model::CreateFromOBJ("ken", true));
+	//model1.reset(Model::CreateFromOBJ("Ground", true));
 
-	ParticleMan->SetMeshPos(model->GetMeshVertice());
+	ParticleMan->SetMeshPos(model->GetMeshData());
 
-	//ground = std::make_unique<Ground>(model.get());
+	//ground = std::make_unique<Ground>(model1.get());
 	//ground->Initialze();
 }
 
@@ -145,7 +146,7 @@ void MakeEffectScene::CSUpdate()
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
-	ParticleMan->CSUpdate(commandList,Vector4(0,5,0,0));
+	ParticleMan->CSUpdate(commandList,Vector4(0,0,0,0));
 
 }
 

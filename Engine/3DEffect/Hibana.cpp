@@ -613,11 +613,11 @@ void Hibana::CopyData()
 
 }
 
-void Hibana::SetMeshPos(std::vector<Model::VertexPos> meshPos)
+void Hibana::SetMeshPos(std::vector<MyStruct::Meshes> meshPos)
 {
 	for (size_t i = 0; i < meshPos.size(); i++) {
-		shaderParameters.meshPos[i].pos = MyMath::Vec3ToVec4(meshPos[i].pos);
+		shaderParameters.meshPos[i] = meshPos[i];
 	}
-	shaderParameters.verticeCount = static_cast<UINT>(meshPos.size());
+	shaderParameters.MeshCount = static_cast<UINT>(meshPos.size());
 }
 

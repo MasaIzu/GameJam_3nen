@@ -11,6 +11,7 @@ struct GpuParticleElement
     float elapsed;
     uint colorIndex;
     float4 velocity;
+    
 };
 
 
@@ -52,7 +53,7 @@ void main(uint3 id : SV_DispatchThreadID)
     }
 
   // 生き残っているパーティクルを動かす.
-    float3 velocity = gParticles[index].velocity.xyz;
+    //float3 velocity = gParticles[index].velocity.xyz;
     float3 position = gParticles[index].position.xyz;
 
     //float4 color = gParticles[index].color;
@@ -62,7 +63,7 @@ void main(uint3 id : SV_DispatchThreadID)
     //scale -= 0.1;
     
     float3 gravity = float3(0, -98.0, 0);
-    position += velocity;
+    //position += velocity;
     //velocity += gravity * dt;
 
     //if (position.y < 0)
@@ -111,23 +112,38 @@ void emitParticle(uint3 id : SV_DispatchThreadID)
     {
         return;
     }
-    uint index = gFreeIndexList.Consume();
-    float a = index;
-    
-    uint seed = id.x + index * 1235;
 
-    float3 velocity;
+    uint index;
+    index = Rand1(id.x, verticeCount, 0);
     
-    float r = nextRand(seed) * 50;
-    float theta = nextRand(seed) * 3.14192 * 2.0;
-    velocity.x = nextRand(seed) / 4;
-    velocity.z = nextRand(seed) / 4;
-    velocity.y = (nextRand(seed) / 4);
+    float3 Pos = float3(StartPos.xyz);
+    
+    float3 triangleVertices[3];
+    triangleVertices[0] = meshPos[index].pos[0].xyz;
+    triangleVertices[1] = meshPos[index].pos[1].xyz;
+    triangleVertices[2] = meshPos[index].pos[2].xyz;
+    
+    // 三角形の法線ベクトルを計算
+    float3 edge1 = triangleVertices[1] - triangleVertices[0];
+    float3 edge2 = triangleVertices[2] - triangleVertices[0];
+    float3 normal = normalize(cross(edge1, edge2));
 
+    // 三角形の面積を計算
+    float triangleArea = length(normal);
+
+    // ランダムな重みを生成
+    uint seed = id.x;
+    float randomWeight1 = nextRand1(seed);
+    float randomWeight2 = nextRand1(seed);
+
+    // ランダムなポイントを計算
+    float sqrtRandomWeight1 = sqrt(randomWeight1);
+    
+    float3 randomPoint = triangleVertices[0] + sqrtRandomWeight1 * (1.0f - randomWeight2) * edge1 + sqrtRandomWeight1 * randomWeight2 * edge2;
+    
     gParticles[id.x].isActive = 1;
-    gParticles[id.x].position.xyz = float3(StartPos.xyz);
+    gParticles[id.x].position.xyz = Pos + randomPoint;
     gParticles[id.x].scale = 0.1;
-    gParticles[id.x].velocity.xyz = velocity;
     gParticles[id.x].lifeTime = 1000;
     gParticles[id.x].color = float4(0.9, 0.01, 0.01, 1.0);
     //gParticles[index].colorIndex = floor(nextRand(seed) * 8) % 8;;

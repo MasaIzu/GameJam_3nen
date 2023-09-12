@@ -12,6 +12,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Matrix4.h"
+#include "MyStruct.h"
 
 /// <summary>
 /// モデルデータ
@@ -34,7 +35,6 @@ public:
 	struct VertexPos {
 		Vector3 pos;    // xyz
 	};
-
 
 private:
 	static const std::string kBaseDirectory;
@@ -107,7 +107,7 @@ public: // メンバ関数
 	void SetTextureHandle(uint32_t textureHandle) { modelTextureHandle = textureHandle; }
 
 	std::vector<VertexPos> GetMeshVertice() { return onlyTriangleVertices; }
-
+	std::vector<MyStruct::Meshes> GetMeshData() { return mesheData; }
 	std::string GetName();
 
 private: // メンバ変数
@@ -124,7 +124,7 @@ private: // メンバ変数
 
 	//頂点データ
 	std::vector<Mesh::VertexPosNormalUv>vertices;
-
+	std::vector<MyStruct::Meshes>mesheData;
 	std::vector<VertexPos>onlyTriangleVertices;
 
 	//頂点インデックス
