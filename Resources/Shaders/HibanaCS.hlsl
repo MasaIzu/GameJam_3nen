@@ -139,6 +139,8 @@ void emitParticle(uint3 id : SV_DispatchThreadID)
     // ランダムなポイントを計算
     float sqrtRandomWeight1 = sqrt(randomWeight1);
     
+    //float3 randomPoint = triangleVertices[0] + sqrtRandomWeight1 * (1.0f - randomWeight2) * edge1;//メッシュの線に沿って出る方。綺麗だから使うかも
+    
     float3 randomPoint = triangleVertices[0] + sqrtRandomWeight1 * (1.0f - randomWeight2) * edge1 + sqrtRandomWeight1 * randomWeight2 * edge2;
     
     gParticles[id.x].isActive = 1;
