@@ -17,13 +17,13 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::Initialize(const Vector3& Pos) {
+void Enemy::Initialize(const Vector3& Pos, Model* model,Model* BulletModel) {
 	input = Input::GetInstance();
 
 	enemyWorldTrans.Initialize();
 	enemyWorldTrans.translation_ = Pos;
-	model_.reset(Model::CreateFromOBJ("sphere", true));
-	bulletModel_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
+	model_ = model;
+	bulletModel_ = BulletModel;
 
 	// コリジョンマネージャに追加
 	Radius = 1.0f;
@@ -114,7 +114,7 @@ void Enemy::WorldTransUpdate() {
 }
 
 void Enemy::CreatBullet(Vector3 pos, Vector3 velocity) {
-	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>(bulletModel_.get());
+	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>(bulletModel_);
 	newBullet->Initialize(pos, velocity);
 	bullets.push_back(std::move(newBullet));
 }

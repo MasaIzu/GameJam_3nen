@@ -18,7 +18,7 @@ public://基本関数
 	Enemy();
 	~Enemy();
 
-	void Initialize(const Vector3& Pos);
+	void Initialize(const Vector3& Pos, Model* model,Model* BulletModel);
 	void Update();
 	void Draw(ViewProjection& viewProjection_);
 	void DrawSprite();
@@ -52,8 +52,8 @@ public://Getter
 
 private://クラス関連
 	Input* input = nullptr;
-	std::unique_ptr<Model> model_;
-	std::unique_ptr<Model> bulletModel_;
+	Model* model_;
+	Model* bulletModel_;
 	WorldTransform enemyWorldTrans;
 	BaseCollider* enemyCollider = nullptr;
 	EnemyHp hp;
