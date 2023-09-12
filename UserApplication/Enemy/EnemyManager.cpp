@@ -1,9 +1,9 @@
 #include"EnemyManager.h"
 
 void EnemyManager::Initialize() {
-	CreateEnemy({  10,7,15 });
-	CreateEnemy({   0,7,15 });
-	CreateEnemy({ -10,7,15 });
+	CreateEnemy({  10,7,50 });
+	CreateEnemy({   0,7,50 });
+	CreateEnemy({ -10,7,50 });
 }
 
 void EnemyManager::Update() {

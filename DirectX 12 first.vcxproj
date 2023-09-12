@@ -373,9 +373,12 @@
     <ClInclude Include="Engine\Math\SplinePosition.h" />
     <ClInclude Include="Tower.h" />
     <ClInclude Include="UserApplication\Enemy\Enemy.h" />
+    <ClInclude Include="UserApplication\Enemy\EnemyApproach.h" />
+    <ClInclude Include="UserApplication\Enemy\EnemyAttackTower.h" />
     <ClInclude Include="UserApplication\Enemy\EnemyBullet.h" />
     <ClInclude Include="UserApplication\Enemy\EnemyHp.h" />
     <ClInclude Include="UserApplication\Enemy\EnemyManager.h" />
+    <ClInclude Include="UserApplication\Enemy\EnemyState.h" />
     <ClInclude Include="UserApplication\Player\PlayerEnergy.h" />
     <ClInclude Include="UserApplication\Player\PlayerHp.h" />
     <ClInclude Include="UserApplication\Player\PlayerShooting.h" />
@@ -444,6 +447,8 @@
     <ClCompile Include="Engine\Math\SplinePosition.cpp" />
     <ClCompile Include="Tower.cpp" />
     <ClCompile Include="UserApplication\Enemy\Enemy.cpp" />
+    <ClCompile Include="UserApplication\Enemy\EnemyApproach.cpp" />
+    <ClCompile Include="UserApplication\Enemy\EnemyAttackTower.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyBullet.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyHp.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyManager.cpp" />
