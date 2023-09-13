@@ -59,6 +59,8 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	boostTimer = 0;
 	boostChangeTime = 15;
 
+	isMove = false;
+
 	isJump = false;
 	jumpSpeed = 2.6f;
 	jumpTimer = 0;
@@ -67,10 +69,20 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	ascendSpeed = 0.7f;
 	ascendCost = 5;
 
+
 	fallSpeed = -0.8f;
+
+	for (uint32_t i = 0; i < particleCount; i++) {
+		Particle[i] = std::make_unique<ParticleHandHanabi>();
+		int MaxParticleCount = 15000;
+		Particle[i]->Initialize(MaxParticleCount);
+		Particle[i]->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
+	}
+
 }
 
 void Player::Update() {
+	isMove = false;
 	playerOldPos = playerWorldTrans.translation_;
 	energy.Update(energyRecoveryAmount);
 	if (state_->CanMove()) {
@@ -98,7 +110,7 @@ void Player::Update() {
 
 
 	//test
-	fbxObj3d_->SetPosition(Vector3(0,0,0));
+	//fbxObj3d_->SetPosition(playerWorldTrans.translation_);
 	fbxObj3d_->SetRotate(Vector3(0, 0, 0));
 	fbxObj3d_->SetScale(Vector3(1, 1, 1));
 	//test
@@ -109,9 +121,9 @@ void Player::Update() {
 	CheckPlayerCollider();
 	WorldTransUpdate();
 
-	fbxObj3d_->wtf.translation_ = playerWorldTrans.translation_;
-	fbxObj3d_->wtf.rotation_ = playerWorldTrans.rotation_;
-	fbxObj3d_->wtf.scale_ = playerWorldTrans.scale_;
+	//fbxObj3d_->wtf.translation_ = playerWorldTrans.translation_;
+	//fbxObj3d_->wtf.rotation_ = playerWorldTrans.rotation_;
+	//fbxObj3d_->wtf.scale_ = playerWorldTrans.scale_;
 	fbxObj3d_->Update();
 
 	PlayerAnimation();
@@ -127,11 +139,10 @@ void Player::Update() {
 		isDead = true;
 	}
 
-	
+	uint32_t BoneNumber = 31;
 
-	swordColliderTrans.translation_.x = fbxObj3d_->GetBonesMatPtr()[0][31].m[3][0];
-	swordColliderTrans.translation_.y = fbxObj3d_->GetBonesMatPtr()[0][31].m[3][1];
-	swordColliderTrans.translation_.z = fbxObj3d_->GetBonesMatPtr()[0][31].m[3][2];
+	swordColliderTrans.translation_ = MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(BoneNumber) * playerWorldTrans.matWorld_);
+
 	swordColliderTrans.TransferMatrix();
 
 	ImGui::Begin("Player");
@@ -141,6 +152,25 @@ void Player::Update() {
 	ImGui::Text("cameraTarget:%f,%f,%f", cameraTargetPos.x, cameraTargetPos.y, cameraTargetPos.z);
 	ImGui::Text("target:%f,%f,%f", targetPos.x, targetPos.y, targetPos.z);
 	ImGui::End();
+
+	uint32_t kakatoRightBoneNumber = 7;
+	uint32_t kakatoLeftBoneNumber = 12;
+	uint32_t kataLeftBoneNumber = 50;
+	uint32_t kataRightBoneNumber = 52;
+
+	Vector4 kakatoLeft = MyMath::Vec3ToVec4(playerWorldTrans.LookVelocity.lookBack);
+	Vector4 kakatoRight = MyMath::Vec3ToVec4(playerWorldTrans.LookVelocity.lookBack);
+	Vector4 kataLeft = MyMath::Vec3ToVec4(playerWorldTrans.LookVelocity.lookBack_lookLeft);
+	Vector4 kataRight = MyMath::Vec3ToVec4(playerWorldTrans.LookVelocity.lookBack_lookRight);
+
+	Vector3 tyouseiLeft = playerWorldTrans.LookVelocity.lookBack_lookLeft + Vector3(0, 0.25f, 0);
+	Vector3 tyouseiRight = playerWorldTrans.LookVelocity.lookBack_lookRight + Vector3(0, 0.25f, 0);
+
+	Particle[0]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kakatoRightBoneNumber) * playerWorldTrans.matWorld_) - Vector3(0, 0.5, 0)),0,&kakatoLeft);
+	Particle[1]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kakatoLeftBoneNumber) * playerWorldTrans.matWorld_) - Vector3(0, 0.5, 0)),0,&kakatoLeft);
+	Particle[2]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kataLeftBoneNumber) * playerWorldTrans.matWorld_) + tyouseiRight),1, &kataRight);
+	Particle[3]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kataRightBoneNumber) * playerWorldTrans.matWorld_) + tyouseiLeft),1, &kataLeft);
+
 }
 
 
@@ -176,7 +206,9 @@ void Player::CSUpdate(ID3D12GraphicsCommandList* cmdList)
 
 void Player::ParticleDraw(ViewProjection& viewProjection_)
 {
-
+	for (uint32_t i = 0; i < particleCount; i++) {
+		Particle[i]->Draw(viewProjection_);
+	}
 }
 
 void Player::CopyParticle()
@@ -221,16 +253,20 @@ void Player::Move() {
 
 	//通常移動
 	if (input->PushKey(DIK_W)) {
+		isMove = true;
 		playerMoveMent += {sinf(cameraRot.x)* (straightSpeed* boost), 0, cosf(cameraRot.x)* (straightSpeed* boost)};
 	}
 	if (input->PushKey(DIK_S)) {
+		isMove = true;
 		playerMoveMent += {sinf(cameraRot.x + 3.14f)* (straightSpeed* boost), 0, cosf(cameraRot.x + 3.14f)* (straightSpeed* boost)};
 	}
 
 	if (input->PushKey(DIK_A)) {
+		isMove = true;
 		playerMoveMent += {sinf(cameraRot.x - 1.57f)* (straightSpeed* boost), 0, cosf(cameraRot.x - 1.57f)* (straightSpeed* boost)};
 	}
 	if (input->PushKey(DIK_D)) {
+		isMove = true;
 		playerMoveMent += {sinf(cameraRot.x + 1.57f)* (straightSpeed* boost), 0, cosf(cameraRot.x + 1.57f)* (straightSpeed* boost)};
 	}
 

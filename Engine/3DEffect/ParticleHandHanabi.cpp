@@ -488,6 +488,12 @@ void ParticleHandHanabi::Initialize(uint32_t ParticleCount)
 		IID_PPV_ARGS(&uploadBuffer)
 	);
 
+	time = 50;
+
+	UINT invokeCount = particleCount / 128 + 1;
+	MaxDispatchCount = invokeCount;
+	DispatchCounter = MaxDispatchCount / time;
+
 }
 
 void ParticleHandHanabi::Update()
@@ -544,66 +550,88 @@ void ParticleHandHanabi::Draw(const ViewProjection& view)
 
 }
 
-void ParticleHandHanabi::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
+void ParticleHandHanabi::CSUpdate(Vector4 StartPos, UINT Down, Vector4* Look)
 {
 
 	ID3D12DescriptorHeap* ppHeaps[] = { m_cbvSrvUavHeap.Get() };
-	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	DirectXCore::GetInstance()->GetCommandList()->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	if (time > 0) {
+		time--;
+		DispatchCount += 1;
+	}
+	else {
+		DispatchCount = 1;
+		time = 50;
+	}
 
 	//初期化
 	if (m_frameCount == 0) {
 		shaderParameters.maxParticleCount = particleCount;
 		shaderParameters.particleCount = 0;
 		shaderParameters.StartPos = StartPos;
+		shaderParameters.Down = Down;
 
 		MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);
 
 		CD3DX12_RESOURCE_BARRIER transitionBarrier[2];
 		transitionBarrier[0] = CD3DX12_RESOURCE_BARRIER::Transition(m_gpuParticleElement.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 		transitionBarrier[1] = CD3DX12_RESOURCE_BARRIER::Transition(m_gpuParticleIndexList.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-		cmdList->ResourceBarrier(2, transitionBarrier);
+		DirectXCore::GetInstance()->GetCommandList()->ResourceBarrier(2, transitionBarrier);
 
 		UINT frameDescriptorOffset = 3;
 		D3D12_GPU_DESCRIPTOR_HANDLE cbvSrvUavHandle = m_cbvSrvUavHeap->GetGPUDescriptorHandleForHeapStart();
 		// Particle の初期化コード.
-		cmdList->SetComputeRootSignature(rootSignature.Get());
+		DirectXCore::GetInstance()->GetCommandList()->SetComputeRootSignature(rootSignature.Get());
 
 
-		cmdList->SetComputeRootConstantBufferView(0, m_sceneParameterCB->GetGPUVirtualAddress());
-		cmdList->SetComputeRootUnorderedAccessView(1, m_gpuParticleElement->GetGPUVirtualAddress());
-		cmdList->SetComputeRootDescriptorTable(2, m_handleGpu);
-		cmdList->SetPipelineState(m_pipelines[PSO_CS_INIT].Get());
+		DirectXCore::GetInstance()->GetCommandList()->SetComputeRootConstantBufferView(0, m_sceneParameterCB->GetGPUVirtualAddress());
+		DirectXCore::GetInstance()->GetCommandList()->SetComputeRootUnorderedAccessView(1, m_gpuParticleElement->GetGPUVirtualAddress());
+		DirectXCore::GetInstance()->GetCommandList()->SetComputeRootDescriptorTable(2, m_handleGpu);
+		DirectXCore::GetInstance()->GetCommandList()->SetPipelineState(m_pipelines[PSO_CS_INIT].Get());
 
-		UINT invokeCount = particleCount / 32 + 1;
-		cmdList->Dispatch(invokeCount, 1, 1);
+		UINT invokeCount = particleCount / 128 + 1;
+		DirectXCore::GetInstance()->GetCommandList()->Dispatch(invokeCount, 1, 1);
 	}
 
 	{
+		shaderParameters.StartPos = StartPos;
+		if (Look) {
+			shaderParameters.Look = *Look;
+		}
+
+		MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);
 		// Particle の発生.
 		UINT frameDescriptorOffset = 3;
 		D3D12_GPU_DESCRIPTOR_HANDLE cbvSrvUavHandle = m_cbvSrvUavHeap->GetGPUDescriptorHandleForHeapStart();
 
-		cmdList->SetComputeRootSignature(rootSignature.Get());
-		cmdList->SetComputeRootConstantBufferView(0, m_sceneParameterCB->GetGPUVirtualAddress());
-		cmdList->SetComputeRootUnorderedAccessView(1, m_gpuParticleElement->GetGPUVirtualAddress());
-		cmdList->SetComputeRootDescriptorTable(2, m_handleGpu);
-		cmdList->SetPipelineState(m_pipelines[PSO_CS_EMIT].Get());
+		DirectXCore::GetInstance()->GetCommandList()->SetComputeRootSignature(rootSignature.Get());
+		DirectXCore::GetInstance()->GetCommandList()->SetComputeRootConstantBufferView(0, m_sceneParameterCB->GetGPUVirtualAddress());
+		DirectXCore::GetInstance()->GetCommandList()->SetComputeRootUnorderedAccessView(1, m_gpuParticleElement->GetGPUVirtualAddress());
+		DirectXCore::GetInstance()->GetCommandList()->SetComputeRootDescriptorTable(2, m_handleGpu);
+		DirectXCore::GetInstance()->GetCommandList()->SetPipelineState(m_pipelines[PSO_CS_EMIT].Get());
 
-		UINT invokeCount = particleCount / 32 + 1;
+		UINT invokeCount = particleCount / 128 + 1;
+		if (DispatchCount > invokeCount) {
+			DispatchCount = invokeCount;
+		}
+		if (DispatchCount <= 0) {
+			DispatchCount = 1;
+		}
 		{
-			cmdList->Dispatch(2, 1, 1);
+			DirectXCore::GetInstance()->GetCommandList()->Dispatch(DispatchCount, 1, 1);
 		}
 
 		CD3DX12_RESOURCE_BARRIER barriers[] = {
 		  CD3DX12_RESOURCE_BARRIER::UAV(m_gpuParticleElement.Get()),
 		  CD3DX12_RESOURCE_BARRIER::UAV(m_gpuParticleIndexList.Get()),
 		};
-		cmdList->ResourceBarrier(_countof(barriers), barriers);
+		DirectXCore::GetInstance()->GetCommandList()->ResourceBarrier(_countof(barriers), barriers);
 
 		// Particle の更新処理.
-		cmdList->SetPipelineState(m_pipelines[PSO_CS_UPDATE].Get());
-		cmdList->Dispatch(invokeCount, 1, 1);
-		cmdList->ResourceBarrier(_countof(barriers), barriers);
+		DirectXCore::GetInstance()->GetCommandList()->SetPipelineState(m_pipelines[PSO_CS_UPDATE].Get());
+		DirectXCore::GetInstance()->GetCommandList()->Dispatch(invokeCount, 1, 1);
+		DirectXCore::GetInstance()->GetCommandList()->ResourceBarrier(_countof(barriers), barriers);
 	}
 
 	++m_frameCount;

@@ -12,5 +12,11 @@ float4 main(GSOutput input) : SV_TARGET
 	//return tex.Sample(smp,input.uv)*input.color;
 //return float4(0, 0, 0, 0);w
 		//float4 texcolor = tex.Sample(smp, input.uv) * input.color;
-    return tex.Sample(smp, input.uv) * input.color;
+    float4 color = tex.Sample(smp, input.uv);
+	
+    //color.w = 0;
+	
+    color *= input.color;
+	
+    return color;
 }
