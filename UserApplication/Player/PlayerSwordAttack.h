@@ -23,8 +23,8 @@ public:
 	static int energyCost;
 
 private:
-	//BaseCollider* collider = nullptr;
-	//float Radius;
+	BaseCollider* collider = nullptr;
+	float Radius;
 
 	enum class Action {
 		Antic,
@@ -47,8 +47,7 @@ private:
 	//ˆÚ“®‹——£
 	float attackDistance;
 	float attackSpeed;
-	//Vector3 swordPos;
-	//WorldTransform collisionTransform;
+	Vector3 swordPos;
 
 	///ŒãŒ„
 	//ŽžŠÔ
