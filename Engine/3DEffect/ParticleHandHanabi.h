@@ -176,7 +176,7 @@ public: // メンバ関数
 	/// </summary>
 	void Update();
 
-	void CSUpdate(ID3D12GraphicsCommandList* cmdList ,Vector4 StartPos);
+	void CSUpdate(Vector4 StartPos);
 
 	/// <summary>
 	/// 描画
