@@ -17,7 +17,7 @@ struct GpuParticleElement
 RWStructuredBuffer<GpuParticleElement> gParticles : register(u0);
 AppendStructuredBuffer<uint> gDeadIndexList : register(u1);
 
-[numthreads(32, 1, 1)]
+[numthreads(128, 1, 1)]
 void initParticle(uint3 id : SV_DispatchThreadID)
 {
     if (id.x < MaxParticleCount)
@@ -29,7 +29,7 @@ void initParticle(uint3 id : SV_DispatchThreadID)
     }
 }
 
-[numthreads(32, 1, 1)]
+[numthreads(128, 1, 1)]
 void main(uint3 id : SV_DispatchThreadID)
 {
     uint index = id.x;
@@ -58,10 +58,10 @@ void main(uint3 id : SV_DispatchThreadID)
     float3 gravity = float3(0, -98.0, 0);
     position += velocity;
     float4 color = gParticles[index].color;
-    color.w -= 0.02;
+    color -= float4(0.02, 0.002, 0.002, 0.02);
     
     float scale = gParticles[index].scale;
-    scale += 0.02;
+    scale += 0.005;
     
     
     //velocity += gravity * dt;
@@ -103,32 +103,44 @@ void main(uint3 id : SV_DispatchThreadID)
 ConsumeStructuredBuffer<uint> gFreeIndexList : register(u1);
 
 
-[numthreads(32, 1, 1)]
+[numthreads(128, 1, 1)]
 void emitParticle(uint3 id : SV_DispatchThreadID)
 {
-    uint index = gFreeIndexList.Consume();
-    if (gParticles[index].isActive > 0)
+    if (gParticles[id.x].isActive > 0)
     {
         return;
     }
 
+    uint index = gFreeIndexList.Consume();
     float a = index;
     
-    uint seed = id.x + index * 1235;
+    uint seed = id.x * 1235;
 
     float3 velocity;
     
     float r = nextRand(seed) * 50;
     float theta = nextRand(seed) * 3.14192 * 2.0;
-    velocity.x = nextRand(seed) / 8;
-    velocity.z = nextRand(seed) / 16;
-    velocity.y = (nextRand1(seed) / 16) + 0.03;
+    
+    float3 Position = float3(0, 0, 0);
+    
+    if (Down == 1)
+    {
+        velocity.x = (nextRand(seed) / 16) + (Look.x / 8);
+        velocity.z = (nextRand(seed) / 16) + (Look.z / 8);
+        velocity.y = (nextRand1(seed) / 16) - 0.1;
+    }
+    else
+    {
+        velocity.x = nextRand(seed) / 16 + (Look.x / 16);
+        velocity.z = nextRand(seed) / 16 + (Look.z / 16);
+        velocity.y = (nextRand1(seed) / 16) + 0.001;
+    }
 
-    gParticles[index].isActive = 1;
-    gParticles[index].position.xyz = float3(StartPos.xyz);
-    gParticles[index].scale = 0.1f;
-    gParticles[index].velocity.xyz = velocity;
-    gParticles[index].lifeTime = 50;
-    gParticles[index].color = float4(0.8, 0.05, 0.05, 1);
+    gParticles[id.x].isActive = 1;
+    gParticles[id.x].position.xyz = float3(StartPos.xyz);
+    gParticles[id.x].scale = 0.1f;
+    gParticles[id.x].velocity.xyz = velocity;
+    gParticles[id.x].lifeTime = 50;
+    gParticles[id.x].color = float4(0.7, 0.05, 0.05, 1);
     //gParticles[index].colorIndex = floor(nextRand(seed) * 8) % 8;;
 }

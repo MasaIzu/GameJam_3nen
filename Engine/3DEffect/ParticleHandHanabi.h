@@ -73,6 +73,9 @@ public: // サブクラス
 		Matrix4 matBillboard;//ビルボード行列
 		UINT maxParticleCount;
 		UINT particleCount;
+		UINT Down;
+		UINT Pad;
+		Vector4 Look;
 	};
 	ShaderParameters shaderParameters;
 
@@ -176,7 +179,7 @@ public: // メンバ関数
 	/// </summary>
 	void Update();
 
-	void CSUpdate(Vector4 StartPos);
+	void CSUpdate(Vector4 StartPos, UINT Down, Vector4* Look = nullptr);
 
 	/// <summary>
 	/// 描画
@@ -227,5 +230,11 @@ private: // メンバ変数
 	UINT64 m_frameCount = 0;
 	static UINT m_cbvSrvUavDescriptorSize;
 
+	UINT time = 0;
+
 	uint32_t particleCount;
+
+	UINT DispatchCounter = 0;
+	UINT MaxDispatchCount = 0;
+	UINT DispatchCount = 0;
 };

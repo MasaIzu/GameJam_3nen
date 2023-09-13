@@ -59,6 +59,8 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	boostTimer = 0;
 	boostChangeTime = 15;
 
+	isMove = false;
+
 	isJump = false;
 	jumpSpeed = 0.6f;
 	jumpTimer = 0;
@@ -69,15 +71,18 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 
 	fallSpeed = -0.2f;
 
-	Particle = std::make_unique<ParticleHandHanabi>();
-	int MaxParticleCount = 5000;
-	Particle->Initialize(MaxParticleCount);
-	Particle->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
+	for (uint32_t i = 0; i < particleCount; i++) {
+		Particle[i] = std::make_unique<ParticleHandHanabi>();
+		int MaxParticleCount = 15000;
+		Particle[i]->Initialize(MaxParticleCount);
+		Particle[i]->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
+	}
 
 
 }
 
 void Player::Update() {
+	isMove = false;
 	playerOldPos = playerWorldTrans.translation_;
 	energy.Update(energyRecoveryAmount);
 	if (state_->CanMove()) {
@@ -148,7 +153,23 @@ void Player::Update() {
 	ImGui::Text("target:%f,%f,%f", targetPos.x, targetPos.y, targetPos.z);
 	ImGui::End();
 
-	Particle->CSUpdate(MyMath::Vec3ToVec4(playerWorldTrans.translation_));
+	uint32_t kakatoRightBoneNumber = 7;
+	uint32_t kakatoLeftBoneNumber = 12;
+	uint32_t kataLeftBoneNumber = 50;
+	uint32_t kataRightBoneNumber = 52;
+
+	Vector4 kakatoLeft = MyMath::Vec3ToVec4(playerWorldTrans.LookVelocity.lookBack);
+	Vector4 kakatoRight = MyMath::Vec3ToVec4(playerWorldTrans.LookVelocity.lookBack);
+	Vector4 kataLeft = MyMath::Vec3ToVec4(playerWorldTrans.LookVelocity.lookBack_lookLeft);
+	Vector4 kataRight = MyMath::Vec3ToVec4(playerWorldTrans.LookVelocity.lookBack_lookRight);
+
+	Vector3 tyouseiLeft = playerWorldTrans.LookVelocity.lookBack_lookLeft + Vector3(0, 0.25f, 0);
+	Vector3 tyouseiRight = playerWorldTrans.LookVelocity.lookBack_lookRight + Vector3(0, 0.25f, 0);
+
+	Particle[0]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kakatoRightBoneNumber) * playerWorldTrans.matWorld_) - Vector3(0, 0.5, 0)),0,&kakatoLeft);
+	Particle[1]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kakatoLeftBoneNumber) * playerWorldTrans.matWorld_) - Vector3(0, 0.5, 0)),0,&kakatoLeft);
+	Particle[2]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kataLeftBoneNumber) * playerWorldTrans.matWorld_) + tyouseiRight),1, &kataRight);
+	Particle[3]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kataRightBoneNumber) * playerWorldTrans.matWorld_) + tyouseiLeft),1, &kataLeft);
 
 }
 
@@ -185,7 +206,9 @@ void Player::CSUpdate(ID3D12GraphicsCommandList* cmdList)
 
 void Player::ParticleDraw(ViewProjection& viewProjection_)
 {
-	Particle->Draw(viewProjection_);
+	for (uint32_t i = 0; i < particleCount; i++) {
+		Particle[i]->Draw(viewProjection_);
+	}
 }
 
 void Player::CopyParticle()
@@ -230,16 +253,20 @@ void Player::Move() {
 
 	//通常移動
 	if (input->PushKey(DIK_W)) {
+		isMove = true;
 		playerMoveMent += {sinf(cameraRot.x)* (straightSpeed* boost), 0, cosf(cameraRot.x)* (straightSpeed* boost)};
 	}
 	if (input->PushKey(DIK_S)) {
+		isMove = true;
 		playerMoveMent += {sinf(cameraRot.x + 3.14f)* (straightSpeed* boost), 0, cosf(cameraRot.x + 3.14f)* (straightSpeed* boost)};
 	}
 
 	if (input->PushKey(DIK_A)) {
+		isMove = true;
 		playerMoveMent += {sinf(cameraRot.x - 1.57f)* (straightSpeed* boost), 0, cosf(cameraRot.x - 1.57f)* (straightSpeed* boost)};
 	}
 	if (input->PushKey(DIK_D)) {
+		isMove = true;
 		playerMoveMent += {sinf(cameraRot.x + 1.57f)* (straightSpeed* boost), 0, cosf(cameraRot.x + 1.57f)* (straightSpeed* boost)};
 	}
 

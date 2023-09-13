@@ -176,7 +176,7 @@ void GameScene::Draw() {
 	ground->Draw(*viewProjection_.get());
 	tower->Draw(*viewProjection_.get());
 	player_->Draw(*viewProjection_.get());
-	enemyManager_->Draw(*viewProjection_.get());
+	//enemyManager_->Draw(*viewProjection_.get());
 
 
 	//3Dオブジェクト描画後処理
