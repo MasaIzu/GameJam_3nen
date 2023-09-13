@@ -12,7 +12,7 @@ EnemyManager::~EnemyManager() {
 
 void EnemyManager::Initialize(const std::string& fileName) {
 	levelData = LoadFile(fileName);
-	model_.reset(Model::CreateFromOBJ("sphere", true));
+	model_.reset(Model::CreateFromOBJ("enemy1", true));
 	bulletModel_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
 }
 

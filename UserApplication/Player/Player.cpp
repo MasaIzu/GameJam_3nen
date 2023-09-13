@@ -144,13 +144,13 @@ void Player::Update() {
 
 	swordColliderTrans.TransferMatrix();
 
-	ImGui::Begin("Player");
+	/*ImGui::Begin("Player");
 	ImGui::Text("pos:%f,%f,%f", playerWorldTrans.translation_.x, playerWorldTrans.translation_.y, playerWorldTrans.translation_.z);
 	ImGui::Text("sowrdPos:%f,%f,%f", swordColliderTrans.translation_.x, swordColliderTrans.translation_.y, swordColliderTrans.translation_.z);
 	ImGui::Text("eye:%f,%f,%f", cameraPos.x, cameraPos.y, cameraPos.z);
 	ImGui::Text("cameraTarget:%f,%f,%f", cameraTargetPos.x, cameraTargetPos.y, cameraTargetPos.z);
 	ImGui::Text("target:%f,%f,%f", targetPos.x, targetPos.y, targetPos.z);
-	ImGui::End();
+	ImGui::End();*/
 
 	uint32_t kakatoRightBoneNumber = 7;
 	uint32_t kakatoLeftBoneNumber = 12;

@@ -89,4 +89,5 @@ private: // メンバ変数
 	std::unique_ptr<Ground> ground;
 	std::unique_ptr<Model> towerModel_;
 	std::unique_ptr<Tower> tower;
+	std::unique_ptr<Sprite> sprite_;
 };

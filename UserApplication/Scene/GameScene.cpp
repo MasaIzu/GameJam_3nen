@@ -61,6 +61,7 @@ void GameScene::Initialize() {
 
 	ground->Update();
 
+	sprite_ = Sprite::Create(TextureManager::Load("sprite/UI.png"));
 }
 
 void GameScene::Update() {
@@ -220,7 +221,7 @@ void GameScene::Draw() {
 
 #pragma region 前景スプライト描画
 	player_->DrawSprite();
-
+	sprite_->Draw({ 640,360 }, { 1,1,1,1 });
 
 #pragma endregion
 }

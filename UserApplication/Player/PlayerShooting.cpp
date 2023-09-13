@@ -53,10 +53,10 @@ void PlayerShooting::Update(Player* player, WorldTransform* worldTransform, Worl
 		Reload();
 	}
 
-	ImGui::Begin("shooting");
+	/*ImGui::Begin("shooting");
 	ImGui::Text("magazin : %d", magazine);
 	ImGui::Text("reload: % d", isReload);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void PlayerShooting::Reload() {
