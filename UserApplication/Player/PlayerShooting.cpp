@@ -19,12 +19,12 @@ void PlayerShooting::Initialize() {
 }
 
 void PlayerShooting::Update(Player* player, WorldTransform* worldTransform) {
-	//’Êíó‘Ô‚É–ß‚é
+	//é€šå¸¸çŠ¶æ…‹ã«æˆ»ã‚‹
 	if (input_->MouseOffTrigger(0)) {
 		player->TransitionTo(new PlayerNormal);
 	}
 	
-	//’e”­ŽË
+	//å¼¾ç™ºå°„
 	if (isReload == false) {
 		timer++;
 		if (timer > limit) {
@@ -47,7 +47,7 @@ void PlayerShooting::Update(Player* player, WorldTransform* worldTransform) {
 		}
 	}
 
-	//Žc’e0
+	//æ®‹å¼¾0
 	if (magazine <= 0) {
 		Reload();
 	}

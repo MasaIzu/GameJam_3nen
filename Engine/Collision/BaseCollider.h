@@ -30,8 +30,10 @@ public:
 
 	inline CollisionShapeType GetShapeType() { return shapeType; }
 	inline unsigned short GetAttribute() { return attribute; }
-	inline bool GetHit() { return isHitPlayerAttack; }
-	inline bool GetHitEnemyAttack() { return isHitEnemyAttack; };
+	inline bool GetHitPlayerAttack() { return isHitPlayerAttack; }
+	inline bool GetHitPlayerBody() { return isHitPlayerBody; }
+	inline bool GetHitEnemyAttack() { return isHitEnemyAttack; }
+	inline bool GetHitEnemyBody() { return isHitEnemyBody; }
 	inline bool GetHitEnemyEachOtherHit() { return isEnemyHittingEachOther; }
 	inline bool GetSphereMeshHit() { return isSphereMeshHit; }
 	inline bool GetFirstSplineHit() { return isHitFirstSplineRail; }
@@ -118,12 +120,14 @@ protected:
 	// 雑魚的当たり判定属性
 	unsigned short attributeWakeEnemy = 0b1111111111111111;
 
-	bool isHitPlayerAttack = false;//プレーヤーの弾が当たっている場合
+	bool isHitPlayerAttack = false;//プレーヤーの攻撃に当たっている
+	bool isHitPlayerBody = false;//プレイヤーに当たっている
+	bool isHitEnemyAttack = false;//敵の攻撃に当たっている
+	bool isHitEnemyBody = false;//敵に当たっている
 	bool isEnemyHittingEachOther = false;//敵同士が当たっている場合
-	bool isHitEnemyAttack = false;
-	bool isSphereMeshHit = false;
-	bool isHitFirstSplineRail = false;
-	bool isHitFinalSplineRail = false;
+	bool isSphereMeshHit = false;//メッシュと球が当たっている
+	bool isHitFirstSplineRail = false;//
+	bool isHitFinalSplineRail = false;//
 
 	Vector3 rejectVec;//排斥ベクトル
 	Vector4 inter;

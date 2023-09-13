@@ -481,6 +481,9 @@
     <ClInclude Include="Engine\3DEffect\Hibana.h">
       <Filter>Engine\ヘッダー\3DEffect</Filter>
     </ClInclude>
+    <ClInclude Include="MyStruct.h">
+      <Filter>Engine\ヘッダー\MyFunction</Filter>
+    </ClInclude>
     <ClInclude Include="UserApplication\Enemy\Enemy.h">
       <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
     </ClInclude>
@@ -501,6 +504,18 @@
     </ClInclude>
     <ClInclude Include="Tower.h">
       <Filter>ユーザーヘッダー ファイル\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyManager.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyState.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyApproach.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyAttackTower.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -713,6 +728,18 @@
     </ClCompile>
     <ClCompile Include="Tower.cpp">
       <Filter>ユーザーソース ファイル\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyManager.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyApproach.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyAttackTower.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyState.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
