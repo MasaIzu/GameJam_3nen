@@ -7,12 +7,12 @@
 #include "SceneManager.h"
 
 // タイトルシーン
-class TitleScene : public BaseScene
+class GameOverScene : public BaseScene
 {
 public: // メンバ関数
 
-	TitleScene() = default;
-	~TitleScene() = default;
+	GameOverScene() = default;
+	~GameOverScene() = default;
 
 	/// <summary>
 	/// 初期化
@@ -47,4 +47,3 @@ private:
 	SceneManager* sceneManager_ = nullptr;
 	std::unique_ptr<Sprite> sprite_ = nullptr;
 };
-

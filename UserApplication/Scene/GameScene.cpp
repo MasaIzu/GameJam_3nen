@@ -26,6 +26,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCore::GetInstance();
 	winApp_ = WinApp::GetInstance();
 	input_ = Input::GetInstance();
+	sceneManager_ = SceneManager::GetInstance();
 
 	FbxManager* fbxManager = FbxManager::Create();
 	viewProjection_ = std::make_unique<ViewProjection>();
@@ -53,7 +54,13 @@ void GameScene::Initialize() {
 	groundModel_.reset(Model::CreateFromOBJ("battleField", true));
 	ground = std::make_unique<Ground>(groundModel_.get());
 	ground->Initialze();
+
+
+	gameTimer = 0;
+	gameLimit = 18000;
+
 	ground->Update();
+
 }
 
 void GameScene::Update() {
@@ -115,6 +122,24 @@ void GameScene::Update() {
 	
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollisions();
+
+
+	////ゲームオーバー
+	if (tower->IsDead()) {
+		sceneManager_->ChangeScene("GAMEOVER");
+	}
+	if (player_->IsDead()) {
+		sceneManager_->ChangeScene("GAMEOVER");
+	}
+	//クリア
+	if (gameTimer > gameLimit) {
+		sceneManager_->ChangeScene("CLEAR");
+	}
+	if (enemyManager_->IsAllEnemyDead()) {
+		sceneManager_->ChangeScene("CLEAR");
+	}
+
+	gameTimer++;
 }
 
 void GameScene::PostEffectDraw()

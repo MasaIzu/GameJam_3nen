@@ -20,6 +20,7 @@ void Tower::Update() {
 	}
 
 	if (touchableObject->GetCollider()->GetHitEnemyAttack()) {
+
  		hp -= 3;
 		touchableObject->GetCollider()->Reset();
 	}

@@ -7,12 +7,12 @@
 #include "SceneManager.h"
 
 // タイトルシーン
-class TitleScene : public BaseScene
+class ClearScene : public BaseScene
 {
 public: // メンバ関数
 
-	TitleScene() = default;
-	~TitleScene() = default;
+	ClearScene() = default;
+	~ClearScene() = default;
 
 	/// <summary>
 	/// 初期化

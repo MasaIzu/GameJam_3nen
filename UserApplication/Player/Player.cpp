@@ -518,3 +518,9 @@ void Player::LockOn() {
 	PlayerState::SettargetPos(targetPos);
 }
 
+bool Player::IsDead() {
+	if (hp.IsLive()) {
+		return false;
+	}
+	return true;
+}
