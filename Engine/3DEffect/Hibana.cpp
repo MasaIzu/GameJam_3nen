@@ -563,7 +563,7 @@ void Hibana::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
 		cmdList->SetComputeRootDescriptorTable(2, m_handleGpu);
 		cmdList->SetPipelineState(m_pipelines[PSO_CS_INIT].Get());
 
-		UINT invokeCount = particleCount / 32 + 1;
+		UINT invokeCount = particleCount / 128 + 1;
 		cmdList->Dispatch(invokeCount, 1, 1);
 	}
 
@@ -578,9 +578,22 @@ void Hibana::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
 		cmdList->SetComputeRootDescriptorTable(2, m_handleGpu);
 		cmdList->SetPipelineState(m_pipelines[PSO_CS_EMIT].Get());
 
-		UINT invokeCount = particleCount / 32 + 1;
+		if (input_->PushKey(DIK_U)) {
+			DispatchCount++;
+		}
+		if (input_->PushKey(DIK_J)) {
+			DispatchCount--;
+		}
+
+		UINT invokeCount = particleCount / 128 + 1;
+		if (DispatchCount > invokeCount) {
+			DispatchCount = invokeCount;
+		}
+		if (DispatchCount <= 0) {
+			DispatchCount = 1;
+		}
 		{
-			if (input_->TriggerKey(DIK_SPACE)) {
+			if (input_->PushKey(DIK_SPACE)) {
 				cmdList->Dispatch(invokeCount, 1, 1);
 			}
 		}

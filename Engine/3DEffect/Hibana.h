@@ -237,4 +237,7 @@ private: // メンバ変数
 	static UINT m_cbvSrvUavDescriptorSize;
 
 	uint32_t particleCount;
+
+	UINT DispatchCount = 1;
+
 };

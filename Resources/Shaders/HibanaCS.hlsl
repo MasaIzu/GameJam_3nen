@@ -18,7 +18,7 @@ struct GpuParticleElement
 RWStructuredBuffer<GpuParticleElement> gParticles : register(u0);
 AppendStructuredBuffer<uint> gDeadIndexList : register(u1);
 
-[numthreads(32, 1, 1)]
+[numthreads(128, 1, 1)]
 void initParticle(uint3 id : SV_DispatchThreadID)
 {
     if (id.x < MaxParticleCount)
@@ -30,7 +30,7 @@ void initParticle(uint3 id : SV_DispatchThreadID)
     }
 }
 
-[numthreads(32, 1, 1)]
+[numthreads(128, 1, 1)]
 void main(uint3 id : SV_DispatchThreadID)
 {
     uint index = id.x;
@@ -104,7 +104,7 @@ void main(uint3 id : SV_DispatchThreadID)
 ConsumeStructuredBuffer<uint> gFreeIndexList : register(u1);
 
 
-[numthreads(32, 1, 1)]
+[numthreads(128, 1, 1)]
 void emitParticle(uint3 id : SV_DispatchThreadID)
 {
     

@@ -38,12 +38,12 @@ void MakeEffectScene::Initialize() {
 	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
 
 	model.reset(Model::CreateFromOBJ("ken", true));
-	//model1.reset(Model::CreateFromOBJ("Ground", true));
+	model1.reset(Model::CreateFromOBJ("Ground", true));
 
 	ParticleMan->SetMeshPos(model->GetMeshData());
 
-	//ground = std::make_unique<Ground>(model1.get());
-	//ground->Initialze();
+	ground = std::make_unique<Ground>(model1.get());
+	ground->Initialze();
 }
 
 void MakeEffectScene::Update() {
@@ -172,7 +172,7 @@ void MakeEffectScene::Draw() {
 
 	//// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
-	//ground->Draw(*viewProjection_);
+	ground->Draw(*viewProjection_);
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
 

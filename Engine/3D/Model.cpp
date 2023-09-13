@@ -401,7 +401,9 @@ void Model::LoadModel(const std::string& modelname, bool smoothing) {
 					vertex.pos = positions[indexPosition - 1];
 					vertex.normal = normals[indexNormal - 1];
 					vertex.uv = texcoords[indexTexcoord - 1];
-					meshes.meshPos[faceIndexCount] = MyMath::Vec3ToVec4(vertex.pos);
+					if (faceIndexCount <= 2) {
+						meshes.meshPos[faceIndexCount] = MyMath::Vec3ToVec4(vertex.pos);
+					}
 					mesh->AddVertex(vertex);
 					// エッジ平滑化用のデータを追加
 					if (smoothing) {
@@ -419,7 +421,9 @@ void Model::LoadModel(const std::string& modelname, bool smoothing) {
 						vertex.pos = positions[indexPosition - 1];
 						vertex.normal = { 0, 0, 1 };
 						vertex.uv = { 0, 0 };
-						meshes.meshPos[faceIndexCount] = MyMath::Vec3ToVec4(vertex.pos);
+						if (faceIndexCount <= 2) {
+							meshes.meshPos[faceIndexCount] = MyMath::Vec3ToVec4(vertex.pos);
+						}
 						mesh->AddVertex(vertex);
 					}
 					else {
@@ -432,7 +436,9 @@ void Model::LoadModel(const std::string& modelname, bool smoothing) {
 						vertex.pos = positions[indexPosition - 1];
 						vertex.normal = normals[indexNormal - 1];
 						vertex.uv = { 0, 0 };
-						meshes.meshPos[faceIndexCount] = MyMath::Vec3ToVec4(vertex.pos);
+						if (faceIndexCount <= 2) {
+							meshes.meshPos[faceIndexCount] = MyMath::Vec3ToVec4(vertex.pos);
+						}
 						mesh->AddVertex(vertex);
 						// エッジ平滑化用のデータを追加
 						if (smoothing) {
