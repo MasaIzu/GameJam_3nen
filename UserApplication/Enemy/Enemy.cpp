@@ -7,6 +7,8 @@
 //#include <FbxLoader.h>
 #include <SphereCollider.h>
 
+#include "EnemyApproach.h"
+
 Enemy::Enemy()
 {
 }
@@ -15,13 +17,13 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
+void Enemy::Initialize(const Vector3& Pos, Model* model,Model* BulletModel) {
 	input = Input::GetInstance();
 
 	enemyWorldTrans.Initialize();
 	enemyWorldTrans.translation_ = Pos;
-	model_.reset(Model::CreateFromOBJ("sphere", true));
-	bulletModel_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
+	model_ = model;
+	bulletModel_ = BulletModel;
 
 	// コリジョンマネージャに追加
 	Radius = 1.0f;
@@ -37,14 +39,10 @@ void Enemy::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	healNum = 3;
 	isDead = false;
 
-	straightSpeed = 0.6f;
-	diagonalSpeed = 0.7f;
-	isBoost = false;
-	QuickBoostCost = 200;
-	boostCost = 2;
-	boostTimer = 0;
-	boostChangeTime = 15;
+	state_ = new EnemyApproach;
+	state_->Initialize();
 
+	//ジャンプ
 	isJump = false;
 	jumpSpeed = 0.6f;
 	jumpTimer = 0;
@@ -58,15 +56,10 @@ void Enemy::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 
 void Enemy::Update() {
 	enemyOldPos = enemyWorldTrans.translation_;
-	Move();
-	Jump();
-	Fall();
 
-	if (input->TriggerKey(DIK_P)) {
-		CreatBullet(enemyWorldTrans.translation_, { 0,0,-1 });
-	}
+	state_->Update(this, &enemyWorldTrans);
 
-	//弾
+	//弾更新
 	bullets.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {return bullet->IsDead(); });
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets) {
 		bullet->Update();
@@ -75,10 +68,11 @@ void Enemy::Update() {
 	CheckEnemyCollider();
 	WorldTransUpdate();
 
+	OnCollision();
 	if (hp.IsLive() == false) {
 		isDead = true;
+		CollisionManager::GetInstance()->RemoveCollider(enemyCollider);
 	}
-
 }
 
 void Enemy::Draw(ViewProjection& viewProjection_) {
@@ -107,15 +101,6 @@ void Enemy::CopyParticle()
 
 }
 
-void Enemy::Move() {
-	
-
-}
-
-void Enemy::Jump() {
-
-}
-
 void Enemy::Fall() {
 	// 移動
 	enemyWorldTrans.translation_.y += fallSpeed;
@@ -129,9 +114,25 @@ void Enemy::WorldTransUpdate() {
 }
 
 void Enemy::CreatBullet(Vector3 pos, Vector3 velocity) {
-	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>(bulletModel_.get());
+	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>(bulletModel_);
 	newBullet->Initialize(pos, velocity);
 	bullets.push_back(std::move(newBullet));
+}
+
+//状態変更
+void Enemy::TransitionTo(EnemyState* state) {
+	//削除
+	delete state_;
+	//新規作成
+	state_ = state;
+	state_->Initialize();
+}
+
+void Enemy::OnCollision() {
+	if (enemyCollider->GetHitPlayerAttack()) {
+		hp.Damage(100);
+		enemyCollider->Reset();
+	}
 }
 
 void Enemy::CheckEnemyCollider() {

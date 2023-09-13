@@ -13,6 +13,7 @@
 #include "fbxsdk.h"
 #include"FBXObject3d.h"
 #include"FbxModel.h"
+#include"EnemyState.h"
 
 GameScene::GameScene() {}
 GameScene::~GameScene() {
@@ -39,16 +40,18 @@ void GameScene::Initialize() {
 	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
 	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), player_->GetPlayerPos());
 
-	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize(Vector3(0, 10, 20), viewProjection_.get());
+	towerModel_.reset(Model::CreateFromOBJ("Tower", true));
+	tower = std::make_unique<Tower>(towerModel_.get());
+	tower->Initialize();
+
+	EnemyState::SetTowerPos(tower->GetTowerPos());
+
+	enemyManager_ = std::make_unique<EnemyManager>();
+	enemyManager_->Initialize("enemyData");
  
 	groundModel_.reset(Model::CreateFromOBJ("Ground", true));
 	ground = std::make_unique<Ground>(groundModel_.get());
 	ground->Initialze();
-
-	towerModel_.reset(Model::CreateFromOBJ("Tower", true));
-	tower = std::make_unique<Tower>(towerModel_.get());
-	tower->Initialize();
 }
 
 void GameScene::Update() {
@@ -100,7 +103,7 @@ void GameScene::Update() {
 	player_->SetCameraRot(gameCamera->GetCameraAngle());
 	player_->Update();
 
-	enemy_->Update();
+	enemyManager_->Update();
 
 	gameCamera->SetPlayerPosition(player_->GetPlayerPos());
 	gameCamera->Update();
@@ -169,7 +172,7 @@ void GameScene::Draw() {
 	ground->Draw(*viewProjection_.get());
 	tower->Draw(*viewProjection_.get());
 	player_->Draw(*viewProjection_.get());
-	enemy_->Draw(*viewProjection_.get());
+	enemyManager_->Draw(*viewProjection_.get());
 
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
