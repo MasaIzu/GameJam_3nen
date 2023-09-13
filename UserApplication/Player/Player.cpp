@@ -89,7 +89,6 @@ void Player::Update() {
 		Move();
 		Jump();
 	}
-	state_->Update(this, &playerWorldTrans);
 	CheckPlayerCollider();
 	PlayerRot();
 	LockOn();
@@ -117,7 +116,7 @@ void Player::Update() {
 
 	PlayerSwordAttack::StaticUpdate();
 	PlayerShooting::StaticUpdate();
-	state_->Update(this, &playerWorldTrans);
+	state_->Update(this, &playerWorldTrans, &swordColliderTrans);
 	CheckPlayerCollider();
 	WorldTransUpdate();
 

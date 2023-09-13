@@ -31,13 +31,13 @@ void PlayerSwordAttack::Initialize() {
 	//UŒ‚”»’èƒoƒO‚Ì‰Â”\«‚ ‚è
 	swordPos = { -1,5,0 };
 
-	Radius = 1.0f;
+	Radius = 10.0f;
 	collider = new SphereCollider(Vector4(0, Radius, 0, 0), Radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
-	collider->SetAttribute(COLLISION_ATTR_ALLIES);
+	collider->SetAttribute(COLLISION_ATTR_ATTACK);
 }
 
-void PlayerSwordAttack::Update(Player* player, WorldTransform* worldTransform) {
+void PlayerSwordAttack::Update(Player* player, WorldTransform* worldTransform, WorldTransform* swordTrans) {
 	timer++;
 	Move(worldTransform);
 	switch (action) {
@@ -49,9 +49,7 @@ void PlayerSwordAttack::Update(Player* player, WorldTransform* worldTransform) {
 		}
 		break;
 	case Action::Attack://UŒ‚
-		/*collisionTransform.translation_ = swordPos * worldTransform->matWorld_;
-		collisionTransform.TransferMatrix();*/
-		collider->Update(worldTransform->matWorld_);
+		collider->Update(swordTrans->matWorld_);
 
 		if (timer > attackTime) {
 			timer = 0;

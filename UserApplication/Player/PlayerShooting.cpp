@@ -18,7 +18,7 @@ void PlayerShooting::Initialize() {
 	bulletSpeed = 2.0f;
 }
 
-void PlayerShooting::Update(Player* player, WorldTransform* worldTransform) {
+void PlayerShooting::Update(Player* player, WorldTransform* worldTransform, WorldTransform* swordTrans) {
 	//通常状態に戻る
 	if (input_->MouseOffTrigger(0)) {
 		player->TransitionTo(new PlayerNormal);

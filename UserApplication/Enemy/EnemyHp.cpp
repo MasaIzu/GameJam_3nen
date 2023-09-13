@@ -7,7 +7,7 @@ EnemyHp::~EnemyHp() {
 }
 
 void EnemyHp::Initialize() {
-	MaxHp = 1000;
+	MaxHp = 1;
 	hp = MaxHp;
 	isLive = true;
 }

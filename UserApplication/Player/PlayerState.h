@@ -7,7 +7,7 @@ class Player;
 class PlayerState {
 public:
 	virtual void Initialize();
-	virtual void Update(Player* player, WorldTransform* worldTransform) = 0;
+	virtual void Update(Player* player, WorldTransform* worldTransform, WorldTransform* swordTrans) = 0;
 
 	static void SettargetPos(Vector3 TargetPos) { targetPos = TargetPos; };
 	static void SetIsLockOn(bool IsLockOn) { isLockOn = IsLockOn; };
