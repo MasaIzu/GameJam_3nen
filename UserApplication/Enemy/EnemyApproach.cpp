@@ -9,7 +9,7 @@ void EnemyApproach::Initialize() {
 void EnemyApproach::Update(Enemy* enemy, WorldTransform* worldTransform) {
 	Move(worldTransform);
 
-	if (worldTransform->translation_.z <= 0) {
+	if (worldTransform->translation_.z <= towerPos.z + 30) {
 		enemy->TransitionTo(new EnemyAttackTower);
 	}
 }

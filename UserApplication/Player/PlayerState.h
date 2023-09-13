@@ -8,6 +8,7 @@ class PlayerState {
 public:
 	virtual void Initialize();
 	virtual void Update(Player* player, WorldTransform* worldTransform) = 0;
+	std::string GetStateName() { return stateName; };
 
 	static void SettargetPos(Vector3 TargetPos) { targetPos = TargetPos; };
 	static void SetIsLockOn(bool IsLockOn) { isLockOn = IsLockOn; };
@@ -20,4 +21,5 @@ protected:
 	bool canMove_;
 	static Vector3 targetPos;
 	static bool isLockOn;
+	std::string stateName;
 };

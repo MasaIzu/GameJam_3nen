@@ -35,6 +35,8 @@ void PlayerSwordAttack::Initialize() {
 	collider = new SphereCollider(Vector4(0, Radius, 0, 0), Radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
+
+	stateName = "SWORD";
 }
 
 void PlayerSwordAttack::Update(Player* player, WorldTransform* worldTransform) {
