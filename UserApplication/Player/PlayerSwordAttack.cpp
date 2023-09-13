@@ -14,53 +14,50 @@ void PlayerSwordAttack::Initialize() {
 	canMove_ = false;
 	action = Action::Antic;
 
-	///—\”õ“®ì
+	///äºˆå‚™å‹•ä½œ
 	anticTime = 15;
 	anticDistance = 7.0f;
 	anticSpeed = anticDistance / static_cast<float>(anticTime);
 
-	///UŒ‚
+	///æ”»æ’ƒ
 	attackTime = 10;
 	attackDistance = 3.0f;
 	attackSpeed = attackDistance / static_cast<float>(attackTime);
 
-	///ŒãŒ„
+	///å¾Œéš™
 	afterTime = 0;
 
-	//“–‚½‚è”»’è
-	//UŒ‚”»’èƒoƒO‚Ì‰Â”\«‚ ‚è
+	//å½“ãŸã‚Šåˆ¤å®š
+	//æ”»æ’ƒåˆ¤å®šãƒã‚°ã®å¯èƒ½æ€§ã‚ã‚Š
 	swordPos = { -1,5,0 };
 
-	Radius = 1.0f;
+	Radius = 10.0f;
 	collider = new SphereCollider(Vector4(0, Radius, 0, 0), Radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
-	collider->SetAttribute(COLLISION_ATTR_ALLIES);
-
 	stateName = "SWORD";
+	collider->SetAttribute(COLLISION_ATTR_ATTACK);
 }
 
-void PlayerSwordAttack::Update(Player* player, WorldTransform* worldTransform) {
+void PlayerSwordAttack::Update(Player* player, WorldTransform* worldTransform, WorldTransform* swordTrans) {
 	timer++;
 	Move(worldTransform);
 	switch (action) {
-	case Action::Antic://—\”õ“®ì
+	case Action::Antic://äºˆå‚™å‹•ä½œ
 		if (timer > anticTime) {
 			timer = 0;
 			collider->Reset();
 			action = Action::Attack;
 		}
 		break;
-	case Action::Attack://UŒ‚
-		/*collisionTransform.translation_ = swordPos * worldTransform->matWorld_;
-		collisionTransform.TransferMatrix();*/
-		collider->Update(worldTransform->matWorld_);
+	case Action::Attack://æ”»æ’ƒ
+		collider->Update(swordTrans->matWorld_);
 
 		if (timer > attackTime) {
 			timer = 0;
 			action = Action::After;
 		}
 		break;
-	case Action::After://ŒãŒ„
+	case Action::After://å¾Œéš™
 		if (timer > afterTime) {
 			isOverheat = true;
 			overheatTimer = 0;
@@ -75,13 +72,13 @@ void PlayerSwordAttack::Move(WorldTransform* worldTransform) {
 	Vector3 moveVec = targetPos - worldTransform->translation_;
 	moveVec.normalize();
 	switch (action) {
-	case Action::Antic://—\”õ“®ì
+	case Action::Antic://äºˆå‚™å‹•ä½œ
 		worldTransform->translation_ += moveVec * anticSpeed;
 		break;
-	case Action::Attack://UŒ‚
+	case Action::Attack://æ”»æ’ƒ
 		worldTransform->translation_ += moveVec * attackSpeed;
 		break;
-	case Action::After://ŒãŒ„
+	case Action::After://å¾Œéš™
 
 		break;
 	}

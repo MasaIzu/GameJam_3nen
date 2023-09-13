@@ -10,7 +10,7 @@ void PlayerNormal::Initialize() {
 	stateName = "NORMAL";
 }
 
-void PlayerNormal::Update(Player* player, WorldTransform* worldTransform) {
+void PlayerNormal::Update(Player* player, WorldTransform* worldTransform, WorldTransform* swordTrans) {
 	//斬撃
 	if (input_->MouseInputTrigger(1)) {
 		if (PlayerSwordAttack::CanSwordAttack()) {//武器のクールタイムチェック
