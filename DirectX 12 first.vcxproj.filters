@@ -154,6 +154,12 @@
     <Filter Include="Engine\ヘッダー\3DEffect">
       <UniqueIdentifier>{ac3d55b8-a2e2-43d4-a9bd-7feb8d6916d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ユーザーヘッダー ファイル\Tower">
+      <UniqueIdentifier>{21f6f70a-452c-4d81-a4a8-0611718559df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ユーザーソース ファイル\Tower">
+      <UniqueIdentifier>{f10fe2cf-c6e5-4c06-b5dc-b51840293728}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Obj.hlsli">
@@ -475,6 +481,9 @@
     <ClInclude Include="Engine\3DEffect\Hibana.h">
       <Filter>Engine\ヘッダー\3DEffect</Filter>
     </ClInclude>
+    <ClInclude Include="MyStruct.h">
+      <Filter>Engine\ヘッダー\MyFunction</Filter>
+    </ClInclude>
     <ClInclude Include="UserApplication\Enemy\Enemy.h">
       <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
     </ClInclude>
@@ -492,6 +501,21 @@
     </ClInclude>
     <ClInclude Include="Engine\3D\FBXObject3d.h">
       <Filter>Engine\ヘッダー\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Tower.h">
+      <Filter>ユーザーヘッダー ファイル\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyManager.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyState.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyApproach.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Enemy\EnemyAttackTower.h">
+      <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -701,6 +725,21 @@
     </ClCompile>
     <ClCompile Include="Engine\3D\FBXObject3d.cpp">
       <Filter>Engine\ソース ファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Tower.cpp">
+      <Filter>ユーザーソース ファイル\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyManager.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyApproach.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyAttackTower.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Enemy\EnemyState.cpp">
+      <Filter>ユーザーソース ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

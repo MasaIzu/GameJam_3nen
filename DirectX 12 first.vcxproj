@@ -371,9 +371,14 @@
     <ClInclude Include="Engine\LevelEditor\LoadLevelEditor.h" />
     <ClInclude Include="Engine\2D\MixPostEffect.h" />
     <ClInclude Include="Engine\Math\SplinePosition.h" />
+    <ClInclude Include="Tower.h" />
     <ClInclude Include="UserApplication\Enemy\Enemy.h" />
+    <ClInclude Include="UserApplication\Enemy\EnemyApproach.h" />
+    <ClInclude Include="UserApplication\Enemy\EnemyAttackTower.h" />
     <ClInclude Include="UserApplication\Enemy\EnemyBullet.h" />
     <ClInclude Include="UserApplication\Enemy\EnemyHp.h" />
+    <ClInclude Include="UserApplication\Enemy\EnemyManager.h" />
+    <ClInclude Include="UserApplication\Enemy\EnemyState.h" />
     <ClInclude Include="UserApplication\Player\PlayerEnergy.h" />
     <ClInclude Include="UserApplication\Player\PlayerHp.h" />
     <ClInclude Include="UserApplication\Player\PlayerShooting.h" />
@@ -381,6 +386,7 @@
     <ClInclude Include="UserApplication\Player\PlayerNormal.h" />
     <ClInclude Include="UserApplication\Player\PlayerSwordAttack.h" />
     <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="MyStruct.h" />
     <ClInclude Include="UserApplication\UserCamera\GameCamera.h" />
     <ClInclude Include="UserApplication\Player\PlayerBullet.h" />
     <ClInclude Include="Engine\2D\PostEffect.h" />
@@ -440,9 +446,14 @@
     <ClCompile Include="Engine\LevelEditor\LoadLevelEditor.cpp" />
     <ClCompile Include="Engine\2D\MixPostEffect.cpp" />
     <ClCompile Include="Engine\Math\SplinePosition.cpp" />
+    <ClCompile Include="Tower.cpp" />
     <ClCompile Include="UserApplication\Enemy\Enemy.cpp" />
+    <ClCompile Include="UserApplication\Enemy\EnemyApproach.cpp" />
+    <ClCompile Include="UserApplication\Enemy\EnemyAttackTower.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyBullet.cpp" />
     <ClCompile Include="UserApplication\Enemy\EnemyHp.cpp" />
+    <ClCompile Include="UserApplication\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="UserApplication\Enemy\EnemyState.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerEnergy.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerHp.cpp" />
     <ClCompile Include="UserApplication\Player\PlayerShooting.cpp" />

@@ -18,7 +18,7 @@
 
 class Player {
 
-public://Šî–{ŠÖ”
+public://åŸºæœ¬é–¢æ•°
 	Player();
 	~Player();
 
@@ -27,41 +27,48 @@ public://Šî–{ŠÖ”
 	void Draw(const ViewProjection& viewProjection);
 	void DrawSprite();
 
-	//ó‘ÔˆÚs
+	//çŠ¶æ…‹ç§»è¡Œ
 	void TransitionTo(PlayerState* state);
-	//ƒGƒlƒ‹ƒM[
+	//ã‚¨ãƒãƒ«ã‚®ãƒ¼
 	bool UseEnergy(int cost) { return energy.Use(cost); };
 
-	//ƒp[ƒeƒBƒNƒ‹‚ğo‚·—p
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’å‡ºã™ç”¨
 	void CSUpdate(ID3D12GraphicsCommandList* cmdList);
 	void ParticleDraw(ViewProjection& viewProjection_);
 	void CopyParticle();
 
-	//’e¶¬
+	//å¼¾ç”Ÿæˆ
 	void CreatBullet(Vector3 pos, Vector3 velocity);
 private:
-	//ƒvƒŒ[ƒ„[‚ÌˆÚ“®
+	//ãƒ—ãƒ¬ãƒ¼ãƒ¤ãƒ¼ã®ç§»å‹•
 	void Move();
-	//ƒvƒŒƒCƒ„[‚ÌƒWƒƒƒ“ƒv
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¸ãƒ£ãƒ³ãƒ—
 	void Jump();
-	//—‰º
+	//è½ä¸‹
 	void Fall();
-	//ƒvƒŒƒCƒ„[‚Ì‰ñ“]
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å›è»¢
 	void PlayerRot();
-	//ƒvƒŒ[ƒ„[‚ÌˆÚ“®‚Ì’lXV
+	//ãƒ—ãƒ¬ãƒ¼ãƒ¤ãƒ¼ã®ç§»å‹•ã®å€¤æ›´æ–°
 	void WorldTransUpdate();
-	// ƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’è
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®š
 	void CheckPlayerCollider();
-	// ƒvƒŒƒCƒ„[ƒAƒjƒ[ƒVƒ‡ƒ“
+
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 	void PlayerAnimation();
+
+	//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ­ãƒƒã‚¯
+	void LockOn();
+
 
 public://Setter
 	void SetCameraRot(const Vector2& CameraRot) { cameraRot = CameraRot; }
-	
+	void SetCameraPos(Vector3 CameraPos) { cameraPos = CameraPos; };
+	void SetCameraTargetPos(Vector3 CameraTargetPos) { cameraTargetPos = CameraTargetPos; };
+
 public://Getter
 	Vector3 GetPlayerPos()const { return MyMath::GetWorldTransform(playerWorldTrans.matWorld_); }
 
-private://ƒNƒ‰ƒXŠÖ˜A
+private://ã‚¯ãƒ©ã‚¹é–¢é€£
 	Input* input = nullptr;
 	std::unique_ptr<Model> model_;
 	std::unique_ptr<Model> bulletModel_;
@@ -73,18 +80,20 @@ private://ƒNƒ‰ƒXŠÖ˜A
 	PlayerEnergy energy;
 	PlayerHp hp;
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
-	// ƒRƒ‰ƒCƒ_[
-private://ƒC[ƒiƒ€ƒNƒ‰ƒX
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+private://ã‚¤ãƒ¼ãƒŠãƒ ã‚¯ãƒ©ã‚¹
 
-private://•ÊƒNƒ‰ƒX‚©‚ç’l‚ğ‚à‚ç‚¤
+private://åˆ¥ã‚¯ãƒ©ã‚¹ã‹ã‚‰å€¤ã‚’ã‚‚ã‚‰ã†
 	Vector2 cameraRot;
+	Vector3 cameraPos;
+	Vector3 cameraTargetPos;
 
-private://ƒvƒŒƒCƒ„[ƒNƒ‰ƒX•Ï”
+private://ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¯ãƒ©ã‚¹å¤‰æ•°
 	bool isDead;
 	float Radius;
 	float coliisionHeight;
 	bool onGround;
-	//ˆÚ“®
+	//ç§»å‹•
 	Vector3 playerOldPos;
 	float straightSpeed;
 	float diagonalSpeed;
@@ -94,7 +103,7 @@ private://ƒvƒŒƒCƒ„[ƒNƒ‰ƒX•Ï”
 	int boostTimer;
 	int boostChangeTime;
 
-	//ƒWƒƒƒ“ƒv
+	//ã‚¸ãƒ£ãƒ³ãƒ—
 	bool isJump;
 	float jumpSpeed;
 	int jumpTimer;
@@ -102,20 +111,22 @@ private://ƒvƒŒƒCƒ„[ƒNƒ‰ƒX•Ï”
 	float ascendSpeed;
 	int ascendCost;
 
-	//—‰º
+	//è½ä¸‹
 	float fallSpeed;
 
-	//ƒGƒlƒ‹ƒM[
+	//ã‚¨ãƒãƒ«ã‚®ãƒ¼
 	int energyRecoveryAmount;
 
 	//hp
 	int healAmount;
 	int healNum;
 
-	//ƒAƒjƒ[ƒVƒ‡ƒ“—p•Ï”
-	int nowAnmFCount_;	//ƒtƒŒ[ƒ€ƒJƒEƒ“ƒg
-	int nowAnmNum_;	//ƒAƒjƒ[ƒVƒ‡ƒ“‰½”Ô‚©
-	int oldAnmNum_;	//ª‘OƒtƒŒ[ƒ€
-	bool isAnim_;	//ŒJ‚è•Ô‚µˆ—‚©
 
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨å¤‰æ•°
+	int nowAnmFCount_;	//ãƒ•ãƒ¬ãƒ¼ãƒ ã‚«ã‚¦ãƒ³ãƒˆ
+	int nowAnmNum_;	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ä½•ç•ªã‹
+	int oldAnmNum_;	//â†‘å‰ãƒ•ãƒ¬ãƒ¼ãƒ 
+	bool isAnim_;	//ç¹°ã‚Šè¿”ã—å‡¦ç†ã‹
+
+	Vector3 targetPos = { 0,0,0 };
 };

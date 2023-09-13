@@ -1,5 +1,4 @@
 #include "TouchableObject.h"
-#include "MeshCollider.h"
 #include "CollisionAttribute.h"
 #include <CollisionManager.h>
 
@@ -24,7 +23,7 @@ bool TouchableObject::Initialize(Model* model, WorldTransform& worldTrans, unsig
 {
 
 	// コライダーの追加
-	MeshCollider* collider = new MeshCollider();
+	collider = new MeshCollider();
 	// コリジョンマネージャに追加
 	collider->ConstructTriangles(model, worldTrans.matWorld_);
 	collider->SetAttribute(attribute);

@@ -53,45 +53,28 @@ void CollisionManager::CheckAllCollisions()
 					}
 				}
 				else if (colA->attribute == COLLISION_ATTR_ATTACK && colB->attribute == COLLISION_ATTR_ENEMYS) {
-					if (Collision::CheckSphere2SphereFastSpeedVer(*SphereA, *SphereB, *SphereA, 0)) {
-						HitWorldPos = colA->GetWorldPos();
-						colA->isHitPlayerAttack = true;
-						colB->isHitPlayerAttack = true;
-						//isAttackHit = true;
-					}
-				}
-				else if (colA->attribute == COLLISION_ATTR_ENEMYS && colB->attribute == COLLISION_ATTR_ATTACK) {
-					if (Collision::CheckSphere2SphereFastSpeedVer(*SphereA, *SphereB, *SphereB, 1)) {
-						HitWorldPos = colB->GetWorldPos();
-						colA->isHitPlayerAttack = true;
-						colB->isHitPlayerAttack = true;
-						//isAttackHit = true;
-					}
-				}
-				//else if (colA->attribute == COLLISION_ATTR_ENEMYBULLETATTACK && colB->attribute == COLLISION_ATTR_ALLIES) {
-				//	if (Collision::CheckSphere2SphereFastSpeedVer(*SphereA, *SphereB, *SphereA, 0)) {
-				//		HitWorldPos = colA->GetWorldPos();
-				//		colA->isHitEnemyAttack = true;
-				//		colB->isHitEnemyAttack = true;
-				//		//isAttackHit = true;
-				//	}
-				//}
-				//else if (colA->attribute == COLLISION_ATTR_ALLIES && colB->attribute == COLLISION_ATTR_ENEMYBULLETATTACK) {
-				//	if (Collision::CheckSphere2SphereFastSpeedVer(*SphereA, *SphereB, *SphereB, 1)) {
-				//		HitWorldPos = colB->GetWorldPos();
-				//		colA->isHitEnemyAttack = true;
-				//		colB->isHitEnemyAttack = true;
-				//		//isAttackHit = true;
-				//	}
-				//}
-				else if (colA->attribute == COLLISION_ATTR_ENEMYBULLETATTACK && colB->attribute == COLLISION_ATTR_ALLIES ||
-					colA->attribute == COLLISION_ATTR_ALLIES && colB->attribute == COLLISION_ATTR_ENEMYBULLETATTACK) {
 
 					if (Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter)) {
 						HitWorldPos = colB->GetWorldPos();
+						colA->isHitEnemyBody = true;
+						colB->isHitPlayerAttack = true;
+					}
+				}
+				else if (colA->attribute == COLLISION_ATTR_ENEMYS && colB->attribute == COLLISION_ATTR_ATTACK) {
+					if (Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter)) {
+						HitWorldPos = colB->GetWorldPos();
+						colA->isHitPlayerAttack = true;
+						colB->isHitEnemyBody = true;
+					}
+				}
+				else if (colA->attribute == COLLISION_ATTR_ENEMYBULLETATTACK && colB->attribute == COLLISION_ATTR_ALLIES ||
+						 colA->attribute == COLLISION_ATTR_ALLIES && colB->attribute == COLLISION_ATTR_ENEMYBULLETATTACK) {
+
+						if (Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter)) {
+						HitWorldPos = colB->GetWorldPos();
 						colA->isHitEnemyAttack = true;
 						colB->isHitEnemyAttack = true;
-					}
+						}
 				}
 
 				if (Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter)) {
@@ -105,11 +88,13 @@ void CollisionManager::CheckAllCollisions()
 				if (colA->attribute == COLLISION_ATTR_LANDSHAPE && colB->attribute == COLLISION_ATTR_ATTACK) {
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
 						colB->isSphereMeshHit = true;
+						colA->isHitPlayerAttack = true;
 					}
 				}
 				else if (colA->attribute == COLLISION_ATTR_LANDSHAPE && colB->attribute == COLLISION_ATTR_ENEMYBULLETATTACK) {
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
 						colB->isSphereMeshHit = true;
+						colA->isHitEnemyAttack = true;
 					}
 				}
 				else if (colA->attribute == COLLISION_ATTR_OBJECT && colB->attribute == COLLISION_ATTR_ATTACK) {
@@ -140,11 +125,13 @@ void CollisionManager::CheckAllCollisions()
 				if (colA->attribute == COLLISION_ATTR_ATTACK && colB->attribute == COLLISION_ATTR_LANDSHAPE) {
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
 						colA->isSphereMeshHit = true;
+						colB->isHitPlayerAttack = true;
 					}
 				}
 				else if (colA->attribute == COLLISION_ATTR_ENEMYBULLETATTACK && colB->attribute == COLLISION_ATTR_LANDSHAPE) {
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
 						colA->isSphereMeshHit = true;
+						colB->isHitEnemyAttack = true;
 					}
 				}
 				else if (colA->attribute == COLLISION_ATTR_ATTACK && colB->attribute == COLLISION_ATTR_OBJECT) {

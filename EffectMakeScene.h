@@ -71,6 +71,7 @@ private: // ƒƒ“ƒo•Ï”
 	std::unique_ptr<GameCamera> gameCamera;
 	std::unique_ptr<Ground> ground;
 	std::unique_ptr<Model> model;
+	std::unique_ptr<Model> model1;
 
 	int shadeNumber = 3;
 	int range = 0;//‚Ú‚©‚µ‹­“x
