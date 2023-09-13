@@ -19,7 +19,7 @@ public://基本関数
 
 	void Initialize(Vector3 pos, Vector3 velocity);
 	void Update();
-	void Draw(ViewProjection& viewProjection_);
+	void Draw(const ViewProjection& viewProjection_);
 
 	bool IsDead() { return isDead; };
 	

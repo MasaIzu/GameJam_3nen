@@ -1,4 +1,4 @@
-#include "Player.h"
+﻿#include "Player.h"
 #include "WinApp.h"
 #include"MyMath.h"
 #include "CollisionManager.h"
@@ -133,12 +133,15 @@ void Player::Update() {
 
 
 void Player::Draw(const ViewProjection& viewProjection){
-	/*model_->Draw(playerWorldTrans, viewProjection_);*/
-	fbxObj3d_->Draw(playerWorldTrans, viewProjection);
-	//for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-	//	bullet->Draw(viewProjection_);
-	//}
+	//model_->Draw(playerWorldTrans, viewProjection);
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+		bullet->Draw(viewProjection);
+	}
 
+}
+
+void Player::FbxDraw(const ViewProjection& viewProjection) {
+	fbxObj3d_->Draw(playerWorldTrans, viewProjection);
 }
 
 //状態変更

@@ -49,6 +49,6 @@ void PlayerBullet::Update(){
 	collider->Update(worldTrans.matWorld_);
 }
 
-void PlayerBullet::Draw(ViewProjection& viewProjection_){
+void PlayerBullet::Draw(const ViewProjection& viewProjection_){
 	model_->Draw(worldTrans, viewProjection_);
 }

@@ -179,7 +179,7 @@ void GameScene::Draw() {
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
 
-	player_->Draw(*viewProjection_.get());
+	player_->FbxDraw(*viewProjection_.get());
 
 	ParticleManager::PreDraw(commandList);
 	

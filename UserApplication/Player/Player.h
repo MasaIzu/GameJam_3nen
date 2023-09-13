@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "WorldTransform.h"
 #include "Model.h"
 #include <assert.h>
@@ -25,6 +25,7 @@ public://基本関数
 	void Initialize(const Vector3& Pos, ViewProjection* viewProjection);
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
+	void FbxDraw(const ViewProjection& viewProjection);
 	void DrawSprite();
 
 	//状態移行
