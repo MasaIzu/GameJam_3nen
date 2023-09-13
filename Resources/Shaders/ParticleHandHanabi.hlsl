@@ -4,13 +4,13 @@
 struct GpuParticleElement
 {
     float4 position;
-    float scale;
     float4 color;
+    float scale;
     uint isActive; // 生存フラグ.
     float lifeTime;
-    float elapsed;
-    uint colorIndex;
+    uint pad;
     float4 velocity;
+    float4 keepPosition;
 };
 
 
@@ -53,50 +53,26 @@ void main(uint3 id : SV_DispatchThreadID)
 
   // 生き残っているパーティクルを動かす.
     float3 velocity = gParticles[index].velocity.xyz;
-    float3 position = gParticles[index].position.xyz;
-
-    float3 gravity = float3(0, -98.0, 0);
+    float3 position = gParticles[index].position.xyz + PlayerPos.xyz;
+    float3 KeepPos;
+    
     position += velocity;
+    
+    KeepPos = position;
+    
     float4 color = gParticles[index].color;
     color -= float4(0.02, 0.002, 0.002, 0.02);
     
     float scale = gParticles[index].scale;
     scale += 0.005;
     
-    
-    //velocity += gravity * dt;
-
-    //if (position.y < 0)
-    //{
-    //    velocity.y *= -1;
-    //    velocity *= 0.6;
-    //    position.y = 0;
-
-    //    if (length(velocity) < 0.001)
-    //    {
-    //        velocity = 0;
-    //    }
-    //}
-#if 0
-  // フォースの処理.
-  float3 center = forceCenter1.xyz;
-  float  radius = forceCenter1.w;
-
-  float3 toCenter = center - position.xyz;
-  float L = length(toCenter);
-  if (L < radius) {
-    float velocityLen = length(velocity);
-    velocity = reflect(normalize(velocity), -normalize(toCenter));
-    velocity *= velocityLen;
-
-    position = radius * -normalize(toCenter) + center;
-  }
-#endif
 
     gParticles[index].position.xyz = position;
     //gParticles[index].velocity.xyz = velocity;
     gParticles[index].color = color;
     gParticles[index].scale = scale;
+    gParticles[index].keepPosition.xyz = KeepPos;
+
 }
 
 
@@ -142,5 +118,6 @@ void emitParticle(uint3 id : SV_DispatchThreadID)
     gParticles[id.x].velocity.xyz = velocity;
     gParticles[id.x].lifeTime = 50;
     gParticles[id.x].color = float4(0.7, 0.05, 0.05, 1);
+    gParticles[id.x].keepPosition.xyz = float3(StartPos.xyz);
     //gParticles[index].colorIndex = floor(nextRand(seed) * 8) % 8;;
 }

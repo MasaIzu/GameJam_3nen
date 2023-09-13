@@ -3,13 +3,13 @@
 struct GpuParticleElement
 {
     float4 position;
-    float scale;
     float4 color;
+    float scale;
     uint isActive; // 生存フラグ.
     float lifeTime;
-    float elapsed;
-    uint colorIndex;
+    uint pad;
     float4 velocity;
+    float4 keepPosition;
 };
 
 RWStructuredBuffer<GpuParticleElement> gParticles : register(u0);
@@ -33,7 +33,6 @@ VSOutput main(uint vertexId : SV_VertexId)
     }
 
     float4 position = gParticles[vertexId].position;
-    uint colorIndex = gParticles[vertexId].colorIndex;
     position.w = 1;
     output.position = position;
     output.scale = gParticles[vertexId].scale;

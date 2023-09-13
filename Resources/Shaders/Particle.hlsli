@@ -20,7 +20,8 @@ cbuffer ShaderParameters : register(b0)
     uint Down : packoffset(c9.z);
     uint pad : packoffset(c9.w);
     float4 Look : packoffset(c10);
-    MeshPos meshPos[1000] : packoffset(c11);
+    float4 PlayerPos : packoffset(c11);
+    MeshPos meshPos[1000] : packoffset(c12);
 };
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

@@ -138,4 +138,6 @@ private://プレイヤークラス変数
 	bool isAnim_;	//繰り返し処理か
 
 	Vector3 targetPos = { 0,0,0 };
+	Vector4 PlayerMoveMent;
+
 };

@@ -550,7 +550,7 @@ void ParticleHandHanabi::Draw(const ViewProjection& view)
 
 }
 
-void ParticleHandHanabi::CSUpdate(Vector4 StartPos, UINT Down, Vector4* Look)
+void ParticleHandHanabi::CSUpdate(Vector4 StartPos, UINT Down,Vector4 PlayerPos, Vector4* Look)
 {
 
 	ID3D12DescriptorHeap* ppHeaps[] = { m_cbvSrvUavHeap.Get() };
@@ -596,6 +596,7 @@ void ParticleHandHanabi::CSUpdate(Vector4 StartPos, UINT Down, Vector4* Look)
 
 	{
 		shaderParameters.StartPos = StartPos;
+		shaderParameters.PlayerPos = PlayerPos;
 		if (Look) {
 			shaderParameters.Look = *Look;
 		}

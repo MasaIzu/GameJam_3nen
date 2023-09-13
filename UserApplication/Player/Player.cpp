@@ -153,6 +153,9 @@ void Player::Update() {
 	ImGui::Text("target:%f,%f,%f", targetPos.x, targetPos.y, targetPos.z);
 	ImGui::End();
 
+
+	PlayerMoveMent = MyMath::Vec3ToVec4(playerWorldTrans.translation_ - playerOldPos);
+
 	uint32_t kakatoRightBoneNumber = 7;
 	uint32_t kakatoLeftBoneNumber = 12;
 	uint32_t kataLeftBoneNumber = 50;
@@ -166,10 +169,10 @@ void Player::Update() {
 	Vector3 tyouseiLeft = playerWorldTrans.LookVelocity.lookBack_lookLeft + Vector3(0, 0.25f, 0);
 	Vector3 tyouseiRight = playerWorldTrans.LookVelocity.lookBack_lookRight + Vector3(0, 0.25f, 0);
 
-	Particle[0]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kakatoRightBoneNumber) * playerWorldTrans.matWorld_) - Vector3(0, 0.5, 0)),0,&kakatoLeft);
-	Particle[1]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kakatoLeftBoneNumber) * playerWorldTrans.matWorld_) - Vector3(0, 0.5, 0)),0,&kakatoLeft);
-	Particle[2]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kataLeftBoneNumber) * playerWorldTrans.matWorld_) + tyouseiRight),1, &kataRight);
-	Particle[3]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kataRightBoneNumber) * playerWorldTrans.matWorld_) + tyouseiLeft),1, &kataLeft);
+	Particle[0]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kakatoRightBoneNumber) * playerWorldTrans.matWorld_) - Vector3(0, 0.5, 0)),0, PlayerMoveMent ,&kakatoLeft);
+	Particle[1]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kakatoLeftBoneNumber) * playerWorldTrans.matWorld_) - Vector3(0, 0.5, 0)),0, PlayerMoveMent ,&kakatoLeft);
+	Particle[2]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kataLeftBoneNumber) * playerWorldTrans.matWorld_) + tyouseiRight),1, PlayerMoveMent, &kataRight);
+	Particle[3]->CSUpdate(MyMath::Vec3ToVec4(MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(kataRightBoneNumber) * playerWorldTrans.matWorld_) + tyouseiLeft),1, PlayerMoveMent, &kataLeft);
 
 }
 

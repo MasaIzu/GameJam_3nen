@@ -58,13 +58,13 @@ public: // サブクラス
 
 	struct GpuParticleElement {
 		Vector3 position;
-		float scale = 1;
 		Vector4 color = { 1,1,1,1 };
+		float scale = 1;
 		UINT  isActive;	// 生存フラグ.
 		float lifeTime;
-		float elapsed;
-		UINT  colorIndex;
+		UINT pad;
 		Vector4 velocity;
+		Vector4 keepPosition;
 	};
 
 	struct ShaderParameters {
@@ -76,6 +76,7 @@ public: // サブクラス
 		UINT Down;
 		UINT Pad;
 		Vector4 Look;
+		Vector4 PlayerPos;
 	};
 	ShaderParameters shaderParameters;
 
@@ -179,7 +180,7 @@ public: // メンバ関数
 	/// </summary>
 	void Update();
 
-	void CSUpdate(Vector4 StartPos, UINT Down, Vector4* Look = nullptr);
+	void CSUpdate(Vector4 StartPos, UINT Down,Vector4 PlayerPos, Vector4* Look = nullptr);
 
 	/// <summary>
 	/// 描画
