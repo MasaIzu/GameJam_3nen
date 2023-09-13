@@ -19,25 +19,35 @@ void PlayerShooting::Initialize() {
 }
 
 void PlayerShooting::Update(Player* player, WorldTransform* worldTransform) {
-	//’Êíó‘Ô‚É–ß‚é
+	//é€šå¸¸çŠ¶æ…‹ã«æˆ»ã‚‹
 	if (input_->MouseOffTrigger(0)) {
 		player->TransitionTo(new PlayerNormal);
 	}
 	
-	//’e”­ŽË
+	//å¼¾ç™ºå°„
 	if (isReload == false) {
 		timer++;
 		if (timer > limit) {
 			magazine--;
-			Vector3 velocity = worldTransform->LookVelocity.look * bulletSpeed;
-			Vector3 gunPos = { 2,1.5f,0 };
+			Vector3 gunPos = { 2,5,0 };
 			Vector3 createPos = gunPos * worldTransform->matWorld_;
+
+			Vector3 velocity;
+
+			if (isLockOn) {
+				Vector3 moveVec = targetPos - createPos;
+				moveVec.normalize();
+				velocity = moveVec * bulletSpeed;
+			}else {
+				velocity = worldTransform->LookVelocity.look * bulletSpeed;
+			}
+
 			player->CreatBullet(createPos, velocity);
 			timer = 0;
 		}
 	}
 
-	//Žc’e0
+	//æ®‹å¼¾0
 	if (magazine <= 0) {
 		Reload();
 	}

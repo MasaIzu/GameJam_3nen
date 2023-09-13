@@ -19,9 +19,9 @@ Player::~Player()
 {
 }
 
-void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
+void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	input = Input::GetInstance();
-	
+
 	playerWorldTrans.Initialize();
 	model_.reset(Model::CreateFromOBJ("3Jam_jiki_model", true));
 	bulletModel_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
@@ -63,14 +63,21 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 	fallSpeed = -0.2f;
 }
 
-void Player::Update(){
+void Player::Update() {
 	playerOldPos = playerWorldTrans.translation_;
 	energy.Update(energyRecoveryAmount);
-	PlayerRot();
 	if (state_->CanMove()) {
 		Move();
 		Jump();
 	}
+	state_->Update(this, &playerWorldTrans);
+	CheckPlayerCollider();
+	PlayerRot();
+	LockOn();
+	WorldTransUpdate();
+
+	PlayerSwordAttack::StaticUpdate();
+	PlayerShooting::StaticUpdate();
 
 	//弾
 	if (input->TriggerKey(DIK_R)) {
@@ -80,13 +87,6 @@ void Player::Update(){
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Update();
 	}
-
-	PlayerSwordAttack::StaticUpdate();
-	PlayerShooting::StaticUpdate();
-	state_->Update(this, &playerWorldTrans);
-	CheckPlayerCollider();
-	WorldTransUpdate();
-
 
 	//HP
 	if (input->TriggerKey(DIK_C)) {
@@ -101,17 +101,17 @@ void Player::Update(){
 
 
 	ImGui::Begin("Player");
-	//ImGui::Text("pos:%f", playerWorldTrans.translation_.x);
-	//ImGui::Text("pos:%f", playerWorldTrans.translation_.y);
-	//ImGui::Text("pos:%f", playerWorldTrans.translation_.z);
-	//ImGui::Text("hp:%d", hp.GetHp());
-	ImGui::Text("pos:%f", PlayerCollider->GetWorldPos().m[3][0]);
-	ImGui::Text("pos:%f", PlayerCollider->GetWorldPos().m[3][1]);
-	ImGui::Text("pos:%f", PlayerCollider->GetWorldPos().m[3][2]);
+	ImGui::Text("pos:%f,%f,%f", playerWorldTrans.translation_.x, playerWorldTrans.translation_.y, playerWorldTrans.translation_.z);
+	ImGui::Text("eye:%f,%f,%f", cameraPos.x, cameraPos.y, cameraPos.z);
+	ImGui::Text("cameraTarget:%f,%f,%f", cameraTargetPos.x, cameraTargetPos.y, cameraTargetPos.z);
+	ImGui::Text("target:%f,%f,%f", targetPos.x, targetPos.y, targetPos.z);
 	ImGui::End();
 }
 
-void Player::Draw(ViewProjection& viewProjection_){
+void Player::Draw(ViewProjection& viewProjection_) {
+	cameraPos = viewProjection_.eye;
+	cameraTargetPos = viewProjection_.target;
+
 	model_->Draw(playerWorldTrans, viewProjection_);
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Draw(viewProjection_);
@@ -127,23 +127,23 @@ void Player::TransitionTo(PlayerState* state) {
 	state_->Initialize();
 }
 
-void Player::DrawSprite(){
+void Player::DrawSprite() {
 	energy.DrawSprite();
 }
 
 void Player::CSUpdate(ID3D12GraphicsCommandList* cmdList)
 {
-	
+
 }
 
 void Player::ParticleDraw(ViewProjection& viewProjection_)
 {
-	
+
 }
 
 void Player::CopyParticle()
 {
-	
+
 }
 
 void Player::Move() {
@@ -152,7 +152,7 @@ void Player::Move() {
 
 	//ブースト開始
 	if (input->PushKey(DIK_LSHIFT)) {
-		if(input->PushKey(DIK_W)|| input->PushKey(DIK_A) || input->PushKey(DIK_S) || input->PushKey(DIK_D))
+		if (input->PushKey(DIK_W) || input->PushKey(DIK_A) || input->PushKey(DIK_S) || input->PushKey(DIK_D))
 			if (isBoost == false) {
 				if (energy.Use(QuickBoostCost)) {
 					isBoost = true;
@@ -166,10 +166,12 @@ void Player::Move() {
 		boostTimer++;
 		if (boostTimer < boostChangeTime) {
 			boost = 4.0f;
-		}else {
+		}
+		else {
 			if (energy.Use(boostCost)) {
 				boost = 2.0f;
-			}else {
+			}
+			else {
 				isBoost = false;
 			}
 			//ブースト終了
@@ -181,34 +183,17 @@ void Player::Move() {
 
 	//通常移動
 	if (input->PushKey(DIK_W)) {
-		playerMoveMent += playerWorldTrans.LookVelocity.look * straightSpeed * boost;
+		playerMoveMent += {sinf(cameraRot.x)* (straightSpeed* boost), 0, cosf(cameraRot.x)* (straightSpeed* boost)};
 	}
 	if (input->PushKey(DIK_S)) {
-		playerMoveMent += playerWorldTrans.LookVelocity.lookBack * straightSpeed * boost;
-	}
-	if (input->PushKey(DIK_A)) {
-		playerMoveMent += playerWorldTrans.LookVelocity.lookLeft * straightSpeed * boost;
-	}
-	if (input->PushKey(DIK_D)) {
-		playerMoveMent += playerWorldTrans.LookVelocity.lookRight * straightSpeed * boost;
+		playerMoveMent += {sinf(cameraRot.x + 3.14f)* (straightSpeed* boost), 0, cosf(cameraRot.x + 3.14f)* (straightSpeed* boost)};
 	}
 
-	//斜め移動
-	if (input->PushKey(DIK_W) == 1 && input->PushKey(DIK_A) == 1) {
-		playerMoveMent = { 0.0f,0.0f,0.0f };
-		playerMoveMent += playerWorldTrans.LookVelocity.look_lookLeft * diagonalSpeed * boost;
+	if (input->PushKey(DIK_A)) {
+		playerMoveMent += {sinf(cameraRot.x - 1.57f)* (straightSpeed* boost), 0, cosf(cameraRot.x - 1.57f)* (straightSpeed* boost)};
 	}
-	if (input->PushKey(DIK_W) == 1 && input->PushKey(DIK_D) == 1) {
-		playerMoveMent = { 0.0f,0.0f,0.0f };
-		playerMoveMent += playerWorldTrans.LookVelocity.look_lookRight * diagonalSpeed * boost;
-	}
-	if (input->PushKey(DIK_S) == 1 && input->PushKey(DIK_A) == 1) {
-		playerMoveMent = { 0.0f,0.0f,0.0f };
-		playerMoveMent += playerWorldTrans.LookVelocity.lookBack_lookLeft * diagonalSpeed * boost;
-	}
-	if (input->PushKey(DIK_S) == 1 && input->PushKey(DIK_D) == 1) {
-		playerMoveMent = { 0.0f,0.0f,0.0f };
-		playerMoveMent += playerWorldTrans.LookVelocity.lookBack_lookRight * diagonalSpeed * boost;
+	if (input->PushKey(DIK_D)) {
+		playerMoveMent += {sinf(cameraRot.x + 1.57f)* (straightSpeed* boost), 0, cosf(cameraRot.x + 1.57f)* (straightSpeed* boost)};
 	}
 
 	playerWorldTrans.translation_ += playerMoveMent;
@@ -217,9 +202,9 @@ void Player::Move() {
 void Player::Jump() {
 	Vector3 playerMoveMent = { 0.0f,0.0f,0.0f };
 	//ジャンプ開始
-	if (input->TriggerKey(DIK_SPACE)&&onGround) {
+	if (input->TriggerKey(DIK_SPACE) && onGround) {
 		jumpTimer = 0;
-		isJump = true;	
+		isJump = true;
 	}
 
 	//ジャンプ処理
@@ -227,12 +212,15 @@ void Player::Jump() {
 		jumpTimer++;
 		if (jumpTimer < jumpLimit) {
 			playerMoveMent = playerWorldTrans.LookVelocity.lookUp * jumpSpeed;
-		}else {
+		}
+		else {
 			isJump = false;
 		}
-	}else if (input->PushKey(DIK_SPACE) && energy.Use(ascendCost)) {
-			playerMoveMent = playerWorldTrans.LookVelocity.lookUp * ascendSpeed;
-	}else{
+	}
+	else if (input->PushKey(DIK_SPACE) && energy.Use(ascendCost)) {
+		playerMoveMent = playerWorldTrans.LookVelocity.lookUp * ascendSpeed;
+	}
+	else {
 		Fall();
 	}
 
@@ -244,11 +232,14 @@ void Player::Fall() {
 	playerWorldTrans.translation_.y += fallSpeed;
 }
 
-void Player::PlayerRot(){
-	playerWorldTrans.SetRot(Vector3(0.0f, cameraRot.x, 0.0f));
+void Player::PlayerRot() {
+	if (playerWorldTrans.translation_.x != playerOldPos.x || playerWorldTrans.translation_.z != playerOldPos.z) {
+		Vector3 moveVec = playerWorldTrans.translation_ - playerOldPos;
+		playerWorldTrans.SetRot(Vector3(0.0f, atan2f(moveVec.x, moveVec.z), 0.0f));
+	}
 }
 
-void Player::WorldTransUpdate(){
+void Player::WorldTransUpdate() {
 	if (playerWorldTrans.translation_.y < -15) {
 		playerWorldTrans.translation_ = { 0,0,0 };
 	}
@@ -259,9 +250,13 @@ void Player::CreatBullet(Vector3 pos, Vector3 velocity) {
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>(bulletModel_.get());
 	newBullet->Initialize(pos, velocity);
 	bullets.push_back(std::move(newBullet));
+	if (PlayerState::GetIsLockOn()) {
+		Vector3 moveVec = targetPos - playerWorldTrans.translation_;
+		playerWorldTrans.SetRot(Vector3(0.0f, atan2f(moveVec.x, moveVec.z), 0.0f));
+	}
 }
 
-void Player::CheckPlayerCollider(){
+void Player::CheckPlayerCollider() {
 	PlayerCollider->Update(playerWorldTrans.matWorld_);
 	Vector3 moveMent = playerWorldTrans.translation_ - playerOldPos;
 	moveMent = { abs(moveMent.x),abs(moveMent.y) ,abs(moveMent.z) };
@@ -295,7 +290,7 @@ void Player::CheckPlayerCollider(){
 			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, Radius + moveMent.y)) {
 				// 着地
 				onGround = true;
- 				playerWorldTrans.translation_.y -= raycastHit.distance - (Radius + moveMent.y);
+				playerWorldTrans.translation_.y -= raycastHit.distance - (Radius + moveMent.y);
 				playerOldPos.y = playerWorldTrans.translation_.y;
 			}
 		}
@@ -361,4 +356,23 @@ void Player::CheckPlayerCollider(){
 			playerWorldTrans.translation_.x += (moveMent.x - wallRaycastHit.distance) + Radius;
 		}
 	}
+}
+
+
+void Player::LockOn() {
+	Ray eye;
+	eye.start = MyMath::Vec3ToVec4(cameraPos);
+	eye.dir = MyMath::Vec3ToVec4(cameraTargetPos - cameraPos);
+	eye.dir.normalize();
+	RaycastHit RaycastHit;
+	float distance = 500;
+
+	if (CollisionManager::GetInstance()->Raycast(eye, COLLISION_ATTR_ENEMYS, &RaycastHit, distance)) {
+		targetPos = MyMath::Vec4ToVec3(RaycastHit.inter);
+		PlayerState::SetIsLockOn(true);
+	}else {
+		targetPos = playerWorldTrans.translation_ + playerWorldTrans.LookVelocity.look * 10;
+		PlayerState::SetIsLockOn(false);
+	}
+	PlayerState::SettargetPos(targetPos);
 }

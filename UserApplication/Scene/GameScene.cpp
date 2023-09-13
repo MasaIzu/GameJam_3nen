@@ -105,9 +105,10 @@ void GameScene::Update() {
 
 	enemyManager_->Update();
 
-	gameCamera->SetPlayerPosition(player_->GetPlayerPos());
+	Vector3 cameraPos = player_->GetPlayerPos();
+	gameCamera->SetPlayerPosition(cameraPos);
 	gameCamera->Update();
-
+	
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollisions();
 }

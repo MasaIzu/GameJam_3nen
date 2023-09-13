@@ -50,10 +50,14 @@ private:
 	void WorldTransUpdate();
 	// プレイヤーの当たり判定
 	void CheckPlayerCollider();
+	//ターゲットロック
+	void LockOn();
 
 public://Setter
 	void SetCameraRot(const Vector2& CameraRot) { cameraRot = CameraRot; }
-	
+	void SetCameraPos(Vector3 CameraPos) { cameraPos = CameraPos; };
+	void SetCameraTargetPos(Vector3 CameraTargetPos) { cameraTargetPos = CameraTargetPos; };
+
 public://Getter
 	Vector3 GetPlayerPos()const { return MyMath::GetWorldTransform(playerWorldTrans.matWorld_); }
 
@@ -72,6 +76,8 @@ private://イーナムクラス
 
 private://別クラスから値をもらう
 	Vector2 cameraRot;
+	Vector3 cameraPos;
+	Vector3 cameraTargetPos;
 
 private://プレイヤークラス変数
 	bool isDead;
@@ -105,4 +111,6 @@ private://プレイヤークラス変数
 	//hp
 	int healAmount;
 	int healNum;
+
+	Vector3 targetPos = { 0,0,0 };
 };
