@@ -393,22 +393,22 @@ void Player::PlayerAnimation()
 		nowAnmFCount_ = 0;	//kaunntorisetto
 
 		nowAnmNum_ = 3;	//何も押していない場合
-		if (input->TriggerKey(DIK_W)) {
+		if (input->PushKey(DIK_W)) {
 			
 			nowAnmNum_ = 3;
 		}
-		else if (input->TriggerKey(DIK_S)) {
+		/*else if (input->PushKey(DIK_S)) {
 			
 			nowAnmNum_ = 0;
 		}
-		else if (input->TriggerKey(DIK_A)) {
+		else if (input->PushKey(DIK_A)) {
 			
 			nowAnmNum_ = 1;
 		}
-		else if (input->TriggerKey(DIK_D)) {
+		else if (input->PushKey(DIK_D)) {
 			
 			nowAnmNum_ = 2;
-		}
+		}*/
 
 		if (nowAnmNum_ != oldAnmNum_) {
 			fbxObj3d_->PlayAnimation(nowAnmNum_);
@@ -425,7 +425,17 @@ void Player::PlayerAnimation()
 		}
 
 	}
-	else if (nowAnmNum_ == 3) {	//W
+	else if (nowAnmNum_ == 1) {	//A
+		int maxFcount = 30;
+		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
+
+		if (nowAnmFCount_ >= maxFcount) {
+			nowAnmNum_ = 0;
+			fbxObj3d_->PlayAnimation(nowAnmNum_);
+		}
+
+	}
+	else if (nowAnmNum_ == 2) {	//D
 		int maxFcount = 30;
 		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
 
@@ -445,6 +455,8 @@ void Player::PlayerAnimation()
 			fbxObj3d_->PlayAnimation(nowAnmNum_);
 		}
 	}
+
+
 	
 
 	oldAnmNum_ = nowAnmNum_;
