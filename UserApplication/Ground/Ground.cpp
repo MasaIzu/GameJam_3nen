@@ -6,16 +6,12 @@ Ground::Ground(Model* model)
 	groundModel = model;
 }
 
-void Ground::Initialze()
-{
-
+void Ground::Initialze(){
 	groundTrans.Initialize();
-	groundTrans.scale_ = { 30,30,30 };
+	groundTrans.scale_ = { 1,1,1 };
 	groundTrans.TransferMatrix();
 
-	//touchableObject.reset(TouchableObject::Create(groundModel, groundTrans, COLLISION_ATTR_LANDSHAPE));
-
-
+	touchableObject.reset(TouchableObject::Create(groundModel, groundTrans, COLLISION_ATTR_LANDSHAPE));
 }
 
 void Ground::Update()

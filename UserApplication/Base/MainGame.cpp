@@ -9,7 +9,7 @@ void MainGame::Initialize()
 
 	sceneFactory_ = std::make_unique<SceneFactory>();
 	SceneManager::GetInstance()->SetSceneFactory(sceneFactory_.get());
-	SceneManager::GetInstance()->ChangeScene("EffectMakeScene");
+	SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 }
 
 void MainGame::Finalize()

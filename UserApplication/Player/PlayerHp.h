@@ -1,0 +1,25 @@
+#pragma once
+
+class PlayerHp {
+public:
+	PlayerHp();
+	~PlayerHp();
+
+	void Initialize();
+
+	int GetHp() { return hp; };
+	bool IsLive() { return isLive; };
+
+	void Damage(int damage);
+	void Heal(int heal);
+
+private:
+	//ç≈ëÂHP
+	int MaxHp;
+	//åªç›ÇÃHP
+	int hp;
+
+	//ê∂ë∂ÉtÉâÉO
+	bool isLive;
+
+};

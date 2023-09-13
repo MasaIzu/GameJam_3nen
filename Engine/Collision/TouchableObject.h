@@ -2,6 +2,7 @@
 #pragma once
 #include "Model.h"
 #include "CollisionAttribute.h"
+#include "MeshCollider.h"
 
 class TouchableObject
 {
@@ -17,5 +18,11 @@ public:
 	/// </summary>
 	/// <returns>ê¨î€</returns>
 	bool Initialize(Model* model, WorldTransform& worldTrans, unsigned short attribute);
+
+public:
+	MeshCollider* GetCollider() { return collider; };
+
+private:
+	MeshCollider* collider = nullptr;
 };
 

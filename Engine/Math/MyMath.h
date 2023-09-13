@@ -39,6 +39,7 @@ namespace MyMath {
 	Matrix4 MakeInverse(const Matrix4* mat);
 
 	Matrix4 ConvertXMMATtoMat4(DirectX::XMMATRIX XMMatrix);
+	DirectX::XMMATRIX ConvertMat4toXMMat(Matrix4 mat);
 
 	Matrix4 LookAtLH(Vector3 eye, Vector3 target, Vector3 up);
 	Matrix4 PerspectiveFovLH(float fovAngleY, float  aspectRatio, float  nearZ, float farZ);
