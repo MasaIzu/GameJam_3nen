@@ -201,9 +201,9 @@ void Hibana::InitializeGraphicsPipeline()
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
 	//加算合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
 	////減算合成
 	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
 	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
@@ -213,9 +213,9 @@ void Hibana::InitializeGraphicsPipeline()
 	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
 	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
 	////半透明合成
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
+	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
 
 	// ブレンドステートの設定
 	gpipeline.BlendState.RenderTarget[0] = blenddesc;
@@ -507,20 +507,8 @@ void Hibana::Update()
 
 void Hibana::Draw(const ViewProjection& view)
 {
-	HRESULT result;
-	// 定数バッファへデータ転送
-	ConstBufferData* constMap = nullptr;
-	result = constBuff->Map(0, nullptr, (void**)&constMap);
-	//constMap->color = color;
-	//constMap->mat = matWorld * matView * matProjection;	// 行列の合成
 	Matrix4 constMatToSend = view.matView;
 	constMatToSend *= view.matProjection;
-	constMap->mat = constMatToSend;	// 行列の合成
-	constMap->matBillboard = view.matBillboard;
-	constMap->maxParticleCount = static_cast<UINT>(particleCount);
-	constMap->particleCount = 1;
-	constBuff->Unmap(0, nullptr);
-
 	shaderParameters.mat = constMatToSend;
 	shaderParameters.matBillboard = view.matBillboard;
 	MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);
@@ -555,7 +543,6 @@ void Hibana::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
 	//初期化
 	if (m_frameCount == 0) {
 		shaderParameters.maxParticleCount = particleCount;
-		shaderParameters.particleCount = 0;
 		shaderParameters.StartPos = StartPos;
 
 		MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);
@@ -576,7 +563,7 @@ void Hibana::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
 		cmdList->SetComputeRootDescriptorTable(2, m_handleGpu);
 		cmdList->SetPipelineState(m_pipelines[PSO_CS_INIT].Get());
 
-		UINT invokeCount = particleCount / 32 + 1;
+		UINT invokeCount = particleCount / 128 + 1;
 		cmdList->Dispatch(invokeCount, 1, 1);
 	}
 
@@ -591,10 +578,23 @@ void Hibana::CSUpdate(ID3D12GraphicsCommandList* cmdList,Vector4 StartPos)
 		cmdList->SetComputeRootDescriptorTable(2, m_handleGpu);
 		cmdList->SetPipelineState(m_pipelines[PSO_CS_EMIT].Get());
 
-		UINT invokeCount = particleCount / 32 + 1;
+		if (input_->PushKey(DIK_U)) {
+			DispatchCount++;
+		}
+		if (input_->PushKey(DIK_J)) {
+			DispatchCount--;
+		}
+
+		UINT invokeCount = particleCount / 128 + 1;
+		if (DispatchCount > invokeCount) {
+			DispatchCount = invokeCount;
+		}
+		if (DispatchCount <= 0) {
+			DispatchCount = 1;
+		}
 		{
 			if (input_->PushKey(DIK_SPACE)) {
-				cmdList->Dispatch(2, 1, 1);
+				cmdList->Dispatch(invokeCount, 1, 1);
 			}
 		}
 
@@ -624,5 +624,13 @@ void Hibana::CopyData()
 	memcpy(Particles.data(), outPutDeta, Particles.size() * sizeof(VertexPos));
 	vertBuff->Unmap(0, nullptr);
 
+}
+
+void Hibana::SetMeshPos(std::vector<MyStruct::Meshes> meshPos)
+{
+	for (size_t i = 0; i < meshPos.size(); i++) {
+		shaderParameters.meshPos[i] = meshPos[i];
+	}
+	shaderParameters.MeshCount = static_cast<UINT>(meshPos.size());
 }
 

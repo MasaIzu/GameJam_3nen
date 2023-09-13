@@ -70,21 +70,7 @@ void main(uint3 id : SV_DispatchThreadID)
     //        velocity = 0;
     //    }
     //}
-#if 0
-  // フォースの処理.
-  float3 center = forceCenter1.xyz;
-  float  radius = forceCenter1.w;
 
-  float3 toCenter = center - position.xyz;
-  float L = length(toCenter);
-  if (L < radius) {
-    float velocityLen = length(velocity);
-    velocity = reflect(normalize(velocity), -normalize(toCenter));
-    velocity *= velocityLen;
-
-    position = radius * -normalize(toCenter) + center;
-  }
-#endif
 
     gParticles[index].position.xyz = position;
     //gParticles[index].velocity.xyz = velocity;

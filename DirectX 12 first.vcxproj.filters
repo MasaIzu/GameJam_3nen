@@ -481,6 +481,9 @@
     <ClInclude Include="Engine\3DEffect\Hibana.h">
       <Filter>Engine\ヘッダー\3DEffect</Filter>
     </ClInclude>
+    <ClInclude Include="MyStruct.h">
+      <Filter>Engine\ヘッダー\MyFunction</Filter>
+    </ClInclude>
     <ClInclude Include="UserApplication\Enemy\Enemy.h">
       <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
     </ClInclude>

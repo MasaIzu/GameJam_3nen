@@ -26,7 +26,7 @@ void MakeEffectScene::Initialize() {
 	viewProjection_->eye = { 0,0,-50 };
 	viewProjection_->UpdateMatrix();
 
-	int a = 5000;
+	int a = 1000000;
 
 	gameCamera = std::make_unique<GameCamera>(WinApp::window_width, WinApp::window_height);
 	gameCamera->Initialize(viewProjection_.get(), MyMath::GetAngle(180.0f), Vector3(0,0,0));
@@ -37,9 +37,12 @@ void MakeEffectScene::Initialize() {
 	ParticleMan->Initialize(a);
 	ParticleMan->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
 
-	model.reset(Model::CreateFromOBJ("Ground", true));
+	model.reset(Model::CreateFromOBJ("ken", true));
+	model1.reset(Model::CreateFromOBJ("Ground", true));
 
-	ground = std::make_unique<Ground>(model.get());
+	ParticleMan->SetMeshPos(model->GetMeshData());
+
+	ground = std::make_unique<Ground>(model1.get());
 	ground->Initialze();
 }
 
@@ -131,7 +134,9 @@ void MakeEffectScene::PostEffectDraw()
 
 	Model::PostDraw();
 
-
+	Hibana::PreDraw(commandList);
+	ParticleMan->Draw(*viewProjection_.get());
+	Hibana::PostDraw();
 
 	PostEffect::PostDrawScene();
 }
@@ -141,7 +146,7 @@ void MakeEffectScene::CSUpdate()
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
-	ParticleMan->CSUpdate(commandList,Vector4(0,5,0,0));
+	ParticleMan->CSUpdate(commandList,Vector4(0,0,0,0));
 
 }
 
@@ -181,7 +186,7 @@ void MakeEffectScene::Draw() {
 	Explosion::PostDraw();
 
 	Hibana::PreDraw(commandList);
-	ParticleMan->Draw(*viewProjection_.get());
+	
 	Hibana::PostDraw();
 
 #pragma endregion

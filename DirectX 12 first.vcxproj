@@ -382,6 +382,7 @@
     <ClInclude Include="UserApplication\Player\PlayerNormal.h" />
     <ClInclude Include="UserApplication\Player\PlayerSwordAttack.h" />
     <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="MyStruct.h" />
     <ClInclude Include="UserApplication\UserCamera\GameCamera.h" />
     <ClInclude Include="UserApplication\Player\PlayerBullet.h" />
     <ClInclude Include="Engine\2D\PostEffect.h" />
