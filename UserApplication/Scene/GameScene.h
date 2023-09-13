@@ -63,6 +63,7 @@ private: // メンバ変数
 	WinApp* winApp_ = nullptr;
 	DirectXCore* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
+	SceneManager* sceneManager_ = nullptr;
 
 	int shadeNumber = 3;
 	int range = 0;//ぼかし強度
@@ -74,6 +75,8 @@ private: // メンバ変数
 	float angle = 45.0f;
 	float angle2 = 135.0f;
 
+	int gameTimer;
+	int gameLimit;
 
 	Vector2 center = {0.5f,0.5f};
 

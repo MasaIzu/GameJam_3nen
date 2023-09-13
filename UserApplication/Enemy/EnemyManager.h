@@ -28,6 +28,7 @@ public:
 	void Update();
 	void Draw(ViewProjection& viewProjection_);
 
+	bool IsAllEnemyDead();
 private:
 	LevelData* LoadFile(const std::string& fileName);
 	void CreateEnemy();

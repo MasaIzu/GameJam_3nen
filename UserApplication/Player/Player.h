@@ -38,6 +38,8 @@ public://基本関数
 	void ParticleDraw(ViewProjection& viewProjection_);
 	void CopyParticle();
 
+	bool IsDead();
+
 	//弾生成
 	void CreatBullet(Vector3 pos, Vector3 velocity);
 private:

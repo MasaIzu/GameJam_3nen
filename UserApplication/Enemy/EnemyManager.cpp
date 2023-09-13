@@ -16,6 +16,16 @@ void EnemyManager::Initialize(const std::string& fileName) {
 	bulletModel_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
 }
 
+bool EnemyManager::IsAllEnemyDead() {
+	if (levelData->enemys.back().spawnTimer < 0) {
+		if (enemys.back()->IsDead()) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void EnemyManager::Update() {
 	CreateEnemy();
 
