@@ -29,9 +29,19 @@ void PlayerShooting::Update(Player* player, WorldTransform* worldTransform) {
 		timer++;
 		if (timer > limit) {
 			magazine--;
-			Vector3 velocity = worldTransform->LookVelocity.look * bulletSpeed;
 			Vector3 gunPos = { 2,5,0 };
 			Vector3 createPos = gunPos * worldTransform->matWorld_;
+
+			Vector3 velocity;
+
+			if (isLockOn) {
+				Vector3 moveVec = targetPos - createPos;
+				moveVec.normalize();
+				velocity = moveVec * bulletSpeed;
+			}else {
+				velocity = worldTransform->LookVelocity.look * bulletSpeed;
+			}
+
 			player->CreatBullet(createPos, velocity);
 			timer = 0;
 		}

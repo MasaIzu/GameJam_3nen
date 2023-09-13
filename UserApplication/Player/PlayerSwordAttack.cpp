@@ -71,12 +71,14 @@ void PlayerSwordAttack::Update(Player* player, WorldTransform* worldTransform) {
 }
 
 void PlayerSwordAttack::Move(WorldTransform* worldTransform) {
+	Vector3 moveVec = targetPos - worldTransform->translation_;
+	moveVec.normalize();
 	switch (action) {
 	case Action::Antic://—\”õ“®ì
-		worldTransform->translation_ += worldTransform->LookVelocity.look * anticSpeed;
+		worldTransform->translation_ += moveVec * anticSpeed;
 		break;
 	case Action::Attack://UŒ‚
-		worldTransform->translation_ += worldTransform->LookVelocity.look * attackSpeed;
+		worldTransform->translation_ += moveVec * attackSpeed;
 		break;
 	case Action::After://ŒãŒ„
 
