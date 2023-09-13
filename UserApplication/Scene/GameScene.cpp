@@ -121,17 +121,17 @@ void GameScene::Update() {
 
 	////ゲームオーバー
 	if (tower->IsDead()) {
-		sceneManager_->ChangeScene("TITLE");
+		sceneManager_->ChangeScene("GAMEOVER");
 	}
 	if (player_->IsDead()) {
-		sceneManager_->ChangeScene("TITLE");
+		sceneManager_->ChangeScene("GAMEOVER");
 	}
 	//クリア
 	if (gameTimer > gameLimit) {
-		sceneManager_->ChangeScene("TITLE");
+		sceneManager_->ChangeScene("CLEAR");
 	}
 	if (enemyManager_->IsAllEnemyDead()) {
-		sceneManager_->ChangeScene("TITLE");
+		sceneManager_->ChangeScene("CLEAR");
 	}
 
 	gameTimer++;

@@ -517,6 +517,12 @@
     <ClInclude Include="UserApplication\Enemy\EnemyAttackTower.h">
       <Filter>ユーザーヘッダー ファイル\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="UserApplication\Scene\ClearScene.h">
+      <Filter>ユーザーヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="UserApplication\Scene\GameOverScene.h">
+      <Filter>ユーザーヘッダー ファイル\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -740,6 +746,12 @@
     </ClCompile>
     <ClCompile Include="UserApplication\Enemy\EnemyState.cpp">
       <Filter>ユーザーソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Scene\ClearScene.cpp">
+      <Filter>ユーザーソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UserApplication\Scene\GameOverScene.cpp">
+      <Filter>ユーザーソース ファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
