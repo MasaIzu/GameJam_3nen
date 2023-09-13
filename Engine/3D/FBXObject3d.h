@@ -83,7 +83,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw(const WorldTransform& worldTransform, const ViewProjection& viewProjection);
 
 	/// <summary>
 	/// インスタンス取得

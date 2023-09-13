@@ -175,9 +175,11 @@ void GameScene::Draw() {
 	player_->Draw(*viewProjection_.get());
 	enemyManager_->Draw(*viewProjection_.get());
 
+
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
 
+	player_->Draw(*viewProjection_.get());
 
 	ParticleManager::PreDraw(commandList);
 	

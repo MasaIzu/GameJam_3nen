@@ -25,8 +25,14 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	playerWorldTrans.Initialize();
 	model_.reset(Model::CreateFromOBJ("3Jam_jiki_model", true));
 	bulletModel_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
+	//fbx
+	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("3JamJiki", true));
+	fbxObj3d_ = FBXObject3d::Create();
+	fbxObj3d_->SetModel(fbxModel_.get());
+	fbxObj3d_->PlayAnimation(0);
+	
 
-	// ƒRƒŠƒWƒ‡ƒ“ƒ}ƒl[ƒWƒƒ‚É’Ç‰Á
+	// ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ã«è¿½åŠ 
 	Radius = 1.0f;
 	PlayerCollider = new SphereCollider(Vector4(0, Radius, 0, 0), Radius);
 	CollisionManager::GetInstance()->AddCollider(PlayerCollider);
@@ -79,7 +85,7 @@ void Player::Update() {
 	PlayerSwordAttack::StaticUpdate();
 	PlayerShooting::StaticUpdate();
 
-	//’e
+	//å¼¾
 	if (input->TriggerKey(DIK_R)) {
 		PlayerShooting::Reload();
 	}
@@ -87,6 +93,23 @@ void Player::Update() {
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Update();
 	}
+
+
+	//test
+	fbxObj3d_->SetPosition(Vector3(0,0,0));
+	fbxObj3d_->SetRotate(Vector3(0, 0, 0));
+	fbxObj3d_->SetScale(Vector3(1, 1, 1));
+	//test
+
+	PlayerSwordAttack::StaticUpdate();
+	PlayerShooting::StaticUpdate();
+	state_->Update(this, &playerWorldTrans);
+	CheckPlayerCollider();
+	WorldTransUpdate();
+	fbxObj3d_->Update();
+
+	PlayerAnimation();
+
 
 	//HP
 	if (input->TriggerKey(DIK_C)) {
@@ -108,21 +131,21 @@ void Player::Update() {
 	ImGui::End();
 }
 
-void Player::Draw(ViewProjection& viewProjection_) {
-	cameraPos = viewProjection_.eye;
-	cameraTargetPos = viewProjection_.target;
 
-	model_->Draw(playerWorldTrans, viewProjection_);
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
-		bullet->Draw(viewProjection_);
-	}
+void Player::Draw(const ViewProjection& viewProjection){
+	/*model_->Draw(playerWorldTrans, viewProjection_);*/
+	fbxObj3d_->Draw(playerWorldTrans, viewProjection);
+	//for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+	//	bullet->Draw(viewProjection_);
+	//}
+
 }
 
-//ó‘Ô•ÏX
+//çŠ¶æ…‹å¤‰æ›´
 void Player::TransitionTo(PlayerState* state) {
-	//íœ
+	//å‰Šé™¤
 	delete state_;
-	//V‹Kì¬
+	//æ–°è¦ä½œæˆ
 	state_ = state;
 	state_->Initialize();
 }
@@ -150,7 +173,7 @@ void Player::Move() {
 	Vector3 playerMoveMent = { 0.0f,0.0f,0.0f };
 	float boost = 1.0f;
 
-	//ƒu[ƒXƒgŠJn
+	//ãƒ–ãƒ¼ã‚¹ãƒˆé–‹å§‹
 	if (input->PushKey(DIK_LSHIFT)) {
 		if (input->PushKey(DIK_W) || input->PushKey(DIK_A) || input->PushKey(DIK_S) || input->PushKey(DIK_D))
 			if (isBoost == false) {
@@ -161,7 +184,7 @@ void Player::Move() {
 			}
 	}
 
-	//ƒu[ƒXƒg
+	//ãƒ–ãƒ¼ã‚¹ãƒˆæ™‚
 	if (isBoost) {
 		boostTimer++;
 		if (boostTimer < boostChangeTime) {
@@ -174,14 +197,14 @@ void Player::Move() {
 			else {
 				isBoost = false;
 			}
-			//ƒu[ƒXƒgI—¹
+			//ãƒ–ãƒ¼ã‚¹ãƒˆçµ‚äº†
 			if (input->PushKey(DIK_LSHIFT) == false) {
 				isBoost = false;
 			}
 		}
 	}
 
-	//’ÊíˆÚ“®
+	//é€šå¸¸ç§»å‹•
 	if (input->PushKey(DIK_W)) {
 		playerMoveMent += {sinf(cameraRot.x)* (straightSpeed* boost), 0, cosf(cameraRot.x)* (straightSpeed* boost)};
 	}
@@ -201,13 +224,13 @@ void Player::Move() {
 
 void Player::Jump() {
 	Vector3 playerMoveMent = { 0.0f,0.0f,0.0f };
-	//ƒWƒƒƒ“ƒvŠJn
+	//ã‚¸ãƒ£ãƒ³ãƒ—é–‹å§‹
 	if (input->TriggerKey(DIK_SPACE) && onGround) {
 		jumpTimer = 0;
 		isJump = true;
 	}
 
-	//ƒWƒƒƒ“ƒvˆ—
+	//ã‚¸ãƒ£ãƒ³ãƒ—å‡¦ç†
 	if (isJump) {
 		jumpTimer++;
 		if (jumpTimer < jumpLimit) {
@@ -228,7 +251,7 @@ void Player::Jump() {
 }
 
 void Player::Fall() {
-	// ˆÚ“®
+	// ç§»å‹•
 	playerWorldTrans.translation_.y += fallSpeed;
 }
 
@@ -261,34 +284,34 @@ void Player::CheckPlayerCollider() {
 	Vector3 moveMent = playerWorldTrans.translation_ - playerOldPos;
 	moveMent = { abs(moveMent.x),abs(moveMent.y) ,abs(moveMent.z) };
 
-	//’n–ÊƒƒbƒVƒ…ƒRƒ‰ƒCƒ_[
+	//åœ°é¢ãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	{
-		// ‹…‚Ìã’[‚©‚ç‹…‚Ì‰º’[‚Ü‚Å‚ÌƒŒƒCƒLƒƒƒXƒg
+		// çƒã®ä¸Šç«¯ã‹ã‚‰çƒã®ä¸‹ç«¯ã¾ã§ã®ãƒ¬ã‚¤ã‚­ãƒ£ã‚¹ãƒˆ
 		Ray Groundray;
 		Groundray.start = MyMath::Vec3ToVec4(playerOldPos);
 		Groundray.start.y += Radius;
 		Groundray.dir = { 0,-1.0f,0,0 };
 		RaycastHit raycastHit;
 
-		// Ú’nó‘Ô
+		// æ¥åœ°çŠ¶æ…‹
 		if (onGround) {
-			// ƒXƒ€[ƒY‚Éâ‚ğ‰º‚éˆ×‚Ì‹z’…‹——£
+			// ã‚¹ãƒ ãƒ¼ã‚ºã«å‚ã‚’ä¸‹ã‚‹ç‚ºã®å¸ç€è·é›¢
 			const float adsDistance = 0.2f;
-			// Ú’n‚ğˆÛ
+			// æ¥åœ°ã‚’ç¶­æŒ
 			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, Radius + adsDistance + moveMent.y)) {
 				onGround = true;
 				playerWorldTrans.translation_.y -= raycastHit.distance - (Radius + moveMent.y);
 				playerOldPos.y = playerWorldTrans.translation_.y;
 			}
-			// ’n–Ê‚ª‚È‚¢‚Ì‚Å—‰º
+			// åœ°é¢ãŒãªã„ã®ã§è½ä¸‹
 			else {
 				onGround = false;
 			}
 		}
-		// —‰ºó‘Ô
+		// è½ä¸‹çŠ¶æ…‹
 		else {
 			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, Radius + moveMent.y)) {
-				// ’…’n
+				// ç€åœ°
 				onGround = true;
 				playerWorldTrans.translation_.y -= raycastHit.distance - (Radius + moveMent.y);
 				playerOldPos.y = playerWorldTrans.translation_.y;
@@ -297,15 +320,15 @@ void Player::CheckPlayerCollider() {
 	}
 
 	{
-		//‰¡ƒƒbƒVƒ…ƒRƒ‰ƒCƒ_[
+		//æ¨ªãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 		Ray wall;
 		wall.start = MyMath::Vec3ToVec4(playerOldPos);
 		wall.start.y += coliisionHeight;
 		wall.dir = { 0,0,1,0 };
 		RaycastHit wallRaycastHit;
-		// ƒXƒ€[ƒY‚Éâ‚ğ‰º‚éˆ×‚Ì‹z’…‹——£
+		// ã‚¹ãƒ ãƒ¼ã‚ºã«å‚ã‚’ä¸‹ã‚‹ç‚ºã®å¸ç€è·é›¢
 
-		// Ú’n‚ğˆÛ
+		// æ¥åœ°ã‚’ç¶­æŒ
 		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, Radius + moveMent.z)) {
 			playerWorldTrans.translation_.z -= (moveMent.z - wallRaycastHit.distance) + Radius;
 			playerOldPos.z = playerWorldTrans.translation_.z;
@@ -313,49 +336,115 @@ void Player::CheckPlayerCollider() {
 
 	}
 	{
-		//‰¡ƒƒbƒVƒ…ƒRƒ‰ƒCƒ_[
+		//æ¨ªãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 		Ray wall;
 		wall.start = MyMath::Vec3ToVec4(playerOldPos);
 		wall.start.y += coliisionHeight;
 		wall.dir = { 0,0,-1,0 };
 		RaycastHit wallRaycastHit;
-		// ƒXƒ€[ƒY‚Éâ‚ğ‰º‚éˆ×‚Ì‹z’…‹——£
+		// ã‚¹ãƒ ãƒ¼ã‚ºã«å‚ã‚’ä¸‹ã‚‹ç‚ºã®å¸ç€è·é›¢
 
-		// Ú’n‚ğˆÛ
+		// æ¥åœ°ã‚’ç¶­æŒ
 		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, Radius + moveMent.z)) {
 			playerWorldTrans.translation_.z += (moveMent.z - wallRaycastHit.distance) + Radius;
 			playerOldPos.z = playerWorldTrans.translation_.z;
 		}
 	}
 	{
-		//‰¡ƒƒbƒVƒ…ƒRƒ‰ƒCƒ_[
+		//æ¨ªãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 		Ray wall;
 		wall.start = MyMath::Vec3ToVec4(playerOldPos);
 		wall.start.y += coliisionHeight;
 		wall.dir = { 1,0,0,0 };
 		RaycastHit wallRaycastHit;
-		// ƒXƒ€[ƒY‚Éâ‚ğ‰º‚éˆ×‚Ì‹z’…‹——£
+		// ã‚¹ãƒ ãƒ¼ã‚ºã«å‚ã‚’ä¸‹ã‚‹ç‚ºã®å¸ç€è·é›¢
 
-		// Ú’n‚ğˆÛ
+		// æ¥åœ°ã‚’ç¶­æŒ
 		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, Radius + moveMent.x)) {
 			playerWorldTrans.translation_.x -= (moveMent.x - wallRaycastHit.distance) + Radius;
 		}
 
 	}
 	{
-		//‰¡ƒƒbƒVƒ…ƒRƒ‰ƒCƒ_[
+		//æ¨ªãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 		Ray wall;
 		wall.start = MyMath::Vec3ToVec4(playerOldPos);
 		wall.start.y += coliisionHeight;
 		wall.dir = { -1,0,0,0 };
 		RaycastHit wallRaycastHit;
-		// ƒXƒ€[ƒY‚Éâ‚ğ‰º‚éˆ×‚Ì‹z’…‹——£
+		// ã‚¹ãƒ ãƒ¼ã‚ºã«å‚ã‚’ä¸‹ã‚‹ç‚ºã®å¸ç€è·é›¢
 
-		// Ú’n‚ğˆÛ
+		// æ¥åœ°ã‚’ç¶­æŒ
 		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, Radius + moveMent.x)) {
 			playerWorldTrans.translation_.x += (moveMent.x - wallRaycastHit.distance) + Radius;
 		}
 	}
+}
+
+
+void Player::PlayerAnimation()
+{
+	
+	nowAnmFCount_++;
+	if (input->TriggerKey(DIK_LSHIFT) && isBoost == true) {
+		nowAnmFCount_ = 0;	//kaunntorisetto
+
+		nowAnmNum_ = 3;	//ä½•ã‚‚æŠ¼ã—ã¦ã„ãªã„å ´åˆ
+		if (input->TriggerKey(DIK_W)) {
+			
+			nowAnmNum_ = 3;
+		}
+		else if (input->TriggerKey(DIK_S)) {
+			
+			nowAnmNum_ = 0;
+		}
+		else if (input->TriggerKey(DIK_A)) {
+			
+			nowAnmNum_ = 1;
+		}
+		else if (input->TriggerKey(DIK_D)) {
+			
+			nowAnmNum_ = 2;
+		}
+
+		if (nowAnmNum_ != oldAnmNum_) {
+			fbxObj3d_->PlayAnimation(nowAnmNum_);
+		}
+	}
+	
+	if (nowAnmNum_ == 3) {	//W
+		int maxFcount = 30;
+		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
+
+		if (nowAnmFCount_ >= maxFcount) {
+			nowAnmNum_ = 0;
+			fbxObj3d_->PlayAnimation(nowAnmNum_);
+		}
+
+	}
+	else if (nowAnmNum_ == 3) {	//W
+		int maxFcount = 30;
+		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
+
+		if (nowAnmFCount_ >= maxFcount) {
+			nowAnmNum_ = 0;
+			fbxObj3d_->PlayAnimation(nowAnmNum_);
+		}
+
+	}
+	else {
+		int maxFcount = 60;
+		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
+		
+
+		if (nowAnmFCount_ >= maxFcount) {
+			nowAnmNum_ = 0;
+			fbxObj3d_->PlayAnimation(nowAnmNum_);
+		}
+	}
+	
+
+	oldAnmNum_ = nowAnmNum_;
 }
 
 
@@ -376,3 +465,4 @@ void Player::LockOn() {
 	}
 	PlayerState::SettargetPos(targetPos);
 }
+

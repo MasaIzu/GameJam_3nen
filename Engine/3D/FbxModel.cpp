@@ -131,7 +131,7 @@ void FBXModel::Draw(ID3D12GraphicsCommandList* cmdList)
     ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
     cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
     // シェーダリソースビューをセット
-    cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
+    cmdList->SetGraphicsRootDescriptorTable(3, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
 
     // 描画コマンド
     cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
