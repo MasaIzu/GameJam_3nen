@@ -101,6 +101,8 @@ void GameScene::Update() {
 	tower->Update();
 
 	player_->SetCameraRot(gameCamera->GetCameraAngle());
+	player_->SetCameraPos(viewProjection_->eye);
+	player_->SetCameraTargetPos(viewProjection_->target);
 	player_->Update();
 
 	enemyManager_->Update();
