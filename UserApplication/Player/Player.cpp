@@ -29,7 +29,7 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection){
 	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("3JamJiki", true));
 	fbxObj3d_ = FBXObject3d::Create();
 	fbxObj3d_->SetModel(fbxModel_.get());
-	fbxObj3d_->PlayAnimation(3);
+	fbxObj3d_->PlayAnimation(0);
 	
 
 	// コリジョンマネージャに追加
@@ -100,6 +100,7 @@ void Player::Update(){
 	WorldTransUpdate();
 	fbxObj3d_->Update();
 
+	PlayerAnimation();
 
 	//HP
 	if (input->TriggerKey(DIK_C)) {
@@ -375,4 +376,69 @@ void Player::CheckPlayerCollider(){
 			playerWorldTrans.translation_.x += (moveMent.x - wallRaycastHit.distance) + Radius;
 		}
 	}
+}
+
+void Player::PlayerAnimation()
+{
+	
+	nowAnmFCount_++;
+	if (input->TriggerKey(DIK_LSHIFT) && isBoost == true) {
+		nowAnmFCount_ = 0;	//kaunntorisetto
+
+		nowAnmNum_ = 3;	//何も押していない場合
+		if (input->TriggerKey(DIK_W)) {
+			
+			nowAnmNum_ = 3;
+		}
+		else if (input->TriggerKey(DIK_S)) {
+			
+			nowAnmNum_ = 0;
+		}
+		else if (input->TriggerKey(DIK_A)) {
+			
+			nowAnmNum_ = 1;
+		}
+		else if (input->TriggerKey(DIK_D)) {
+			
+			nowAnmNum_ = 2;
+		}
+
+		if (nowAnmNum_ != oldAnmNum_) {
+			fbxObj3d_->PlayAnimation(nowAnmNum_);
+		}
+	}
+	
+	if (nowAnmNum_ == 3) {	//W
+		int maxFcount = 30;
+		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
+
+		if (nowAnmFCount_ >= maxFcount) {
+			nowAnmNum_ = 0;
+			fbxObj3d_->PlayAnimation(nowAnmNum_);
+		}
+
+	}
+	else if (nowAnmNum_ == 3) {	//W
+		int maxFcount = 30;
+		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
+
+		if (nowAnmFCount_ >= maxFcount) {
+			nowAnmNum_ = 0;
+			fbxObj3d_->PlayAnimation(nowAnmNum_);
+		}
+
+	}
+	else {
+		int maxFcount = 60;
+		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
+		
+
+		if (nowAnmFCount_ >= maxFcount) {
+			nowAnmNum_ = 0;
+			fbxObj3d_->PlayAnimation(nowAnmNum_);
+		}
+	}
+	
+
+	oldAnmNum_ = nowAnmNum_;
 }

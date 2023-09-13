@@ -116,6 +116,6 @@ private://プレイヤークラス変数
 	int nowAnmFCount_;	//フレームカウント
 	int nowAnmNum_;	//アニメーション何番か
 	int oldAnmNum_;	//↑前フレーム
-	bool isAnimRot_;	//繰り返し処理か
+	bool isAnim_;	//繰り返し処理か
 
 };
