@@ -58,7 +58,7 @@ void main(uint3 id : SV_DispatchThreadID)
     float3 gravity = float3(0, -98.0, 0);
     position += velocity;
     float4 color = gParticles[index].color;
-    color -= float4(0.02, 0.005, 0.005, 0.02);
+    color -= float4(0.02, 0.002, 0.002, 0.02);
     
     float scale = gParticles[index].scale;
     scale += 0.005;
