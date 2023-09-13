@@ -7,6 +7,7 @@
 void PlayerNormal::Initialize() {
 	PlayerState::Initialize();
 	canMove_ = true;
+	stateName = "NORMAL";
 }
 
 void PlayerNormal::Update(Player* player, WorldTransform* worldTransform, WorldTransform* swordTrans) {

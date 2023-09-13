@@ -16,6 +16,7 @@ void PlayerShooting::Initialize() {
 	limit = 10;
 	canMove_ = true;
 	bulletSpeed = 2.0f;
+	stateName = "SHOOTIING";
 }
 
 void PlayerShooting::Update(Player* player, WorldTransform* worldTransform, WorldTransform* swordTrans) {

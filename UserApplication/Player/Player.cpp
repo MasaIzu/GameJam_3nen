@@ -435,40 +435,51 @@ void Player::CheckPlayerCollider() {
 
 void Player::PlayerAnimation()
 {
-	
+	nowMoveN_ = state_->GetStateName();
 	nowAnmFCount_++;
 	if (input->TriggerKey(DIK_LSHIFT) && isBoost == true) {
 		nowAnmFCount_ = 0;	//kaunntorisetto
 
-		nowAnmNum_ = 3;	//何も押していない場合
+		nowAnmNum_ = 2;	//何も押していない場合
 		if (input->TriggerKey(DIK_W)) {
-			
-			nowAnmNum_ = 3;
-		}
-		else if (input->TriggerKey(DIK_S)) {
-			
-			nowAnmNum_ = 0;
-		}
-		else if (input->TriggerKey(DIK_A)) {
-			
-			nowAnmNum_ = 1;
-		}
-		else if (input->TriggerKey(DIK_D)) {
-			
+
 			nowAnmNum_ = 2;
 		}
+		/*else if (input->TriggerKey(DIK_S)) {
 
-		if (nowAnmNum_ != oldAnmNum_) {
-			fbxObj3d_->PlayAnimation(nowAnmNum_);
+			nowAnmNum_ = 1;
 		}
+		else if (input->TriggerKey(DIK_A)) {
+
+			nowAnmNum_ = 2;
+		}
+		else if (input->TriggerKey(DIK_D)) {
+
+			nowAnmNum_ = 3;
+		}*/
+
+
+		
 	}
+	//攻撃
+	if (nowMoveN_ == "SWORD" && oldMoveN_ != nowMoveN_) {
+		nowAnmNum_ = 5;
+		nowAnmFCount_ = 0;
+	}
+
+	if (nowAnmNum_ != oldAnmNum_) {
+		fbxObj3d_->PlayAnimation(nowAnmNum_);
+	}
+
 	
-	if (nowAnmNum_ == 3) {	//W
-		int maxFcount = 30;
+
+	//インターフェース用
+	if (nowAnmNum_ == 2) {	//W
+		int maxFcount = 25;
 		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
 
 		if (nowAnmFCount_ >= maxFcount) {
-			nowAnmNum_ = 0;
+			nowAnmNum_ = 7;
 			fbxObj3d_->PlayAnimation(nowAnmNum_);
 		}
 
@@ -478,26 +489,36 @@ void Player::PlayerAnimation()
 		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
 
 		if (nowAnmFCount_ >= maxFcount) {
-			nowAnmNum_ = 0;
+			nowAnmNum_ = 7;
 			fbxObj3d_->PlayAnimation(nowAnmNum_);
 		}
 
+	}
+	else if (nowAnmNum_ == 5) {
+		int maxFcount = 30;
+		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
+
+		if (nowAnmFCount_ >= maxFcount) {
+			nowAnmNum_ = 7;
+			fbxObj3d_->PlayAnimation(nowAnmNum_);
+		}
 	}
 	else {
 		int maxFcount = 60;
 		fbxObj3d_->AnimFlameInter(nowAnmFCount_, maxFcount);
-		
+
 
 		if (nowAnmFCount_ >= maxFcount) {
-			nowAnmNum_ = 0;
+			nowAnmNum_ = 7;
 			fbxObj3d_->PlayAnimation(nowAnmNum_);
 		}
 	}
+
 	
 
 	oldAnmNum_ = nowAnmNum_;
+	oldMoveN_ = nowMoveN_;
 }
-
 
 void Player::LockOn() {
 	Ray eye;

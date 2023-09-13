@@ -16,7 +16,7 @@ void EnemyAttackTower::Attack(Enemy* enemy, WorldTransform* worldTransform) {
 	timer++;
 	if (timer >= cooltime) {
 		Vector3 moveVec = towerPos - worldTransform->translation_;
-		moveVec.y = 0;
+		moveVec.y += 3.f;
 		moveVec.normalize();
 		Vector3 velocity = moveVec * bulletSpeed;
 		enemy->CreatBullet(worldTransform->translation_, velocity);

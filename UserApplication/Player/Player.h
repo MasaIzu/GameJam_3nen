@@ -138,6 +138,8 @@ private://プレイヤークラス変数
 	int nowAnmNum_;	//アニメーション何番か
 	int oldAnmNum_;	//↑前フレーム
 	bool isAnim_;	//繰り返し処理か
+	std::string nowMoveN_;
+	std::string oldMoveN_;
 
 	Vector3 targetPos = { 0,0,0 };
 };
