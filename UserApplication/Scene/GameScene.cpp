@@ -14,6 +14,7 @@
 #include"FBXObject3d.h"
 #include"FbxModel.h"
 #include"EnemyState.h"
+#include "ParticleHandHanabi.h"
 
 GameScene::GameScene() {}
 GameScene::~GameScene() {
@@ -129,9 +130,9 @@ void GameScene::PostEffectDraw()
 	Model::PostDraw();
 
 	////パーティクル
-	ParticleManager::PreDraw(commandList);
-
-	ParticleManager::PostDraw();
+	ParticleHandHanabi::PreDraw(commandList);
+	//player_->ParticleDraw(*viewProjection_.get());
+	ParticleHandHanabi::PostDraw();
 
 
 	Model::PreDraw(commandList);
@@ -179,12 +180,13 @@ void GameScene::Draw() {
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
 
+
 	player_->FbxDraw(*viewProjection_.get());
 
-	ParticleManager::PreDraw(commandList);
-	
-
-	ParticleManager::PostDraw();
+	////パーティクル
+	ParticleHandHanabi::PreDraw(commandList);
+	player_->ParticleDraw(*viewProjection_.get());
+	ParticleHandHanabi::PostDraw();
 
 #pragma endregion
 

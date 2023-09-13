@@ -67,6 +67,13 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	ascendCost = 5;
 
 	fallSpeed = -0.2f;
+
+	Particle = std::make_unique<ParticleHandHanabi>();
+	int MaxParticleCount = 5000;
+	Particle->Initialize(MaxParticleCount);
+	Particle->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
+
+
 }
 
 void Player::Update() {
@@ -129,6 +136,9 @@ void Player::Update() {
 	ImGui::Text("cameraTarget:%f,%f,%f", cameraTargetPos.x, cameraTargetPos.y, cameraTargetPos.z);
 	ImGui::Text("target:%f,%f,%f", targetPos.x, targetPos.y, targetPos.z);
 	ImGui::End();
+
+	Particle->CSUpdate(MyMath::Vec3ToVec4(playerWorldTrans.translation_));
+
 }
 
 
@@ -164,7 +174,7 @@ void Player::CSUpdate(ID3D12GraphicsCommandList* cmdList)
 
 void Player::ParticleDraw(ViewProjection& viewProjection_)
 {
-
+	Particle->Draw(viewProjection_);
 }
 
 void Player::CopyParticle()

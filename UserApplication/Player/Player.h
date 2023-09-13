@@ -16,6 +16,8 @@
 #include "FBXObject3d.h"
 #include "FBXModel.h"
 
+#include "ParticleHandHanabi.h"
+
 class Player {
 
 public://基本関数
@@ -75,6 +77,7 @@ private://クラス関連
 	std::unique_ptr<Model> bulletModel_;
 	std::unique_ptr<FBXModel> fbxModel_;
 	std::unique_ptr<FBXObject3d> fbxObj3d_;
+	std::unique_ptr<ParticleHandHanabi> Particle;
 	WorldTransform playerWorldTrans;
 	BaseCollider* PlayerCollider = nullptr;
 	PlayerState* state_;
