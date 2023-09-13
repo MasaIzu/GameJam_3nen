@@ -201,9 +201,9 @@ void ParticleHandHanabi::InitializeGraphicsPipeline()
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
 	//加算合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
 	////減算合成
 	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
 	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
@@ -213,9 +213,9 @@ void ParticleHandHanabi::InitializeGraphicsPipeline()
 	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
 	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
 	////半透明合成
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
+	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
 
 	// ブレンドステートの設定
 	gpipeline.BlendState.RenderTarget[0] = blenddesc;
@@ -488,6 +488,12 @@ void ParticleHandHanabi::Initialize(uint32_t ParticleCount)
 		IID_PPV_ARGS(&uploadBuffer)
 	);
 
+	time = 50;
+
+	UINT invokeCount = particleCount / 128 + 1;
+	MaxDispatchCount = invokeCount;
+	DispatchCounter = MaxDispatchCount / time;
+
 }
 
 void ParticleHandHanabi::Update()
@@ -544,17 +550,27 @@ void ParticleHandHanabi::Draw(const ViewProjection& view)
 
 }
 
-void ParticleHandHanabi::CSUpdate(Vector4 StartPos)
+void ParticleHandHanabi::CSUpdate(Vector4 StartPos, UINT Down, Vector4* Look)
 {
 
 	ID3D12DescriptorHeap* ppHeaps[] = { m_cbvSrvUavHeap.Get() };
 	DirectXCore::GetInstance()->GetCommandList()->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	if (time > 0) {
+		time--;
+		DispatchCount += 1;
+	}
+	else {
+		DispatchCount = 1;
+		time = 50;
+	}
 
 	//初期化
 	if (m_frameCount == 0) {
 		shaderParameters.maxParticleCount = particleCount;
 		shaderParameters.particleCount = 0;
 		shaderParameters.StartPos = StartPos;
+		shaderParameters.Down = Down;
 
 		MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);
 
@@ -574,12 +590,15 @@ void ParticleHandHanabi::CSUpdate(Vector4 StartPos)
 		DirectXCore::GetInstance()->GetCommandList()->SetComputeRootDescriptorTable(2, m_handleGpu);
 		DirectXCore::GetInstance()->GetCommandList()->SetPipelineState(m_pipelines[PSO_CS_INIT].Get());
 
-		UINT invokeCount = particleCount / 32 + 1;
+		UINT invokeCount = particleCount / 128 + 1;
 		DirectXCore::GetInstance()->GetCommandList()->Dispatch(invokeCount, 1, 1);
 	}
 
 	{
 		shaderParameters.StartPos = StartPos;
+		if (Look) {
+			shaderParameters.Look = *Look;
+		}
 
 		MyFunction::WriteToUploadHeapMemory(m_sceneParameterCB.Get(), sizeof(ShaderParameters), &shaderParameters);
 		// Particle の発生.
@@ -592,9 +611,15 @@ void ParticleHandHanabi::CSUpdate(Vector4 StartPos)
 		DirectXCore::GetInstance()->GetCommandList()->SetComputeRootDescriptorTable(2, m_handleGpu);
 		DirectXCore::GetInstance()->GetCommandList()->SetPipelineState(m_pipelines[PSO_CS_EMIT].Get());
 
-		UINT invokeCount = particleCount / 32 + 1;
+		UINT invokeCount = particleCount / 128 + 1;
+		if (DispatchCount > invokeCount) {
+			DispatchCount = invokeCount;
+		}
+		if (DispatchCount <= 0) {
+			DispatchCount = 1;
+		}
 		{
-			DirectXCore::GetInstance()->GetCommandList()->Dispatch(2, 1, 1);
+			DirectXCore::GetInstance()->GetCommandList()->Dispatch(DispatchCount, 1, 1);
 		}
 
 		CD3DX12_RESOURCE_BARRIER barriers[] = {

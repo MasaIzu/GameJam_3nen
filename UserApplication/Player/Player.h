@@ -71,13 +71,16 @@ public://Setter
 public://Getter
 	Vector3 GetPlayerPos()const { return MyMath::GetWorldTransform(playerWorldTrans.matWorld_); }
 
+private:
+	static const uint32_t particleCount = 4;
+
 private://クラス関連
 	Input* input = nullptr;
 	std::unique_ptr<Model> model_;
 	std::unique_ptr<Model> bulletModel_;
 	std::unique_ptr<FBXModel> fbxModel_;
 	std::unique_ptr<FBXObject3d> fbxObj3d_;
-	std::unique_ptr<ParticleHandHanabi> Particle;
+	std::unique_ptr<ParticleHandHanabi> Particle[particleCount];
 	WorldTransform playerWorldTrans;
 	WorldTransform swordColliderTrans;
 	BaseCollider* PlayerCollider = nullptr;
@@ -107,6 +110,7 @@ private://プレイヤークラス変数
 	int boostCost;
 	int boostTimer;
 	int boostChangeTime;
+	bool isMove;
 
 	//ジャンプ
 	bool isJump;
