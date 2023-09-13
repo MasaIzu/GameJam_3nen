@@ -76,6 +76,7 @@ private://クラス関連
 	std::unique_ptr<FBXModel> fbxModel_;
 	std::unique_ptr<FBXObject3d> fbxObj3d_;
 	WorldTransform playerWorldTrans;
+	WorldTransform swordColliderTrans;
 	BaseCollider* PlayerCollider = nullptr;
 	PlayerState* state_;
 	PlayerEnergy energy;

@@ -23,7 +23,8 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	input = Input::GetInstance();
 
 	playerWorldTrans.Initialize();
-	model_.reset(Model::CreateFromOBJ("3Jam_jiki_model", true));
+	swordColliderTrans.Initialize();
+	model_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
 	bulletModel_.reset(Model::CreateFromOBJ("sphereBulletEnemy", true));
 	//fbx
 	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("3JamJiki", true));
@@ -85,6 +86,7 @@ void Player::Update() {
 	PlayerSwordAttack::StaticUpdate();
 	PlayerShooting::StaticUpdate();
 
+
 	//弾
 	if (input->TriggerKey(DIK_R)) {
 		PlayerShooting::Reload();
@@ -106,6 +108,10 @@ void Player::Update() {
 	state_->Update(this, &playerWorldTrans);
 	CheckPlayerCollider();
 	WorldTransUpdate();
+
+	fbxObj3d_->wtf.translation_ = playerWorldTrans.translation_;
+	fbxObj3d_->wtf.rotation_ = playerWorldTrans.rotation_;
+	fbxObj3d_->wtf.scale_ = playerWorldTrans.scale_;
 	fbxObj3d_->Update();
 
 	PlayerAnimation();
@@ -121,10 +127,16 @@ void Player::Update() {
 		isDead = true;
 	}
 
+	
 
+	swordColliderTrans.translation_.x = fbxObj3d_->GetBonesMatPtr()[0][31].m[3][0];
+	swordColliderTrans.translation_.y = fbxObj3d_->GetBonesMatPtr()[0][31].m[3][1];
+	swordColliderTrans.translation_.z = fbxObj3d_->GetBonesMatPtr()[0][31].m[3][2];
+	swordColliderTrans.TransferMatrix();
 
 	ImGui::Begin("Player");
 	ImGui::Text("pos:%f,%f,%f", playerWorldTrans.translation_.x, playerWorldTrans.translation_.y, playerWorldTrans.translation_.z);
+	ImGui::Text("sowrdPos:%f,%f,%f", swordColliderTrans.translation_.x, swordColliderTrans.translation_.y, swordColliderTrans.translation_.z);
 	ImGui::Text("eye:%f,%f,%f", cameraPos.x, cameraPos.y, cameraPos.z);
 	ImGui::Text("cameraTarget:%f,%f,%f", cameraTargetPos.x, cameraTargetPos.y, cameraTargetPos.z);
 	ImGui::Text("target:%f,%f,%f", targetPos.x, targetPos.y, targetPos.z);
@@ -133,7 +145,7 @@ void Player::Update() {
 
 
 void Player::Draw(const ViewProjection& viewProjection){
-	//model_->Draw(playerWorldTrans, viewProjection);
+	model_->Draw(swordColliderTrans, viewProjection);
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Draw(viewProjection);
 	}
@@ -270,6 +282,7 @@ void Player::WorldTransUpdate() {
 		playerWorldTrans.translation_ = { 0,0,0 };
 	}
 	playerWorldTrans.TransferMatrix();
+	
 }
 
 void Player::CreatBullet(Vector3 pos, Vector3 velocity) {

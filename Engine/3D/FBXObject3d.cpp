@@ -333,6 +333,7 @@ std::unique_ptr<FBXObject3d> FBXObject3d::Create()
 	}
 	//スケールをセット
 	float scale_val = 1;
+	fbxObject3d->wtf.Initialize();
 	fbxObject3d->wtf.scale_ = { scale_val,scale_val ,scale_val };
 
 	return fbxObject3d;
