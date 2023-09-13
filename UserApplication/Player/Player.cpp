@@ -51,8 +51,8 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	energy.Initialize(1000);
 	energyRecoveryAmount = 4;
 
-	straightSpeed = 0.6f;
-	diagonalSpeed = 0.7f;
+	straightSpeed = 2.6f;
+	diagonalSpeed = 2.7f;
 	isBoost = false;
 	QuickBoostCost = 200;
 	boostCost = 2;
@@ -62,14 +62,15 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 	isMove = false;
 
 	isJump = false;
-	jumpSpeed = 0.6f;
+	jumpSpeed = 2.6f;
 	jumpTimer = 0;
 	jumpLimit = 20;
 
-	ascendSpeed = 0.3f;
+	ascendSpeed = 0.7f;
 	ascendCost = 5;
 
-	fallSpeed = -0.2f;
+
+	fallSpeed = -0.8f;
 
 	for (uint32_t i = 0; i < particleCount; i++) {
 		Particle[i] = std::make_unique<ParticleHandHanabi>();
@@ -77,7 +78,6 @@ void Player::Initialize(const Vector3& Pos, ViewProjection* viewProjection) {
 		Particle[i]->Initialize(MaxParticleCount);
 		Particle[i]->SetTextureHandle(TextureManager::Load("sprite/effect4.png"));
 	}
-
 
 }
 
@@ -314,7 +314,7 @@ void Player::PlayerRot() {
 }
 
 void Player::WorldTransUpdate() {
-	if (playerWorldTrans.translation_.y < -15) {
+	if (playerWorldTrans.translation_.y < -75) {
 		playerWorldTrans.translation_ = { 0,0,0 };
 	}
 	playerWorldTrans.TransferMatrix();

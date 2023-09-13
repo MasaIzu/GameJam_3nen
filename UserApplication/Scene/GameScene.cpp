@@ -48,11 +48,12 @@ void GameScene::Initialize() {
 	EnemyState::SetTowerPos(tower->GetTowerPos());
 
 	enemyManager_ = std::make_unique<EnemyManager>();
-	enemyManager_->Initialize("enemyData");
+	enemyManager_->Initialize("battleField");
  
-	groundModel_.reset(Model::CreateFromOBJ("Ground", true));
+	groundModel_.reset(Model::CreateFromOBJ("battleField", true));
 	ground = std::make_unique<Ground>(groundModel_.get());
 	ground->Initialze();
+	ground->Update();
 }
 
 void GameScene::Update() {

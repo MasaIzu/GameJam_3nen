@@ -6,12 +6,12 @@ Tower::Tower(Model* model) {
 
 void Tower::Initialize() {
 	worldTrans.Initialize();
-	worldTrans.translation_ = { 0,0,-25 };
+	worldTrans.translation_ = { 0,-30,-540 };
 	worldTrans.TransferMatrix();
 	touchableObject.reset(TouchableObject::Create(model, worldTrans, COLLISION_ATTR_LANDSHAPE));
 
 	isDead = false;
-	hp = 10000;
+	hp = 1000;
 }
 
 void Tower::Update() {
@@ -20,7 +20,7 @@ void Tower::Update() {
 	}
 
 	if (touchableObject->GetCollider()->GetHitEnemyAttack()) {
- 		hp -= 100;
+ 		hp -= 3;
 		touchableObject->GetCollider()->Reset();
 	}
 }
