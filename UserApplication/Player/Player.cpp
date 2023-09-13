@@ -105,7 +105,7 @@ void Player::Update() {
 
 
 	//test
-	fbxObj3d_->SetPosition(Vector3(0,0,0));
+	//fbxObj3d_->SetPosition(playerWorldTrans.translation_);
 	fbxObj3d_->SetRotate(Vector3(0, 0, 0));
 	fbxObj3d_->SetScale(Vector3(1, 1, 1));
 	//test
@@ -116,9 +116,9 @@ void Player::Update() {
 	CheckPlayerCollider();
 	WorldTransUpdate();
 
-	fbxObj3d_->wtf.translation_ = playerWorldTrans.translation_;
-	fbxObj3d_->wtf.rotation_ = playerWorldTrans.rotation_;
-	fbxObj3d_->wtf.scale_ = playerWorldTrans.scale_;
+	//fbxObj3d_->wtf.translation_ = playerWorldTrans.translation_;
+	//fbxObj3d_->wtf.rotation_ = playerWorldTrans.rotation_;
+	//fbxObj3d_->wtf.scale_ = playerWorldTrans.scale_;
 	fbxObj3d_->Update();
 
 	PlayerAnimation();
@@ -134,11 +134,10 @@ void Player::Update() {
 		isDead = true;
 	}
 
-	
+	uint32_t BoneNumber = 31;
 
-	swordColliderTrans.translation_.x = fbxObj3d_->GetBonesMatPtr()[0][31].m[3][0];
-	swordColliderTrans.translation_.y = fbxObj3d_->GetBonesMatPtr()[0][31].m[3][1];
-	swordColliderTrans.translation_.z = fbxObj3d_->GetBonesMatPtr()[0][31].m[3][2];
+	swordColliderTrans.translation_ = MyMath::GetWorldTransform(fbxObj3d_->GetBonesMatPtr(BoneNumber) * playerWorldTrans.matWorld_);
+
 	swordColliderTrans.TransferMatrix();
 
 	ImGui::Begin("Player");

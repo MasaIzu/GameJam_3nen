@@ -213,37 +213,7 @@ bool FBXObject3d::Initialize()
 
 void FBXObject3d::Update()
 {
-	Matrix4 matScale, matRot, matTrans;
-
-	// スケール、回転、平行移動行列の計算
-	matScale = MyMath::Scale(wtf.scale_);
-	matRot = MyMath::Rotation(wtf.rotation_, 6);
-	matTrans = MyMath::Translation(wtf.translation_);
-
-	// ワールド行列の合成
-	wtf.matWorld_.identity(); // 変形をリセット
-	wtf.matWorld_ *= matScale; // ワールド行列にスケーリングを反映
-	wtf.matWorld_ *= matRot; // ワールド行列に回転を反映
-	wtf.matWorld_ *= matTrans; // ワールド行列に平行移動を反映
-
-	// ビュープロジェクション行列
-	const Matrix4& matViewProjection = camera->matProjection;
-	// モデルのメッシュトランスフォーム
-	const XMMATRIX& modelTransform = fbxmodel->GetModelTransform();
-	// カメラ座標
-	const Vector3& cameraPos = camera->eye;
-
 	HRESULT result;
-	// 定数バッファへデータ転送
-	ConstBufferDataTransform* constMap = nullptr;
-	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
-	if (SUCCEEDED(result)) {
-		constMap->viewproj = MyMath::ConvertMat4toXMMat(matViewProjection);
-		constMap->world = modelTransform * MyMath::ConvertMat4toXMMat(wtf.matWorld_);
-		constMap->cameraPos = { cameraPos.x, cameraPos.y,cameraPos.z };
-		constBuffTransform->Unmap(0, nullptr);
-	}
-
 	std::vector<FBXModel::Bone>& bones = fbxmodel->GetBones();
 
 	//アニメーション
@@ -281,7 +251,7 @@ void FBXObject3d::Update()
 		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
 		//if (isBonesWorldMatCalc == true) {
 			
-			bonesMat[i] = MyMath::ConvertXMMATtoMat4(matCurrentPose) * wtf.matWorld_;
+			bonesMat[i] = MyMath::ConvertXMMATtoMat4(matCurrentPose);
 			
 		//}
 
@@ -424,9 +394,9 @@ void FBXObject3d::ResizeBonesMat(std::vector<FBXModel::Bone> bones_)
 
 
 
-std::vector<Matrix4>* FBXObject3d::GetBonesMatPtr()
+Matrix4 FBXObject3d::GetBonesMatPtr(uint32_t& BoneNumber)
 {
-	return &bonesMat;
+	return bonesMat[BoneNumber];
 }
 
 void FBXObject3d::SetIsBonesWorldMatCalc(bool isCalc)
